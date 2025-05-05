@@ -36,7 +36,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     final response = await _profileRepo.logout();
     if (response.isSuccess) {
       await getIt.reset();
-      setupGetIt();
+      await setupGetIt();
       await Future.wait<void>([SharedPrefHelper.clearAllSecuredData()]);
 
       emit(state.copyWith(logoutStatus: RequestsStatus.success));

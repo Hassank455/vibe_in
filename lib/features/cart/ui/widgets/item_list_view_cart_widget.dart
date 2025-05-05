@@ -9,7 +9,7 @@ import 'package:vibe_in/core/theming/app_strings.dart';
 import 'package:vibe_in/core/widgets/custom_cached_network_image.dart';
 import 'package:vibe_in/core/widgets/custom_image.dart';
 import 'package:vibe_in/core/widgets/custom_text.dart';
-import 'package:vibe_in/features/product_details/ui/widgets/quantity_increase_dicrease_widget.dart';
+import 'package:vibe_in/features/cart/ui/widgets/quantity_increase_dicrease_widget.dart';
 
 class ItemListViewCartWidget extends StatelessWidget {
   const ItemListViewCartWidget({super.key});

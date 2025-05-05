@@ -25,4 +25,26 @@ class MainPageCubit extends Cubit<MainPageState> {
       );
     }
   }
+
+  Future<void> getBestSellerProducts() async {
+    emit(state.copyWith(bestSellerState: RequestsStatus.loading));
+    final response = await _mainPageRepo.getBestSellerProducts(perPage: 10);
+    if (response.isSuccess) {
+      emit(
+        state.copyWith(
+          bestSellerState: RequestsStatus.success,
+          bestSellerModel: response.data,
+        ),
+      );
+    } else {
+      final errorMessage =
+          response.errorHandler?.getAllErrorMessages() ?? 'An error occurred';
+      emit(
+        state.copyWith(
+          error: errorMessage,
+          bestSellerState: RequestsStatus.error,
+        ),
+      );
+    }
+  }
 }

@@ -24,7 +24,7 @@ class ButtonAndResendOtpWidget extends StatelessWidget {
     final verificationCodeCubit = context.read<VerificationCubit>();
 
     return BlocConsumer<VerificationCubit, VerificationState>(
-      listener: (context, state) async {
+      listener: (_, state) async {
         if (state.verificationStatus == RequestsStatus.success) {
           await verificationCodeCubit.saveUserToken(
             state.verificationResponse!.data!.token!,

@@ -10,6 +10,9 @@ class AppStrings {
   static const otpMismatch = 'OTP Mismatch';
   static const startNow = 'Start Now';
   static const next = 'Next';
+  static const totalPrice = 'Total Price';
+  static const selectWeight = 'Select Weight';
+  static const gm = 'gm.';
   static const getHelp = 'Get Help';
   static const haveAnIssueWithOrder = 'Have an issue with your order?';
   static const paymentMethod = 'Payment Method';

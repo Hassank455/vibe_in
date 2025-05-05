@@ -10,4 +10,5 @@ class ApiConstants {
   static const String logout = "mobile/logout";
   static const String sliders = "mobile/sliders";
   static const String profile = "mobile/profile";
+  static const String bestSellerProducts = "mobile/products/best/";
 }
