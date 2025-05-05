@@ -37,7 +37,7 @@ class MainPageRepo {
     String? search,
   }) async {
     try {
-      final response = await _apiService.getPackages(perPage, page,search);
+      final response = await _apiService.getPackages(perPage, page, search);
       return ApiResult.success(response);
     } catch (error) {
       return ApiResult.failure(ApiErrorHandler.handle(error));

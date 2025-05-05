@@ -7,7 +7,7 @@ class MainPageCubit extends Cubit<MainPageState> {
   final MainPageRepo _mainPageRepo;
   MainPageCubit(this._mainPageRepo) : super(const MainPageState());
 
-   @override
+  @override
   void emit(MainPageState state) {
     if (!isClosed) {
       super.emit(state);
