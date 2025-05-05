@@ -38,6 +38,7 @@ class ProfileDataMainWidget extends StatelessWidget {
               height: AppSize.s60.h,
               width: AppSize.s60.w,
               borderNumber: AppSize.s0.r,
+              fit: BoxFit.contain,
             ),
             title: Padding(
               padding: EdgeInsets.only(bottom: AppSize.s7.h),

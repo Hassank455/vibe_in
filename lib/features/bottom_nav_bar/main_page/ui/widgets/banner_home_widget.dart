@@ -24,15 +24,15 @@ class BannerHomeWidget extends StatelessWidget {
             height: AppSize.s194.h,
           );
         } else if (state.sliderState == RequestsStatus.success) {
-          SliderModel sliderModel = state.sliderModel!;
+          List<SliderModel>? sliderModel = state.sliderModel!;
           return SizedBox(
             height: AppSize.s194.h,
             width: double.infinity,
             child: CarouselSlider.builder(
-              itemCount: sliderModel.sliderData!.length,
+              itemCount: sliderModel.length,
               itemBuilder:
                   (context, index, _) => CustomCachedNetworkImage(
-                    urlImage: sliderModel.sliderData![index].image!,
+                    urlImage: sliderModel[index].image!,
                     height: AppSize.s194.h,
                     width: double.infinity,
                     borderNumber: AppSize.s8.r,

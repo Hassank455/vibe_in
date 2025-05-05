@@ -79,6 +79,8 @@ dependencies:
   firebase_core: ^3.13.0
   # A carousel slider widget, support infinite scroll and custom child widget.
   carousel_slider: ^5.0.0
+  # A Flutter plugin for lazy loading scroll view for pagination
+  lazy_load_scrollview: ^1.3.0
 
 
   http_mock_adapter: ^0.6.1
