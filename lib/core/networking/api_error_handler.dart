@@ -14,16 +14,18 @@ class ApiErrorHandler {
           return ApiErrorModel(data: "Connection timeout with the server");
         case DioExceptionType.unknown:
           return ApiErrorModel(
-              data:
-                  "Connection to the server failed due to internet connection");
+            data: "Connection to the server failed due to internet connection",
+          );
         case DioExceptionType.receiveTimeout:
           return ApiErrorModel(
-              data: "Receive timeout in connection with the server");
+            data: "Receive timeout in connection with the server",
+          );
         case DioExceptionType.badResponse:
           return _handleError(error.response?.data);
         case DioExceptionType.sendTimeout:
           return ApiErrorModel(
-              data: "Send timeout in connection with the server");
+            data: "Send timeout in connection with the server",
+          );
         default:
           return ApiErrorModel(data: "Something went wrong");
       }
