@@ -4,4 +4,5 @@ class ApiConstants {
   static final String apiBaseUrl = dotenv.env['API_BASE_URL']!;
   static const String authorization = "Authorization";
 
+  static const String onboarding = "mobile/onbording";
 }
