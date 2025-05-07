@@ -7,6 +7,8 @@ import 'package:vibe_in/features/auth/login/cubit/login_cubit.dart';
 import 'package:vibe_in/features/auth/login/data/repo/login_repo.dart';
 import 'package:vibe_in/features/auth/onboarding/cubit/onboarding_cubit.dart';
 import 'package:vibe_in/features/auth/onboarding/data/repo/onboarding_repo.dart';
+import 'package:vibe_in/features/auth/verification/cubit/verification_cubit.dart';
+import 'package:vibe_in/features/auth/verification/data/repo/verification_repo.dart';
 
 //! important
 // registerLazySingleton => create one instant and use it in all app
@@ -27,6 +29,10 @@ Future<void> setupGetIt() async {
   // login
   getIt.registerFactory<LoginRepo>(() => LoginRepo(getIt()));
   getIt.registerFactory<LoginCubit>(() => LoginCubit(getIt()));
+
+  // login
+  getIt.registerFactory<VerificationRepo>(() => VerificationRepo(getIt()));
+  getIt.registerFactory<VerificationCubit>(() => VerificationCubit(getIt()));
 
   // home
 }
