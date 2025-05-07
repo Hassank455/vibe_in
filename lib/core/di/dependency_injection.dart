@@ -9,6 +9,13 @@ import 'package:vibe_in/features/auth/onboarding/cubit/onboarding_cubit.dart';
 import 'package:vibe_in/features/auth/onboarding/data/repo/onboarding_repo.dart';
 import 'package:vibe_in/features/auth/verification/cubit/verification_cubit.dart';
 import 'package:vibe_in/features/auth/verification/data/repo/verification_repo.dart';
+import 'package:vibe_in/features/bottom_nav_bar/home/cubit/home_cubit.dart';
+import 'package:vibe_in/features/bottom_nav_bar/main_page/cubit/main_page_cubit.dart';
+import 'package:vibe_in/features/bottom_nav_bar/main_page/data/repo/main_page_repo.dart';
+import 'package:vibe_in/features/bottom_nav_bar/orders/cubit/orders_cubit.dart';
+import 'package:vibe_in/features/bottom_nav_bar/products/cubit/products_cubit.dart';
+import 'package:vibe_in/features/bottom_nav_bar/profile/cubit/profile_cubit.dart';
+import 'package:vibe_in/features/bottom_nav_bar/profile/data/repo/profile_repo.dart';
 
 //! important
 // registerLazySingleton => create one instant and use it in all app
@@ -35,4 +42,20 @@ Future<void> setupGetIt() async {
   getIt.registerFactory<VerificationCubit>(() => VerificationCubit(getIt()));
 
   // home
+  getIt.registerFactory<HomeCubit>(() => HomeCubit());
+
+  // Products
+  // getIt.registerFactory<VerificationRepo>(() => VerificationRepo(getIt()));
+  getIt.registerFactory<ProductsCubit>(() => ProductsCubit());
+
+  // Orders
+  // getIt.registerFactory<VerificationRepo>(() => VerificationRepo(getIt()));
+  getIt.registerFactory<OrdersCubit>(() => OrdersCubit());
+
+  // Profile
+  getIt.registerFactory<ProfileRepo>(() => ProfileRepo(getIt()));
+  getIt.registerLazySingleton<ProfileCubit>(() => ProfileCubit(getIt()));
+  // Main Page
+  getIt.registerFactory<MainPageRepo>(() => MainPageRepo(getIt()));
+  getIt.registerLazySingleton<MainPageCubit>(() => MainPageCubit(getIt()));
 }

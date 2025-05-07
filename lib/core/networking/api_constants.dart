@@ -7,4 +7,7 @@ class ApiConstants {
   static const String login = "mobile/send-otp";
   static const String checkOtp = "mobile/verify-otp";
   static const String onboarding = "mobile/onbording";
+  static const String logout = "mobile/logout";
+  static const String sliders = "mobile/sliders";
+  static const String profile = "mobile/profile";
 }
