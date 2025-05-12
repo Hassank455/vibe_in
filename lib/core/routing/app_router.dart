@@ -19,6 +19,7 @@ import 'package:vibe_in/features/bottom_nav_bar/orders/cubit/orders_cubit.dart';
 import 'package:vibe_in/features/bottom_nav_bar/products/cubit/products_cubit.dart';
 import 'package:vibe_in/features/bottom_nav_bar/profile/cubit/profile_cubit.dart';
 import 'package:vibe_in/features/cart/ui/cart_screen.dart';
+import 'package:vibe_in/features/packages_screen/cubit/packages_cubit.dart';
 import 'package:vibe_in/features/packages_screen/ui/packages_screen.dart';
 
 class AppRouter {
@@ -47,7 +48,8 @@ class AppRouter {
                         (context) =>
                             getIt<MainPageCubit>()
                               ..getSliders()
-                              ..getBestSellerProducts(),
+                              ..getBestSellerProducts()
+                              ..getPackages(),
                   ),
                   BlocProvider(
                     create:
@@ -78,7 +80,13 @@ class AppRouter {
               ),
         );
       case Routes.packagesScreen:
-        return MaterialPageRoute(builder: (_) => const PackagesScreen());
+        return MaterialPageRoute(
+          builder:
+              (_) => BlocProvider(
+                create: (context) => getIt<PackagesCubit>()..getPackages(),
+                child: const PackagesScreen(),
+              ),
+        );
       case Routes.orderDetailsScreen:
         return MaterialPageRoute(builder: (_) => const OrderDetailsScreen());
       case Routes.cartScreen:

@@ -6,6 +6,7 @@ class AppStrings {
   static const mobileNumber = 'Mobile Number';
   static const continueText = 'Continue';
   static const verify = 'Verify';
+  static const pleaseEnterSomething = 'Please enter something';
   static const timeOut = 'Time Out';
   static const otpMismatch = 'OTP Mismatch';
   static const startNow = 'Start Now';

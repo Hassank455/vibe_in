@@ -18,6 +18,7 @@ import 'package:vibe_in/features/bottom_nav_bar/orders/cubit/orders_cubit.dart';
 import 'package:vibe_in/features/bottom_nav_bar/products/cubit/products_cubit.dart';
 import 'package:vibe_in/features/bottom_nav_bar/profile/cubit/profile_cubit.dart';
 import 'package:vibe_in/features/bottom_nav_bar/profile/data/repo/profile_repo.dart';
+import 'package:vibe_in/features/packages_screen/cubit/packages_cubit.dart';
 import 'package:vibe_in/features/product_details/cubit/product_details_cubit.dart';
 
 //! important
@@ -64,6 +65,9 @@ Future<void> setupGetIt() async {
   // Main Page
   getIt.registerFactory<BestSellerRepo>(() => BestSellerRepo(getIt()));
   getIt.registerFactory<BestSellerCubit>(() => BestSellerCubit(getIt()));
+
+  
+  getIt.registerFactory<PackagesCubit>(() => PackagesCubit(getIt()));
   // Product Details
   // getIt.registerFactory<ProductDetailsCubit>(() => ProductDetailsCubit());
 }
