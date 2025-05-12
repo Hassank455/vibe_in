@@ -47,4 +47,26 @@ class MainPageCubit extends Cubit<MainPageState> {
       );
     }
   }
+
+  Future<void> getPackages() async {
+    emit(state.copyWith(packagesState: RequestsStatus.loading));
+    final response = await _mainPageRepo.getPackages(perPage: 10, page: 1);
+    if (response.isSuccess) {
+      emit(
+        state.copyWith(
+          packagesState: RequestsStatus.success,
+          packagesModel: response.data!.data,
+        ),
+      );
+    } else {
+      final errorMessage =
+          response.errorHandler?.getAllErrorMessages() ?? 'An error occurred';
+      emit(
+        state.copyWith(
+          error: errorMessage,
+          packagesState: RequestsStatus.error,
+        ),
+      );
+    }
+  }
 }

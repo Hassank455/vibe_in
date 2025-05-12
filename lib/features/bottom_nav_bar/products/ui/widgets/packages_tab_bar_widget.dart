@@ -9,6 +9,7 @@ import 'package:vibe_in/core/theming/app_size.dart';
 import 'package:vibe_in/core/theming/app_strings.dart';
 import 'package:vibe_in/core/widgets/custom_image.dart';
 import 'package:vibe_in/core/widgets/custom_text_form_field.dart';
+import 'package:vibe_in/features/bottom_nav_bar/main_page/data/models/package_model.dart';
 import 'package:vibe_in/features/bottom_nav_bar/main_page/ui/widgets/packages_home_widget/packages_list_item_widget.dart';
 import 'package:vibe_in/features/bottom_nav_bar/products/ui/widgets/filter_bottom_sheet/filter_products_bottom_sheet.dart';
 
@@ -82,7 +83,8 @@ class PackagesTabBarWidget extends StatelessWidget {
             shrinkWrap: true,
             itemCount: 5,
             itemBuilder:
-                (context, index) => const PackagesListItemWidget(
+                (context, index) => PackagesListItemWidget(
+                  packageModel: PackageModel(),
                   height: AppSize.s305,
                   heightImage: AppSize.s194,
                 ).marginOnly(bottom: AppSize.s20.h),
