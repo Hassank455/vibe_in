@@ -7,6 +7,13 @@ class MainPageCubit extends Cubit<MainPageState> {
   final MainPageRepo _mainPageRepo;
   MainPageCubit(this._mainPageRepo) : super(const MainPageState());
 
+   @override
+  void emit(MainPageState state) {
+    if (!isClosed) {
+      super.emit(state);
+    }
+  }
+
   Future<void> getSliders() async {
     emit(state.copyWith(sliderState: RequestsStatus.loading));
     final response = await _mainPageRepo.getSliders();
