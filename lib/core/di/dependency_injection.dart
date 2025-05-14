@@ -71,3 +71,8 @@ Future<void> setupGetIt() async {
   // Product Details
   // getIt.registerFactory<ProductDetailsCubit>(() => ProductDetailsCubit());
 }
+// to reset di
+Future<void> resetAndSetupDependencies() async {
+  await getIt.reset();
+  await setupGetIt();
+}

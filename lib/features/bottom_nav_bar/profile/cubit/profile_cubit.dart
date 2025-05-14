@@ -9,6 +9,13 @@ class ProfileCubit extends Cubit<ProfileState> {
   final ProfileRepo _profileRepo;
   ProfileCubit(this._profileRepo) : super(const ProfileState());
 
+  @override
+  void emit(ProfileState state) {
+    if (!isClosed) {
+      super.emit(state);
+    }
+  }
+
   void getProfileData() async {
     emit(state.copyWith(profileStatus: RequestsStatus.loading));
     final response = await _profileRepo.getProfile();
@@ -35,9 +42,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     emit(state.copyWith(logoutStatus: RequestsStatus.loading));
     final response = await _profileRepo.logout();
     if (response.isSuccess) {
-      await getIt.reset();
-      await setupGetIt();
-      await Future.wait<void>([SharedPrefHelper.clearAllSecuredData()]);
+      await SharedPrefHelper.clearAllSecuredData();
 
       emit(state.copyWith(logoutStatus: RequestsStatus.success));
     } else {
