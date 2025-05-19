@@ -11,6 +11,13 @@ class AppStrings {
   static const otpMismatch = 'OTP Mismatch';
   static const startNow = 'Start Now';
   static const next = 'Next';
+  static const saveChanges = 'Save changes';
+  static const addOn = 'Add-On';
+  static const pleaseSelectOnlyOne = 'Please select only one item from the set';
+  static const customize = 'Customize';
+  static const description = 'Description';
+  static const contents = 'Contents';
+  static const numberOfMonthlyCycles = 'Number of Monthly Cycles Per Pack';
   static const totalPrice = 'Total Price';
   static const selectWeight = 'Select Weight';
   static const gm = 'gm.';

@@ -19,6 +19,8 @@ import 'package:vibe_in/features/bottom_nav_bar/orders/cubit/orders_cubit.dart';
 import 'package:vibe_in/features/bottom_nav_bar/products/cubit/products_cubit.dart';
 import 'package:vibe_in/features/bottom_nav_bar/profile/cubit/profile_cubit.dart';
 import 'package:vibe_in/features/cart/ui/cart_screen.dart';
+import 'package:vibe_in/features/package_details/cubit/package_details_cubit.dart';
+import 'package:vibe_in/features/package_details/ui/package_details_screen.dart';
 import 'package:vibe_in/features/packages_screen/cubit/packages_cubit.dart';
 import 'package:vibe_in/features/packages_screen/ui/packages_screen.dart';
 
@@ -93,6 +95,17 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const CartScreen());
       case Routes.checkoutScreen:
         return MaterialPageRoute(builder: (_) => const CheckoutScreen());
+      case Routes.packageDetailsScreen:
+        return MaterialPageRoute(
+          builder:
+              (_) => BlocProvider(
+                create:
+                    (context) =>
+                        getIt<PackageDetailsCubit>()
+                          ..getPackages(arguments as int),
+                child: const PackageDetailsScreen(),
+              ),
+        );
       case Routes.verificationScreen:
         final args = arguments as Map<String, dynamic>?;
         return MaterialPageRoute(

@@ -78,18 +78,18 @@ class PackagesTabBarWidget extends StatelessWidget {
           ),
         ),
         verticalSpace(AppSize.s20),
-        Expanded(
-          child: ListView.builder(
-            shrinkWrap: true,
-            itemCount: 5,
-            itemBuilder:
-                (context, index) => PackagesListItemWidget(
-                  packageModel: PackageModel(),
-                  height: AppSize.s305,
-                  heightImage: AppSize.s194,
-                ).marginOnly(bottom: AppSize.s20.h),
-          ),
-        ),
+        // Expanded(
+        //   child: ListView.builder(
+        //     shrinkWrap: true,
+        //     itemCount: 5,
+        //     itemBuilder:
+        //         (context, index) => PackagesListItemWidget(
+        //           packageModel: PackageModel(),
+        //           height: AppSize.s305,
+        //           heightImage: AppSize.s194,
+        //         ).marginOnly(bottom: AppSize.s20.h),
+        //   ),
+        // ),
       ],
     ).marginSymmetric(horizontal: AppSize.s16.w);
   }

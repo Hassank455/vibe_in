@@ -11,7 +11,7 @@ PackageModel _$PackageModelFromJson(Map<String, dynamic> json) => PackageModel(
   name: json['name'] as String?,
   description: json['description'] as String?,
   price: json['price'] as String?,
-  total: (json['total'] as num?)?.toInt(),
+  total: json['total'] as String?,
   status: json['status'] as String?,
   tags: json['tags'] as String?,
   products:
@@ -40,6 +40,7 @@ Map<String, dynamic> _$PackageModelToJson(PackageModel instance) =>
 Products _$ProductsFromJson(Map<String, dynamic> json) => Products(
   id: (json['id'] as num?)?.toInt(),
   name: json['name'] as String?,
+  image: json['image'] as String?,
   alternatives:
       (json['alternatives'] as List<dynamic>?)
           ?.map((e) => Alternatives.fromJson(e as Map<String, dynamic>))
@@ -49,20 +50,23 @@ Products _$ProductsFromJson(Map<String, dynamic> json) => Products(
 Map<String, dynamic> _$ProductsToJson(Products instance) => <String, dynamic>{
   'id': instance.id,
   'name': instance.name,
+  'image': instance.image,
   'alternatives': instance.alternatives,
 };
 
 Alternatives _$AlternativesFromJson(Map<String, dynamic> json) => Alternatives(
   id: (json['id'] as num?)?.toInt(),
   name: json['name'] as String?,
-  addOn: json['addOn'] as String?,
+  image: json['image'] as String?,
+  addOn: json['add_on'] as String?,
 );
 
 Map<String, dynamic> _$AlternativesToJson(Alternatives instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'addOn': instance.addOn,
+      'image': instance.image,
+      'add_on': instance.addOn,
     };
 
 Images _$ImagesFromJson(Map<String, dynamic> json) =>

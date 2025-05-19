@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:vibe_in/core/routing/routes.dart';
+import 'package:vibe_in/core/theming/app_strings.dart';
 import 'package:vibe_in/main.dart' as app;
 
 void main() {
@@ -48,10 +50,16 @@ void main() {
 
     final verifyButton = find.byKey(const Key('verify_button'));
     await tester.tap(verifyButton);
-    await tester.pumpAndSettle();
+
+    // await tester.pumpUntil(
+    //   () => find.text(AppStrings.bestSeller.tr()).evaluate().isNotEmpty,
+    //   timeout: const Duration(seconds: 10),
+    // ).then((_){
+    //   print('✅ Home screen navigated');
+    // });
     print('✅ Verify button tapped');
 
-    expect(find.text('Home Screen'), findsOneWidget);
+    expect(find.textContaining(AppStrings.bestSeller.tr()), findsOneWidget);
     print('🎉 SUCCESS: Home screen appeared!');
   });
 }
