@@ -7,7 +7,7 @@ class PackageModel {
   String? name;
   String? description;
   String? price;
-  int? total;
+  String? total;
   String? status;
   String? tags;
   List<Products>? products;
@@ -32,9 +32,10 @@ class PackageModel {
 class Products {
  int? id;
   String? name;
+  String? image;
   List<Alternatives>? alternatives;
 
-  Products({this.id, this.name, this.alternatives});
+  Products({this.id, this.name,this.image, this.alternatives});
 
   factory Products.fromJson(Map<String, dynamic> json) =>
       _$ProductsFromJson(json);
@@ -44,9 +45,11 @@ class Products {
 class Alternatives {
    int? id;
   String? name;
+  String? image;
+  @JsonKey(name: 'add_on')
   String? addOn;
 
-  Alternatives({this.id, this.name, this.addOn});
+  Alternatives({this.id, this.name,this.image, this.addOn});
 
   factory Alternatives.fromJson(Map<String, dynamic> json) =>
       _$AlternativesFromJson(json);

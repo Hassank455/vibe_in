@@ -58,6 +58,7 @@ class PackagesHomeWidget extends StatelessWidget {
             } else if (state.packagesState == RequestsStatus.success) {
               final List<PackageModel> packages = state.packagesModel ?? [];
               return SizedBox(
+                key: const Key('home_loaded'),
                 height: AppSize.s263.h,
                 child: ListView.builder(
                   shrinkWrap: true,

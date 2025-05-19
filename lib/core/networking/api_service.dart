@@ -50,4 +50,9 @@ abstract class ApiService {
     @Query('page') int? page,
     @Query('search') String? search,
   );
+  
+  @GET('${ApiConstants.packages}/{id}')
+  Future<ApiResponse<PackageModel>> getSinglePackage(
+    @Path('id') int id
+  );
 }

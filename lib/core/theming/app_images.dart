@@ -14,6 +14,7 @@ class AppSvgImage {
   static const setting = "setting-4";
   static const trash = "trash";
   static const location = "location";
+  static const edit = "edit";
 }
 
 class AppPngImage {

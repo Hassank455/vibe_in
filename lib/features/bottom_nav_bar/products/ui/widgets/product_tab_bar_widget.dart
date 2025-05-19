@@ -76,19 +76,19 @@ class ProductTabBarWidget extends StatelessWidget {
           ),
         ),
         verticalSpace(AppSize.s20),
-        Expanded(
-          child: GridView.count(
-            crossAxisCount: 2,
-            mainAxisSpacing: AppSize.s20.h,
-            crossAxisSpacing: AppSize.s27.w,
-            shrinkWrap: true,
-            childAspectRatio: 0.5,
-            children: List.generate(
-              10,
-              (index) => ProductListItemWidget(productModel: ProductModel()),
-            ),
-          ),
-        ),
+        // Expanded(
+        //   child: GridView.count(
+        //     crossAxisCount: 2,
+        //     mainAxisSpacing: AppSize.s20.h,
+        //     crossAxisSpacing: AppSize.s27.w,
+        //     shrinkWrap: true,
+        //     childAspectRatio: 0.5,
+        //     children: List.generate(
+        //       10,
+        //       (index) => ProductListItemWidget(productModel: ProductModel()),
+        //     ),
+        //   ),
+        // ),
       ],
     ).marginSymmetric(horizontal: AppSize.s16.w);
   }
