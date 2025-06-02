@@ -1,6 +1,7 @@
 class AppStrings {
   static const english = 'English';
   static const arabic = 'Arabic';
+  static const aed = 'AED';
   static const welcomeBack = 'Welcome back';
   static const enterYourMobileNumber = 'Enter your mobile number';
   static const mobileNumber = 'Mobile Number';

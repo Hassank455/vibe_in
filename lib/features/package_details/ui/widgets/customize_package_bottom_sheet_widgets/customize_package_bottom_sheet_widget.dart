@@ -23,7 +23,7 @@ class CustomizePackageBottomSheetWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final packageDetailsCubit = context.read<PackageDetailsCubit>();
-    final PackageModel package = packageDetailsCubit.state.packageModel!;
+    final PackageModel package = packageDetailsCubit.state.packageModelCopy!;
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -54,7 +54,7 @@ class CustomizePackageBottomSheetWidget extends StatelessWidget {
           ),
           TextAndDescriptionPackageDetailsBottomSheet(title: package.name!),
           verticalSpace(AppSize.s20),
-          PrimaryProductsForPackageWidget(package: package),
+          PrimaryProductsForPackageWidget(),
           verticalSpace(AppSize.s25),
           BlocBuilder<PackageDetailsCubit, PackageDetailsState>(
             builder: (context, state) {
@@ -66,36 +66,45 @@ class CustomizePackageBottomSheetWidget extends StatelessWidget {
           verticalSpace(AppSize.s20),
           AlternativeProductForPackageWidget(),
           verticalSpace(AppSize.s30),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text.rich(
-                TextSpan(
-                  children: [
+          BlocBuilder<PackageDetailsCubit, PackageDetailsState>(
+            builder: (context, state) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text.rich(
                     TextSpan(
-                      text: AppStrings.addOn.tr(),
-                      style: Theme.of(context).textTheme.titleMedium,
+                      children: [
+                        TextSpan(
+                          text: AppStrings.addOn.tr(),
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        TextSpan(text: ' '),
+                        TextSpan(
+                          // text: '( ${state.addOnLength} )',
+                          text: '( ${packageDetailsCubit.addOnLength} )',
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                      ],
                     ),
-                    TextSpan(text: ' '),
-                    TextSpan(
-                      text: '( 3 )',
-                      style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  CustomText(
+                    // text: '\$${state.addOnPrice}',
+                    text: '\$${packageDetailsCubit.addOnPrice}',
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                      color: AppColors.mainBrown,
+                      fontWeight: FontWeightHelper.semiBold,
                     ),
-                  ],
-                ),
-              ),
-              CustomText(
-                text: '\$5.0',
-                style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                  color: AppColors.mainBrown,
-                  fontWeight: FontWeightHelper.semiBold,
-                ),
-              ),
-            ],
+                  ),
+                ],
+              );
+            },
           ).marginSymmetric(horizontal: AppSize.s16.w),
           verticalSpace(AppSize.s16),
           CustomElevatedButton(
-            onTap: () {},
+            onTap: () {
+              packageDetailsCubit.saveChangesForCustomization();
+              context.pop();
+            },
             title: AppStrings.saveChanges.tr(),
           ).marginSymmetric(horizontal: AppSize.s16.w),
           verticalSpace(AppSize.s30),

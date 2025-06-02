@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,6 +25,7 @@ class AlternativeProductForPackageWidget extends StatelessWidget {
       builder: (context, state) {
         final List<Alternatives>? alternative =
             state.selectedProduct!.alternatives;
+
         return SizedBox(
           height: AppSize.s233.h,
           child: ListView.builder(
@@ -61,7 +64,8 @@ class AlternativeProductForPackageWidget extends StatelessWidget {
                     ),
                     verticalSpace(AppSize.s7),
                     CustomText(
-                      text: 'To add a unique flavor',
+                      // text: alternative[index].description,
+                      text: 'description',
                       maxLines: 1,
                       style: Theme.of(
                         context,
@@ -97,18 +101,55 @@ class AlternativeProductForPackageWidget extends StatelessWidget {
                             ],
                           ),
                         ),
-
-                        Container(
-                          key: const ValueKey('add'),
-                          height: AppSize.s31.h,
-                          width: AppSize.s31.w,
-                          decoration: BoxDecoration(
-                            color: AppColors.black,
-                            shape: BoxShape.circle,
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.all(AppSize.s5.r),
-                            child: Icon(Icons.add, color: AppColors.white),
+                        GestureDetector(
+                          onTap: () {
+                            context
+                                .read<PackageDetailsCubit>()
+                                .toggleAlternativeSelection(
+                                  alternative[index].id!,
+                                );
+                          },
+                          child: AnimatedSwitcher(
+                            duration: const Duration(milliseconds: 500),
+                            transitionBuilder: (
+                              Widget child,
+                              Animation<double> animation,
+                            ) {
+                              return ScaleTransition(
+                                scale: animation,
+                                child: child,
+                              );
+                            },
+                            child:
+                                alternative[index].isSelected
+                                    ? Container(
+                                      key: const ValueKey('added'),
+                                      height: AppSize.s31.h,
+                                      width: AppSize.s31.w,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                        color: AppColors.black,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: const Icon(
+                                        Icons.check,
+                                        color: AppColors.white,
+                                      ),
+                                    )
+                                    : Container(
+                                      key: const ValueKey('add'),
+                                      height: AppSize.s31.h,
+                                      width: AppSize.s31.w,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                        color: AppColors.mainBrown,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Icon(
+                                        Icons.add,
+                                        color: AppColors.white,
+                                      ),
+                                    ),
                           ),
                         ),
                       ],
