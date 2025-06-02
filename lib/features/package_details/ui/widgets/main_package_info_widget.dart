@@ -1,11 +1,15 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vibe_in/core/helpers/spacing.dart';
 import 'package:vibe_in/core/theming/app_colors.dart';
 import 'package:vibe_in/core/theming/app_size.dart';
+import 'package:vibe_in/core/theming/app_strings.dart';
 import 'package:vibe_in/core/widgets/custom_cached_network_image.dart';
 import 'package:vibe_in/core/widgets/custom_text.dart';
 import 'package:vibe_in/features/bottom_nav_bar/main_page/data/models/package_model.dart';
+import 'package:vibe_in/features/package_details/cubit/package_details_cubit.dart';
 
 class MainPackageInfoWidget extends StatelessWidget {
   final PackageModel package;
@@ -32,7 +36,8 @@ class MainPackageInfoWidget extends StatelessWidget {
         ),
         verticalSpace(AppSize.s10),
         CustomText(
-          text: '\$${package.price}',
+          text:
+              '${AppStrings.aed.tr()} ${context.read<PackageDetailsCubit>().state.totalPrice}',
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
             fontSize: AppSize.s22.sp,
             color: AppColors.mainBrown,

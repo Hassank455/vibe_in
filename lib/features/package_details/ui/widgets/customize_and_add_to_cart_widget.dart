@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,6 +32,7 @@ class CustomizeAndAddToCartWidget extends StatelessWidget {
           flex: 3,
           child: GestureDetector(
             onTap: () {
+              packageDetailsCubit.addValueForAddOn();
               showModalBottomSheet(
                 context: context,
                 isScrollControlled: true,
@@ -39,7 +42,11 @@ class CustomizeAndAddToCartWidget extends StatelessWidget {
                     child: const CustomizePackageBottomSheetWidget(),
                   );
                 },
-              );
+              ).whenComplete(() {
+                context
+                    .read<PackageDetailsCubit>()
+                    .resetSelectedAlternativeAndAddOnPriceWhenCloseBottomSheetWithoutSave();
+              });
             },
             child: Container(
               height: AppSize.s56,

@@ -47,7 +47,7 @@ class PackageDetailsScreen extends StatelessWidget {
                   verticalSpace(AppSize.s10),
                   MonthlyCyclesPackageWidget(),
                   verticalSpace(AppSize.s20),
-                  ContentsPackageWidget(package: package),
+                  ContentsPackageWidget(),
                   verticalSpace(AppSize.s20),
                   CustomText(
                     text: AppStrings.description.tr(),

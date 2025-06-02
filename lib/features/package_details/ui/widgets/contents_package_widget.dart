@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vibe_in/core/helpers/extensions.dart';
 import 'package:vibe_in/core/helpers/spacing.dart';
@@ -10,13 +11,16 @@ import 'package:vibe_in/core/theming/font_weight_helper.dart';
 import 'package:vibe_in/core/widgets/custom_cached_network_image.dart';
 import 'package:vibe_in/core/widgets/custom_text.dart';
 import 'package:vibe_in/features/bottom_nav_bar/main_page/data/models/package_model.dart';
+import 'package:vibe_in/features/package_details/cubit/package_details_cubit.dart';
 
 class ContentsPackageWidget extends StatelessWidget {
-  final PackageModel package;
-  const ContentsPackageWidget({super.key, required this.package});
+  const ContentsPackageWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final updatedProducts =
+        context.read<PackageDetailsCubit>().state.packageModelCopy?.products;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -28,11 +32,24 @@ class ContentsPackageWidget extends StatelessWidget {
         ),
         verticalSpace(AppSize.s12),
         SizedBox(
-          height: AppSize.s118.h,
+          height: AppSize.s120.h,
           child: ListView.builder(
-            itemCount: package.products!.length,
+            itemCount: updatedProducts?.length ?? 0,
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
+              final product = updatedProducts![index];
+
+              Alternatives? selectedAlternative;
+              try {
+                selectedAlternative = product.alternatives?.firstWhere(
+                  (alt) => alt.isSelected,
+                );
+              } catch (e) {
+                selectedAlternative = null;
+              }
+
+              final displayName = selectedAlternative?.name ?? product.name;
+              final displayImage = selectedAlternative?.image ?? product.image;
               return SizedBox(
                 width: AppSize.s80.w,
                 child: Column(
@@ -43,11 +60,14 @@ class ContentsPackageWidget extends StatelessWidget {
                       width: AppSize.s80.w,
                       padding: EdgeInsets.all(AppSize.s5.w),
                       decoration: BoxDecoration(
-                        color: AppColors.lightestGray,
+                        color:
+                            Theme.of(context).brightness == Brightness.dark
+                                ? Theme.of(context).cardColor
+                                : AppColors.lightestGray,
                         borderRadius: BorderRadius.circular(AppSize.s8.r),
                       ),
                       child: CustomCachedNetworkImage(
-                        urlImage: package.products![index].image!,
+                        urlImage: displayImage!,
                         height: AppSize.s70.h,
                         width: AppSize.s70.w,
                         borderNumber: AppSize.s1.r,
@@ -56,7 +76,7 @@ class ContentsPackageWidget extends StatelessWidget {
                     ),
                     verticalSpace(AppSize.s4),
                     CustomText(
-                      text: package.products![index].name,
+                      text: displayName,
                       textAlign: TextAlign.center,
                       maxLines: 2,
                       style: Theme.of(context).textTheme.titleSmall!.copyWith(
