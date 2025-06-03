@@ -36,6 +36,10 @@ dependencies:
   build_runner: ^2.4.15
   # State management
   flutter_bloc: ^9.1.0
+  # A testing library which makes it easy to test blocs
+  bloc_test: ^10.0.0
+  # A Dart mock library which simplifies mocking of Dart objects
+  mocktail: ^1.0.4
   # for dependency injection
   get_it: ^8.0.3
   # Automatically generate code for converting to and from JSON by annotating Dart classes
@@ -63,12 +67,26 @@ dependencies:
   flutter_secure_storage: ^9.2.4
   # easy way to add shimmer effect
   shimmer: ^3.0.0
+  # animated loading button
+  loading_animation_widget: ^1.3.0
+  # Pin code input (OTP) text field
+  pinput: ^5.0.1
+  # A model for web server middleware that encourages composition and easy reuse.
+  shelf: ^1.4.2
+  # Easily configure any flutter application with global variables using a `.env` file.
+  flutter_dotenv: ^5.2.1
+  #Firebase
+  firebase_core: ^3.13.0
+  # A carousel slider widget, support infinite scroll and custom child widget.
+  carousel_slider: ^5.0.0
 
 
-
+  http_mock_adapter: ^0.6.1
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  integration_test:
+    sdk: flutter  
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -92,6 +110,8 @@ flutter:
   assets:
     - assets/images/
     - assets/svgs/
+    - assets/translations/
+    - .env
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
@@ -104,17 +124,22 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
-  #
+  fonts:
+    - family: MonaSans
+      fonts:
+        - asset: assets/fonts/MonaSans-Light.ttf
+          weight: 300
+        - asset: assets/fonts/MonaSans-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/MonaSans-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/MonaSans-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/MonaSans-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/MonaSans-ExtraBold.ttf
+          weight: 800
+        - asset: assets/fonts/MonaSans-Black.ttf
+          weight: 900
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package

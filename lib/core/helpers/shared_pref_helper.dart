@@ -101,7 +101,7 @@ class SharedPrefHelper {
   static clearAllSecuredData() async {
     debugPrint('FlutterSecureStorage : all data has been cleared');
     const flutterSecureStorage = FlutterSecureStorage();
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    // SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     await flutterSecureStorage.deleteAll();
     // await sharedPreferences.remove('auth_status');
     // await sharedPreferences.remove(SharedPrefKeys.isRegister);
