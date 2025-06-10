@@ -7,6 +7,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vibe_in/bloc_observer.dart';
 import 'package:vibe_in/core/di/dependency_injection.dart';
+import 'package:vibe_in/core/helpers/app_logger.dart';
 import 'package:vibe_in/core/helpers/constants.dart';
 import 'package:vibe_in/core/helpers/extensions.dart';
 import 'package:vibe_in/core/helpers/shared_pref_helper.dart';
@@ -45,8 +46,8 @@ checkIfLoggedInUser() async {
   String? userToken = await SharedPrefHelper.getSecuredString(
     SharedPrefKeys.userToken,
   );
-  log('userToken');
-  log(userToken.toString());
+  AppLogger.info('userToken');
+  AppLogger.info(userToken.toString());
   if (!userToken.isNullOrEmpty()) {
     isLoggedInUser = true;
   } else {
