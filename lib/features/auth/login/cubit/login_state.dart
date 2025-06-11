@@ -13,8 +13,8 @@ class SuccessLoginState extends LoginState {
 
 class ErrorLoginState extends LoginState {
   String? error;
-  ErrorLoginState({this.error});
+  final Map<String, List<String>> fieldErrors;
+  ErrorLoginState({this.error, this.fieldErrors = const {}});
 }
 
 class ChangeIsValidState extends LoginState {}
-

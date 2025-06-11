@@ -20,9 +20,18 @@ class LoginCubit extends Cubit<LoginState> {
     if (response.isSuccess) {
       emit(SuccessLoginState(response.data!));
     } else {
+      final errorModel = response.errorHandler;
       final errorMessage =
-          response.errorHandler?.getAllErrorMessages() ?? 'An error occurred';
-      emit(ErrorLoginState(error: errorMessage));
+          errorModel?.getAllErrorMessages() ?? 'An error occurred';
+      Map<String, List<String>> fieldErrors = {};
+
+      if (errorModel?.data is Map<String, dynamic>) {
+        fieldErrors = (errorModel!.data as Map<String, dynamic>).map(
+          (key, value) => MapEntry(key, List<String>.from(value)),
+        );
+      }
+
+      emit(ErrorLoginState(error: errorMessage, fieldErrors: fieldErrors));
     }
   }
 }
