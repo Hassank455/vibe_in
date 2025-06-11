@@ -27,6 +27,7 @@ class ButtonLoginWidget extends StatelessWidget {
             },
           );
         } else if (state is ErrorLoginState) {
+          loginCubit.formKey.currentState?.validate();
           Helper().showSnackBar(context: context, text: state.error);
         }
       },
