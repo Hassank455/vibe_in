@@ -1,10 +1,11 @@
 import 'dart:developer';
 
+import 'package:device_preview/device_preview.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vibe_in/bloc_observer.dart';
 import 'package:vibe_in/core/di/dependency_injection.dart';
 import 'package:vibe_in/core/helpers/app_logger.dart';
@@ -20,7 +21,7 @@ Future<void> main({String? initialRouteOverride}) async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
   await Future.wait<void>([
-    ScreenUtil.ensureScreenSize(),
+    // ScreenUtil.ensureScreenSize(),
     EasyLocalization.ensureInitialized(),
     setupGetIt(),
     SharedPrefHelper().initSharedPreference(),
@@ -29,15 +30,19 @@ Future<void> main({String? initialRouteOverride}) async {
   final String initialRoute = await _determineInitialRoute();
   Bloc.observer = MyBlocObserver();
   runApp(
-    EasyLocalization(
-      supportedLocales: const [Locale('en'), Locale('ar')],
-      path: 'assets/translations',
-      fallbackLocale: const Locale('en'),
-      startLocale: const Locale('en'), // Default language
-      child: VibeInApp(
-        appRouter: AppRouter(),
-        initialRoute: initialRouteOverride ?? initialRoute,
-      ),
+    DevicePreview(
+      enabled: !kReleaseMode,
+      builder:
+          (context) => EasyLocalization(
+            supportedLocales: const [Locale('en'), Locale('ar')],
+            path: 'assets/translations',
+            fallbackLocale: const Locale('en'),
+            startLocale: const Locale('en'), // Default language
+            child: VibeInApp(
+              appRouter: AppRouter(),
+              initialRoute: initialRouteOverride ?? initialRoute,
+            ),
+          ),
     ),
   );
 }

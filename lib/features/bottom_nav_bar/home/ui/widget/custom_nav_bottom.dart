@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vibe_in/core/theming/app_colors.dart';
 import 'package:vibe_in/core/theming/app_images.dart';
 import 'package:vibe_in/core/theming/app_size.dart';
 import 'package:vibe_in/core/widgets/custom_image.dart';
+import 'package:vibe_in/core/helpers/responsive_helper/sizer_helper_extension.dart';
 import 'package:vibe_in/features/bottom_nav_bar/home/cubit/home_cubit.dart';
 import 'package:vibe_in/features/bottom_nav_bar/home/cubit/home_state.dart';
 
@@ -14,60 +14,46 @@ class CustomNavBottom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final homeCubit = context.read<HomeCubit>();
+
+    final items = [
+      (AppSvgImage.home, AppSvgImage.homeActive),
+      (AppSvgImage.products, AppSvgImage.productsActive),
+      (AppSvgImage.scan, null),
+      (AppSvgImage.orders, AppSvgImage.ordersActive),
+      (AppSvgImage.profile, AppSvgImage.profileActive),
+    ];
+
     return BlocBuilder<HomeCubit, HomeState>(
-      builder:
-          (context, state) => Container(
-            height: AppSize.s60.h,
-            width: double.infinity,
-            padding: EdgeInsets.symmetric(horizontal: AppSize.s34.w),
-            decoration: BoxDecoration(
-              boxShadow: [AppColors.boxShadowColors],
-              // color: Theme.of(context).scaffoldBackgroundColor,
-              color:
-                  Theme.of(context).brightness == Brightness.dark
-                      ? Theme.of(context).cardColor
-                      : Theme.of(context).scaffoldBackgroundColor,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CustomSvgImage(
-                  imageName:
-                      homeCubit.indexScreen == 0
-                          ? AppSvgImage.homeActive
-                          : AppSvgImage.home,
-                  width: AppSize.s24,
-                  height: AppSize.s24,
-                  fit: BoxFit.cover,
-                  onTap: () {
-                    homeCubit.setIndexScreen(0);
-                  },
-                ),
-                CustomSvgImage(
-                  imageName:
-                      homeCubit.indexScreen == 1
-                          ? AppSvgImage.productsActive
-                          : AppSvgImage.products,
-                  width: AppSize.s24,
-                  height: AppSize.s24,
-                  fit: BoxFit.cover,
-                  onTap: () {
-                    homeCubit.setIndexScreen(1);
-                  },
-                ),
-                GestureDetector(
-                  onTap: () {
-                    homeCubit.setIndexScreen(2);
-                  },
+      builder: (context, state) {
+        return Container(
+          height: context.setHeight(AppSize.s60),
+          width: double.infinity,
+          padding: EdgeInsets.symmetric(
+            horizontal: context.setWidth(AppSize.s34),
+          ),
+          decoration: BoxDecoration(
+            boxShadow: [AppColors.boxShadowColors],
+            color:
+                Theme.of(context).brightness == Brightness.dark
+                    ? Theme.of(context).cardColor
+                    : Theme.of(context).scaffoldBackgroundColor,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: List.generate(items.length, (index) {
+              final isSelected = homeCubit.indexScreen == index;
+
+              if (index == 2) {
+                return GestureDetector(
+                  onTap: () => homeCubit.setIndexScreen(index),
                   child: Container(
-                    height: AppSize.s46.h,
-                    width: AppSize.s46.w,
-                    padding: EdgeInsets.all(AppSize.s11.w),
+                    height: context.setHeight(AppSize.s46),
+                    width: context.setWidth(AppSize.s46),
+                    padding: EdgeInsets.all(context.setMinSize(AppSize.s11)),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      // color: AppColors.black,
                       color:
-                          homeCubit.indexScreen == 2
+                          isSelected
                               ? AppColors.mainBrown
                               : Theme.of(context).brightness == Brightness.dark
                               ? AppColors.white
@@ -76,8 +62,8 @@ class CustomNavBottom extends StatelessWidget {
                     child: Center(
                       child: CustomSvgImage(
                         imageName: AppSvgImage.scan,
-                        width: AppSize.s24,
-                        height: AppSize.s24,
+                        width: context.setWidth(AppSize.s24),
+                        height: context.setHeight(AppSize.s24),
                         color:
                             Theme.of(context).brightness == Brightness.dark
                                 ? AppColors.black
@@ -85,35 +71,24 @@ class CustomNavBottom extends StatelessWidget {
                       ),
                     ),
                   ),
-                ),
-                CustomSvgImage(
-                  imageName:
-                      homeCubit.indexScreen == 3
-                          ? AppSvgImage.ordersActive
-                          : AppSvgImage.orders,
-                  width: AppSize.s24,
-                  height: AppSize.s24,
-                  fit: BoxFit.cover,
-                  onTap: () {
-                    homeCubit.setIndexScreen(3);
-                  },
-                ),
+                );
+              }
 
-                CustomSvgImage(
-                  imageName:
-                      homeCubit.indexScreen == 4
-                          ? AppSvgImage.profileActive
-                          : AppSvgImage.profile,
-                  width: AppSize.s24,
-                  height: AppSize.s24,
-                  fit: BoxFit.cover,
-                  onTap: () {
-                    homeCubit.setIndexScreen(4);
-                  },
-                ),
-              ],
-            ),
+              final (defaultIcon, activeIcon) = items[index];
+              final iconToShow =
+                  isSelected && activeIcon != null ? activeIcon : defaultIcon;
+
+              return CustomSvgImage(
+                imageName: iconToShow,
+                width: context.setWidth(AppSize.s24),
+                height: context.setHeight(AppSize.s24),
+                fit: BoxFit.cover,
+                onTap: () => homeCubit.setIndexScreen(index),
+              );
+            }),
           ),
+        );
+      },
     );
   }
 }

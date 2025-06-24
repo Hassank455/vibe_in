@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vibe_in/core/theming/app_colors.dart';
-import 'package:vibe_in/core/widgets/custom_cached_network_image.dart';
+import 'package:vibe_in/core/widgets/custom_cached_network_image_removed.dart';
 import 'package:vibe_in/core/theming/app_size.dart';
 import 'package:vibe_in/core/helpers/spacing.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -26,7 +26,7 @@ class ImageAndAllImagesWidget extends StatelessWidget {
               child: Stack(
                 alignment: Alignment.center,
                 children: [
-                  CustomCachedNetworkImage(
+                  CustomCachedNetworkImageRemoved(
                     urlImage: state.imageSelected ?? '',
                     height: AppSize.s305.h,
                     width: AppSize.s305.w,
@@ -61,7 +61,7 @@ class ImageAndAllImagesWidget extends StatelessWidget {
                 ],
               ),
             ),
-            verticalSpace(AppSize.s15),
+            verticalSpaceRemoved(AppSize.s15),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(
@@ -83,7 +83,7 @@ class ImageAndAllImagesWidget extends StatelessWidget {
                       ),
                       borderRadius: BorderRadius.circular(AppSize.s8.r),
                     ),
-                    child: CustomCachedNetworkImage(
+                    child: CustomCachedNetworkImageRemoved(
                       urlImage: images[index],
                       height: AppSize.s71.h,
                       width: AppSize.s71.w,

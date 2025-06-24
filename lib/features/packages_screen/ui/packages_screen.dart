@@ -40,7 +40,7 @@ class PackagesScreen extends StatelessWidget {
               context,
             ).textTheme.headlineSmall!.copyWith(fontSize: AppSize.s20.sp),
           ),
-          verticalSpace(AppSize.s16),
+          verticalSpaceRemoved(AppSize.s16),
           CustomTextFormField(
             controller: packagesCubit.searchController,
             validator: (val) {
@@ -67,7 +67,7 @@ class PackagesScreen extends StatelessWidget {
               ),
             ),
           ),
-          verticalSpace(AppSize.s20),
+          verticalSpaceRemoved(AppSize.s20),
           BlocBuilder<PackagesCubit, PackagesState>(
             builder: (context, state) {
               if (state.packagesState == RequestsStatus.loading) {

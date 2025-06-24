@@ -10,7 +10,7 @@ import 'package:vibe_in/core/theming/app_size.dart';
 import 'package:vibe_in/core/theming/app_strings.dart';
 import 'package:vibe_in/core/theming/font_weight_helper.dart';
 import 'package:vibe_in/core/widgets/custom_app_bar.dart';
-import 'package:vibe_in/core/widgets/custom_cached_network_image.dart';
+import 'package:vibe_in/core/widgets/custom_cached_network_image_removed.dart';
 import 'package:vibe_in/core/widgets/custom_text.dart';
 import 'package:vibe_in/features/bottom_nav_bar/main_page/data/models/package_model.dart';
 import 'package:vibe_in/features/package_details/cubit/package_details_cubit.dart';
@@ -44,18 +44,18 @@ class PackageDetailsScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   MainPackageInfoWidget(package: package),
-                  verticalSpace(AppSize.s10),
+                  verticalSpaceRemoved(AppSize.s10),
                   MonthlyCyclesPackageWidget(),
-                  verticalSpace(AppSize.s20),
+                  verticalSpaceRemoved(AppSize.s20),
                   ContentsPackageWidget(),
-                  verticalSpace(AppSize.s20),
+                  verticalSpaceRemoved(AppSize.s20),
                   CustomText(
                     text: AppStrings.description.tr(),
                     style: Theme.of(context).textTheme.titleSmall!.copyWith(
                       fontWeight: FontWeightHelper.medium,
                     ),
                   ),
-                  verticalSpace(AppSize.s12),
+                  verticalSpaceRemoved(AppSize.s12),
                   CustomText(
                     text: package.description,
                     style: Theme.of(

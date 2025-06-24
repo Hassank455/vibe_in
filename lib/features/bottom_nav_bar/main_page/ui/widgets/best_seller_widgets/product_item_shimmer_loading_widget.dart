@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vibe_in/core/helpers/spacing.dart';
 import 'package:vibe_in/core/theming/app_colors.dart';
 import 'package:vibe_in/core/theming/app_size.dart';
 import 'package:vibe_in/core/widgets/custom_shimmer_widget.dart';
+import 'package:vibe_in/core/helpers/responsive_helper/sizer_helper_extension.dart';
 
 class ProductItemShimmerLoadingWidget extends StatelessWidget {
   const ProductItemShimmerLoadingWidget({super.key});
@@ -11,57 +11,63 @@ class ProductItemShimmerLoadingWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: AppSize.s320.h,
-      width: AppSize.s168.w,
+      height: context.sizeProvider.height,
+      width: context.sizeProvider.width,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(AppSize.s8.r),
+        borderRadius: BorderRadius.circular(context.setMinSize(AppSize.s8)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            height: AppSize.s220.h,
+            height: context.setHeight(AppSize.s220),
             width: double.infinity,
             decoration: BoxDecoration(
-              color:
-                  Theme.of(context).brightness == Brightness.dark
-                      ? Theme.of(context).cardColor
-                      : AppColors.textFiledBackground,
-              borderRadius: BorderRadius.circular(AppSize.s8.r),
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Theme.of(context).cardColor
+                  : AppColors.textFiledBackground,
+              borderRadius:
+                  BorderRadius.circular(context.setMinSize(AppSize.s8)),
             ),
             child: Stack(
               alignment: Alignment.center,
               children: [
                 SizedBox(
-                  height: AppSize.s146.h,
-                  width: AppSize.s146.w,
+                  height: context.setHeight(AppSize.s146),
+                  width: context.setWidth(AppSize.s146),
                   child: CustomShimmerWidget(
-                    width: AppSize.s146.w,
-                    height: AppSize.s146.h,
-                    radius: AppSize.s5.r,
+                    width: context.setWidth(AppSize.s146),
+                    height: context.setHeight(AppSize.s146),
+                    radius: context.setMinSize(AppSize.s5),
                   ),
                 ),
                 PositionedDirectional(
-                  top: AppSize.s5.h,
-                  end: AppSize.s5.w,
+                  top: context.setHeight(AppSize.s5),
+                  end: context.setWidth(AppSize.s5),
                   child: CustomShimmerWidget(
-                    width: AppSize.s60.w,
-                    height: AppSize.s18.h,
-                    radius: AppSize.s4.r,
+                    width: context.setWidth(AppSize.s60),
+                    height: context.setHeight(AppSize.s18),
+                    radius: context.setMinSize(AppSize.s4),
                   ),
                 ),
               ],
             ),
           ),
-          verticalSpace(AppSize.s4.h),
-          CustomShimmerWidget(width: AppSize.s80.w, height: AppSize.s18.h),
-          verticalSpace(AppSize.s2.h),
-          CustomShimmerWidget(width: AppSize.s120.w, height: AppSize.s18.h),
-          verticalSpace(AppSize.s12.h),
+          verticalSpace(context, AppSize.s4),
+          CustomShimmerWidget(
+            width: context.setWidth(AppSize.s80),
+            height: context.setHeight(AppSize.s18),
+          ),
+          verticalSpace(context, AppSize.s2),
+          CustomShimmerWidget(
+            width: context.setWidth(AppSize.s120),
+            height: context.setHeight(AppSize.s18),
+          ),
+          verticalSpace(context, AppSize.s12),
           CustomShimmerWidget(
             width: double.infinity,
-            height: AppSize.s34.h,
-            radius: AppSize.s20.r,
+            height: context.setHeight(AppSize.s34),
+            radius: context.setMinSize(AppSize.s20),
           ),
         ],
       ),

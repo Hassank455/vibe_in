@@ -6,7 +6,7 @@ import 'package:vibe_in/core/theming/app_colors.dart';
 import 'package:vibe_in/core/theming/app_images.dart';
 import 'package:vibe_in/core/theming/app_size.dart';
 import 'package:vibe_in/core/theming/app_strings.dart';
-import 'package:vibe_in/core/widgets/custom_cached_network_image.dart';
+import 'package:vibe_in/core/widgets/custom_cached_network_image_removed.dart';
 import 'package:vibe_in/core/widgets/custom_image.dart';
 import 'package:vibe_in/core/widgets/custom_text.dart';
 import 'package:vibe_in/features/cart/ui/widgets/quantity_increase_dicrease_widget.dart';
@@ -33,7 +33,7 @@ class ItemListViewCartWidget extends StatelessWidget {
                     : AppColors.textFiledBackground,
             borderRadius: BorderRadius.circular(AppSize.s8.r),
           ),
-          child: CustomCachedNetworkImage(
+          child: CustomCachedNetworkImageRemoved(
             urlImage:
                 'https://chickchack.s3.eu-west-2.amazonaws.com/customer-dashboard/1744786351349Rectangle_39_1_.png',
             height: AppSize.s75.h,
@@ -42,13 +42,13 @@ class ItemListViewCartWidget extends StatelessWidget {
             borderNumber: AppSize.s1.r,
           ),
         ),
-        horizontalSpace(AppSize.s10),
+        horizontalSpaceRemoved(AppSize.s10),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              verticalSpace(AppSize.s4),
+              verticalSpaceRemoved(AppSize.s4),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,7 +60,7 @@ class ItemListViewCartWidget extends StatelessWidget {
                       style: Theme.of(context).textTheme.titleSmall,
                     ),
                   ),
-                  horizontalSpace(AppSize.s10),
+                  horizontalSpaceRemoved(AppSize.s10),
                   CustomText(
                     text: '20.00\$',
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(
@@ -71,14 +71,14 @@ class ItemListViewCartWidget extends StatelessWidget {
                 ],
               ),
 
-              verticalSpace(AppSize.s5),
+              verticalSpaceRemoved(AppSize.s5),
               CustomText(
                 text: 'Dolce Gusto',
                 style: Theme.of(
                   context,
                 ).textTheme.titleSmall!.copyWith(color: AppColors.gray),
               ),
-              verticalSpace(AppSize.s5),
+              verticalSpaceRemoved(AppSize.s5),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -96,7 +96,7 @@ class ItemListViewCartWidget extends StatelessWidget {
                         width: AppSize.s24,
                         height: AppSize.s24,
                       ),
-                      horizontalSpace(AppSize.s4),
+                      horizontalSpaceRemoved(AppSize.s4),
                       CustomText(
                         text: AppStrings.remove.tr(),
                         style: Theme.of(

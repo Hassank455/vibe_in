@@ -53,9 +53,9 @@ class CustomizePackageBottomSheetWidget extends StatelessWidget {
             ),
           ),
           TextAndDescriptionPackageDetailsBottomSheet(title: package.name!),
-          verticalSpace(AppSize.s20),
+          verticalSpaceRemoved(AppSize.s20),
           PrimaryProductsForPackageWidget(),
-          verticalSpace(AppSize.s25),
+          verticalSpaceRemoved(AppSize.s25),
           BlocBuilder<PackageDetailsCubit, PackageDetailsState>(
             builder: (context, state) {
               return TextAndDescriptionPackageDetailsBottomSheet(
@@ -63,9 +63,9 @@ class CustomizePackageBottomSheetWidget extends StatelessWidget {
               );
             },
           ),
-          verticalSpace(AppSize.s20),
+          verticalSpaceRemoved(AppSize.s20),
           AlternativeProductForPackageWidget(),
-          verticalSpace(AppSize.s30),
+          verticalSpaceRemoved(AppSize.s30),
           BlocBuilder<PackageDetailsCubit, PackageDetailsState>(
             builder: (context, state) {
               return Row(
@@ -99,7 +99,7 @@ class CustomizePackageBottomSheetWidget extends StatelessWidget {
               );
             },
           ).marginSymmetric(horizontal: AppSize.s16.w),
-          verticalSpace(AppSize.s16),
+          verticalSpaceRemoved(AppSize.s16),
           CustomElevatedButton(
             onTap: () {
               packageDetailsCubit.saveChangesForCustomization();
@@ -107,7 +107,7 @@ class CustomizePackageBottomSheetWidget extends StatelessWidget {
             },
             title: AppStrings.saveChanges.tr(),
           ).marginSymmetric(horizontal: AppSize.s16.w),
-          verticalSpace(AppSize.s30),
+          verticalSpaceRemoved(AppSize.s30),
         ],
       ),
     );

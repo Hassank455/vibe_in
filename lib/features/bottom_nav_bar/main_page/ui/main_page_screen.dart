@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vibe_in/core/helpers/spacing.dart';
 import 'package:vibe_in/core/theming/app_size.dart';
 import 'package:vibe_in/core/widgets/custom_app_bar.dart';
@@ -14,19 +13,19 @@ class MainPageScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(toolbarHeight: 0,),
+      appBar: CustomAppBar(toolbarHeight: 0),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              verticalSpace(AppSize.s10),
+              verticalSpace(context, AppSize.s10),
               const ProfileDataMainWidget(),
-              verticalSpace(AppSize.s20.h),
+              verticalSpace(context, AppSize.s20),
               BannerHomeWidget(),
-              verticalSpace(AppSize.s25.h),
+              verticalSpace(context, AppSize.s25),
               BestSellerHomeWidget(),
-              verticalSpace(AppSize.s25.h),
+              verticalSpace(context, AppSize.s25),
               PackagesHomeWidget(),
             ],
           ),

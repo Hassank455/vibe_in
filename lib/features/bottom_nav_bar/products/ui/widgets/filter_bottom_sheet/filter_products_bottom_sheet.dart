@@ -36,7 +36,7 @@ class FilterProductsBottomSheet extends StatelessWidget {
               borderRadius: BorderRadius.circular(AppSize.s2.r),
             ),
           ),
-          verticalSpace(AppSize.s20),
+          verticalSpaceRemoved(AppSize.s20),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -55,7 +55,7 @@ class FilterProductsBottomSheet extends StatelessWidget {
             ],
           ),
 
-          verticalSpace(AppSize.s30),
+          verticalSpaceRemoved(AppSize.s30),
           GridView.count(
             crossAxisCount: 3,
             mainAxisSpacing: AppSize.s20.h,
@@ -65,9 +65,9 @@ class FilterProductsBottomSheet extends StatelessWidget {
             childAspectRatio: 2.5,
             children: List.generate(9, (index) => ItemFilterBottomSheet()),
           ),
-          verticalSpace(AppSize.s40),
+          verticalSpaceRemoved(AppSize.s40),
           CustomElevatedButton(onTap: () {}, title: AppStrings.filter.tr()),
-          verticalSpace(AppSize.s40),
+          verticalSpaceRemoved(AppSize.s40),
         ],
       ),
     );

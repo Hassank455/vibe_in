@@ -10,7 +10,7 @@ import 'package:vibe_in/core/theming/app_colors.dart';
 import 'package:vibe_in/core/theming/app_size.dart';
 import 'package:vibe_in/core/theming/app_strings.dart';
 import 'package:vibe_in/core/theming/font_weight_helper.dart';
-import 'package:vibe_in/core/widgets/custom_cached_network_image.dart';
+import 'package:vibe_in/core/widgets/custom_cached_network_image_removed.dart';
 import 'package:vibe_in/core/widgets/custom_text.dart';
 import 'package:vibe_in/features/bottom_nav_bar/main_page/data/models/package_model.dart';
 import 'package:vibe_in/features/package_details/cubit/package_details_cubit.dart';
@@ -46,7 +46,7 @@ class AlternativeProductForPackageWidget extends StatelessWidget {
                         color: AppColors.lightestGray,
                         borderRadius: BorderRadius.circular(AppSize.s8.r),
                       ),
-                      child: CustomCachedNetworkImage(
+                      child: CustomCachedNetworkImageRemoved(
                         urlImage: alternative[index].image!,
                         height: AppSize.s130.h,
                         width: AppSize.s130.w,
@@ -54,7 +54,7 @@ class AlternativeProductForPackageWidget extends StatelessWidget {
                         fit: BoxFit.contain,
                       ),
                     ),
-                    verticalSpace(AppSize.s4),
+                    verticalSpaceRemoved(AppSize.s4),
                     CustomText(
                       text: alternative[index].name,
                       maxLines: 1,
@@ -62,7 +62,7 @@ class AlternativeProductForPackageWidget extends StatelessWidget {
                         fontWeight: FontWeightHelper.semiBold,
                       ),
                     ),
-                    verticalSpace(AppSize.s7),
+                    verticalSpaceRemoved(AppSize.s7),
                     CustomText(
                       // text: alternative[index].description,
                       text: 'description',
@@ -71,7 +71,7 @@ class AlternativeProductForPackageWidget extends StatelessWidget {
                         context,
                       ).textTheme.titleSmall!.copyWith(color: AppColors.gray),
                     ),
-                    verticalSpace(AppSize.s14),
+                    verticalSpaceRemoved(AppSize.s14),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

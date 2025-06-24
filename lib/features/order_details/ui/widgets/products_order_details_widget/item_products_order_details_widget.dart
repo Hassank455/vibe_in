@@ -5,7 +5,7 @@ import 'package:vibe_in/core/helpers/spacing.dart';
 import 'package:vibe_in/core/theming/app_colors.dart';
 import 'package:vibe_in/core/theming/app_size.dart';
 import 'package:vibe_in/core/theming/app_strings.dart';
-import 'package:vibe_in/core/widgets/custom_cached_network_image.dart';
+import 'package:vibe_in/core/widgets/custom_cached_network_image_removed.dart';
 import 'package:vibe_in/core/widgets/custom_text.dart';
 
 class ItemProductsOrderDetailsWidget extends StatelessWidget {
@@ -27,7 +27,7 @@ class ItemProductsOrderDetailsWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(AppSize.s6.r),
             color: AppColors.textFiledBackground,
           ),
-          child: CustomCachedNetworkImage(
+          child: CustomCachedNetworkImageRemoved(
             urlImage:
                 'https://chickchack.s3.eu-west-2.amazonaws.com/customer-dashboard/1744786351349Rectangle_39_1_.png',
             height: AppSize.s146.h,
@@ -36,7 +36,7 @@ class ItemProductsOrderDetailsWidget extends StatelessWidget {
             borderNumber: AppSize.s1.r,
           ),
         ),
-        horizontalSpace(AppSize.s10),
+        horizontalSpaceRemoved(AppSize.s10),
         SizedBox(
           width: AppSize.s150.w,
           child: Column(
@@ -48,7 +48,7 @@ class ItemProductsOrderDetailsWidget extends StatelessWidget {
                 maxLines: 2,
                 style: Theme.of(context).textTheme.titleSmall,
               ),
-              verticalSpace(AppSize.s4),
+              verticalSpaceRemoved(AppSize.s4),
               CustomText(
                 text: 'Dolce Gusto',
                 maxLines: 1,
@@ -56,7 +56,7 @@ class ItemProductsOrderDetailsWidget extends StatelessWidget {
                   context,
                 ).textTheme.titleSmall!.copyWith(color: AppColors.gray),
               ),
-              verticalSpace(AppSize.s4),
+              verticalSpaceRemoved(AppSize.s4),
               CustomText(
                 text: '30.0\$',
                 maxLines: 1,
@@ -65,7 +65,7 @@ class ItemProductsOrderDetailsWidget extends StatelessWidget {
                   fontSize: AppSize.s16.sp,
                 ),
               ),
-              verticalSpace(AppSize.s4),
+              verticalSpaceRemoved(AppSize.s4),
               CustomText(
                 text: '${AppStrings.quantity.tr()}: X2',
                 maxLines: 1,

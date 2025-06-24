@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vibe_in/core/helpers/extensions.dart';
+import 'package:vibe_in/core/helpers/responsive_helper/sizer_helper_extension.dart';
 import 'package:vibe_in/core/helpers/spacing.dart';
 import 'package:vibe_in/core/theming/app_colors.dart';
 import 'package:vibe_in/core/theming/app_size.dart';
@@ -22,35 +23,37 @@ class VerificationScreen extends StatelessWidget {
     final verificationCodeCubit = context.read<VerificationCubit>();
     return Scaffold(
       appBar: CustomAppBar(),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          verticalSpace(AppSize.s20),
-          CustomText(
-            text: AppStrings.verificationCode.tr(),
-            style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-              fontWeight: FontWeightHelper.bold,
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            verticalSpace(context, AppSize.s20),
+            CustomText(
+              text: AppStrings.verificationCode.tr(),
+              style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                fontWeight: FontWeightHelper.bold,
+              ),
             ),
-          ),
-          verticalSpace(AppSize.s7),
-          CustomText(
-            text: AppStrings.weSentATemporaryLoginCode.tr(),
-            style: Theme.of(context).textTheme.titleMedium!.copyWith(
-              color: AppColors.gray,
-              fontWeight: FontWeightHelper.regular,
+            verticalSpace(context, AppSize.s7),
+            CustomText(
+              text: AppStrings.weSentATemporaryLoginCode.tr(),
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                color: AppColors.gray,
+                fontWeight: FontWeightHelper.regular,
+              ),
             ),
-          ),
-          verticalSpace(AppSize.s12),
-          CustomText(
-            text: '+966 ${verificationCodeCubit.mobile}',
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-          verticalSpace(AppSize.s40),
-          PinputOtpWidget(),
-          verticalSpace(AppSize.s56),
-          ButtonAndResendOtpWidget(),
-        ],
-      ).marginSymmetric(horizontal: AppSize.s16.w),
+            verticalSpace(context, AppSize.s12),
+            CustomText(
+              text: '+966 ${verificationCodeCubit.mobile}',
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            verticalSpace(context, AppSize.s40),
+            PinputOtpWidget(),
+            verticalSpace(context, AppSize.s56),
+            ButtonAndResendOtpWidget(),
+          ],
+        ).marginSymmetric(horizontal: context.setWidth(AppSize.s16)),
+      ),
     );
   }
 }

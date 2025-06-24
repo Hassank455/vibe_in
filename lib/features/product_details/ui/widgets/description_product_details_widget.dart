@@ -35,7 +35,7 @@ class DescriptionProductDetailsWidget extends StatelessWidget {
                     text: productDetailsCubit.product.name,
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
-                  verticalSpace(AppSize.s6),
+                  verticalSpaceRemoved(AppSize.s6),
                   CustomText(
                     text: productDetailsCubit.product.category!.name,
                     style: Theme.of(
@@ -45,16 +45,15 @@ class DescriptionProductDetailsWidget extends StatelessWidget {
                 ],
               ),
             ),
-            
           ],
         ),
-        verticalSpace(AppSize.s16),
+        verticalSpaceRemoved(AppSize.s16),
         CustomText(
           text: productDetailsCubit.product.description,
           textAlign: TextAlign.start,
           style: Theme.of(context).textTheme.titleSmall,
         ),
-        verticalSpace(AppSize.s16),
+        verticalSpaceRemoved(AppSize.s16),
         CustomText(
           text: AppStrings.selectWeight.tr(),
           textAlign: TextAlign.start,
@@ -62,7 +61,7 @@ class DescriptionProductDetailsWidget extends StatelessWidget {
             context,
           ).textTheme.titleSmall!.copyWith(fontWeight: FontWeightHelper.medium),
         ),
-        verticalSpace(AppSize.s8),
+        verticalSpaceRemoved(AppSize.s8),
         BlocSelector<ProductDetailsCubit, ProductDetailsState, int>(
           selector: (state) => state.selectedPriceIndex,
           builder: (context, state) {

@@ -78,7 +78,7 @@ class TimelineStepWidget extends StatelessWidget {
                   shape: BoxShape.circle,
                 ),
               ),
-              verticalSpace(AppSize.s5),
+              verticalSpaceRemoved(AppSize.s5),
               if (!isLast)
                 SizedBox(
                   width: AppSize.s12.w,
@@ -96,11 +96,11 @@ class TimelineStepWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-              verticalSpace(AppSize.s5),
+              verticalSpaceRemoved(AppSize.s5),
             ],
           ),
         ),
-        horizontalSpace(AppSize.s10),
+        horizontalSpaceRemoved(AppSize.s10),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -110,14 +110,14 @@ class TimelineStepWidget extends StatelessWidget {
                 fontWeight: FontWeightHelper.bold,
               ),
             ),
-            verticalSpace(AppSize.s5),
+            verticalSpaceRemoved(AppSize.s5),
             CustomText(
               text: model.date,
               style: Theme.of(
                 context,
               ).textTheme.titleSmall!.copyWith(color: AppColors.gray),
             ),
-            verticalSpace(AppSize.s4),
+            verticalSpaceRemoved(AppSize.s4),
             CustomText(
               text: model.time,
               style: Theme.of(
