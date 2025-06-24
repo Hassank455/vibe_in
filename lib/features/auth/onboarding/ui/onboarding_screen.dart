@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vibe_in/core/helpers/enum.dart';
+import 'package:vibe_in/core/helpers/responsive_helper/sizer_helper_extension.dart';
 import 'package:vibe_in/core/widgets/custom_text.dart';
 
 import 'package:vibe_in/features/auth/onboarding/cubit/onboarding_cubit.dart';
@@ -23,9 +24,9 @@ class OnboardingScreen extends StatelessWidget {
           } else if (state.onboardingState == RequestsStatus.success) {
             return Column(
               children: [
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.8,
-                  width: double.infinity,
+                Expanded(
+                  // height: context.screenHeight * 0.8,
+                  // width: double.infinity,
                   child: PageView(
                     controller: onBoardingCubit.pageController,
                     physics: const BouncingScrollPhysics(),

@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:vibe_in/core/helpers/responsive_helper/sizer_helper_extension.dart';
 import 'package:vibe_in/core/helpers/spacing.dart';
 import 'package:vibe_in/core/theming/app_colors.dart';
 import 'package:vibe_in/core/theming/app_size.dart';
@@ -62,59 +62,61 @@ class _ProductListItemWidgetState extends State<ProductListItemWidget>
           builder: (context) {
             return BlocProvider(
               create: (context) => ProductDetailsCubit(widget.productModel),
-              child: ProductDetailsBottomSheet(
-              
-              ),
+              child: ProductDetailsBottomSheet(),
             );
           },
         );
       },
       child: Container(
-        height: AppSize.s320.h,
-        width: AppSize.s168.w,
+        height: context.sizeProvider.height,
+        width: context.sizeProvider.width,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(AppSize.s8.r),
+          borderRadius: BorderRadius.circular(context.setMinSize(AppSize.s8)),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-              height: AppSize.s220.h,
+              height: context.setHeight(AppSize.s220),
               width: double.infinity,
               decoration: BoxDecoration(
                 color:
                     Theme.of(context).brightness == Brightness.dark
                         ? Theme.of(context).cardColor
                         : AppColors.textFiledBackground,
-                borderRadius: BorderRadius.circular(AppSize.s8.r),
+                borderRadius: BorderRadius.circular(
+                  context.setMinSize(AppSize.s8),
+                ),
               ),
               child: Stack(
                 alignment: Alignment.center,
                 children: [
                   SizedBox(
-                    height: AppSize.s146.h,
-                    width: AppSize.s146.w,
+                    height: context.setHeight(AppSize.s146),
+                    width: context.setWidth(AppSize.s146),
                     child: CustomCachedNetworkImage(
                       urlImage: widget.productModel.images![0],
-                      height: AppSize.s146.h,
-                      width: AppSize.s146.w,
+                      height: context.setHeight(AppSize.s146),
+                      width: context.setWidth(AppSize.s146),
                       fit: BoxFit.contain,
-                      borderNumber: AppSize.s1.r,
                     ),
                   ),
                   if (widget.productModel.label != null)
                     PositionedDirectional(
-                      top: AppSize.s5.h,
-                      end: AppSize.s5.w,
+                      top: context.setHeight(AppSize.s5),
+                      end: context.setWidth(AppSize.s5),
                       child: Container(
                         padding: EdgeInsets.symmetric(
-                          horizontal: AppSize.s13.w,
-                          vertical: AppSize.s5.h,
+                          horizontal: context.setWidth(AppSize.s13),
+                          vertical: context.setHeight(AppSize.s5),
                         ),
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
                           color: AppColors.green,
-                          borderRadius: BorderRadius.circular(AppSize.s4.r),
+                          borderRadius: BorderRadius.circular(
+                            context.setMinSize(AppSize.s4),
+                          ),
                         ),
                         child: CustomText(
                           text: widget.productModel.label,
@@ -122,7 +124,7 @@ class _ProductListItemWidgetState extends State<ProductListItemWidget>
                             context,
                           ).textTheme.titleSmall!.copyWith(
                             color: AppColors.white,
-                            fontSize: AppSize.s10.sp,
+                            fontSize: context.setSp(AppSize.s10),
                           ),
                         ),
                       ),
@@ -130,7 +132,7 @@ class _ProductListItemWidgetState extends State<ProductListItemWidget>
                 ],
               ),
             ),
-            verticalSpace(AppSize.s4.h),
+            verticalSpace(context, AppSize.s4),
             CustomText(
               text:
                   '${widget.productModel.prices![0].weight!} ${AppStrings.gm.tr()} ',
@@ -140,21 +142,21 @@ class _ProductListItemWidgetState extends State<ProductListItemWidget>
                 fontWeight: FontWeightHelper.medium,
               ),
             ),
-            verticalSpace(AppSize.s2.h),
+            verticalSpace(context, AppSize.s2),
             CustomText(
               text: widget.productModel.name,
               maxLines: 1,
-              style: Theme.of(
-                context,
-              ).textTheme.titleMedium!.copyWith(fontSize: AppSize.s12.sp),
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                fontSize: context.setSp(AppSize.s12),
+              ),
             ),
-            verticalSpace(AppSize.s10.h),
+            verticalSpace(context, AppSize.s8),
             Container(
               padding: EdgeInsetsDirectional.only(
-                start: AppSize.s10.w,
-                end: AppSize.s4.w,
-                top: AppSize.s3.h,
-                bottom: AppSize.s3.h,
+                start: context.setWidth(AppSize.s10),
+                end: context.setWidth(AppSize.s4),
+                top: context.setHeight(AppSize.s3),
+                bottom: context.setHeight(AppSize.s3),
               ),
               alignment: Alignment.center,
               decoration: BoxDecoration(
@@ -162,14 +164,16 @@ class _ProductListItemWidgetState extends State<ProductListItemWidget>
                     Theme.of(context).brightness == Brightness.dark
                         ? Theme.of(context).cardColor
                         : AppColors.textFiledBackground,
-
-                borderRadius: BorderRadius.circular(AppSize.s20.r),
+                borderRadius: BorderRadius.circular(
+                  context.setMinSize(AppSize.s20),
+                ),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CustomText(
-                    text: '\$${widget.productModel.prices![0].price}',
+                    text:
+                        '${AppStrings.aed.tr()} ${widget.productModel.prices![0].price}',
                     maxLines: 1,
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
@@ -187,30 +191,38 @@ class _ProductListItemWidgetState extends State<ProductListItemWidget>
                           _isAdded
                               ? Container(
                                 key: const ValueKey('added'),
-                                height: AppSize.s34.h,
-                                width: AppSize.s34.w,
-                                decoration: BoxDecoration(
+                                height: context.setHeight(AppSize.s34),
+                                width: context.setWidth(AppSize.s34),
+                                alignment: Alignment.center,
+                                decoration: const BoxDecoration(
                                   color: AppColors.mainBrown,
                                   shape: BoxShape.circle,
                                 ),
-                                child: const Icon(
+                                child: Icon(
                                   Icons.check,
                                   color: AppColors.white,
+                                  size: context.setMinSize(AppSize.s24),
                                 ),
                               )
                               : Container(
                                 key: const ValueKey('add'),
-                                height: AppSize.s34.h,
-                                width: AppSize.s34.w,
-                                decoration: BoxDecoration(
+                                height: context.setHeight(AppSize.s34),
+                                width: context.setWidth(AppSize.s34),
+                                alignment: Alignment.center,
+                                decoration: const BoxDecoration(
                                   color: AppColors.black,
                                   shape: BoxShape.circle,
                                 ),
-                                child: Padding(
-                                  padding: EdgeInsets.all(AppSize.s5.r),
-                                  child: Icon(
-                                    Icons.add,
-                                    color: AppColors.white,
+                                child: Center(
+                                  child: Padding(
+                                    padding: EdgeInsets.all(
+                                      context.setMinSize(AppSize.s5),
+                                    ),
+                                    child: Icon(
+                                      Icons.add,
+                                      color: AppColors.white,
+                                      size: context.setMinSize(AppSize.s24),
+                                    ),
                                   ),
                                 ),
                               ),

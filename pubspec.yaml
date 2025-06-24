@@ -84,6 +84,8 @@ dependencies:
   # A Flutter plugin for logging
   logger: ^2.5.0
 
+  device_preview: ^1.2.0
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter

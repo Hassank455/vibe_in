@@ -28,7 +28,7 @@ class MonthlyCyclesPackageWidget extends StatelessWidget {
             color: AppColors.gray,
           ),
         ),
-        verticalSpace(AppSize.s16),
+        verticalSpaceRemoved(AppSize.s16),
         SizedBox(
           height: AppSize.s32.h,
           child: ListView.builder(

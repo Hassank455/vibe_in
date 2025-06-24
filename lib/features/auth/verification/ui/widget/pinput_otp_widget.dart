@@ -1,9 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:pinput/pinput.dart';
 import 'package:vibe_in/core/helpers/extensions.dart';
+import 'package:vibe_in/core/helpers/responsive_helper/sizer_helper_extension.dart';
 import 'package:vibe_in/core/theming/app_colors.dart';
 import 'package:vibe_in/core/theming/app_size.dart';
 import 'package:vibe_in/core/theming/app_strings.dart';
@@ -12,28 +13,34 @@ import 'package:vibe_in/features/auth/verification/cubit/verification_cubit.dart
 class PinputOtpWidget extends StatelessWidget {
   const PinputOtpWidget({super.key});
 
-  PinTheme defaultPinTheme(context) {
+  PinTheme defaultPinTheme(BuildContext context) {
     return PinTheme(
-      width: AppSize.s60.w,
-      height: AppSize.s56.h,
+      width: context.setWidth(AppSize.s60),
+      height: context.setHeight(AppSize.s56),
       textStyle: Theme.of(context).textTheme.titleMedium!,
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(AppSize.s8.r),
-        border: Border.all(color: AppColors.lightGray, width: 1.w),
+        borderRadius: BorderRadius.circular(context.setMinSize(AppSize.s8)),
+        border: Border.all(
+          color: AppColors.lightGray,
+          width: context.setWidth(AppSize.s1),
+        ),
       ),
     );
   }
 
-  PinTheme focusedPinTheme(context) {
+  PinTheme focusedPinTheme(BuildContext context) {
     return PinTheme(
-      width: AppSize.s60.w,
-      height: AppSize.s56.h,
+      width: context.setWidth(AppSize.s60),
+      height: context.setHeight(AppSize.s56),
       textStyle: Theme.of(context).textTheme.titleMedium!,
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(AppSize.s8.r),
-        border: Border.all(color: AppColors.mainBrown, width: 1.w),
+        borderRadius: BorderRadius.circular(context.setMinSize(AppSize.s8)),
+        border: Border.all(
+          color: AppColors.mainBrown,
+          width: context.setWidth(AppSize.s1),
+        ),
       ),
     );
   }
@@ -63,6 +70,6 @@ class PinputOtpWidget extends StatelessWidget {
           }
         },
       ),
-    ).marginSymmetric(horizontal: AppSize.s16.w);
+    ).marginSymmetric(horizontal: context.setWidth(AppSize.s16));
   }
 }

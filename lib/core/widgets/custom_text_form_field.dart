@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:vibe_in/core/helpers/responsive_helper/sizer_helper_extension.dart';
 import 'package:vibe_in/core/theming/app_size.dart';
 
 class CustomTextFormField extends StatelessWidget {
@@ -54,7 +54,9 @@ class CustomTextFormField extends StatelessWidget {
       decoration: InputDecoration(
         prefixIcon: prefixIcon,
         suffixIcon: Padding(
-          padding: EdgeInsets.symmetric(horizontal: AppSize.s16.w),
+          padding: EdgeInsets.symmetric(
+            horizontal: context.setWidth(AppSize.s16),
+          ),
           child: suffixIcon,
         ),
         hintText: hintText,

@@ -44,7 +44,7 @@ class QuantityIncreaseDecreaseWidget extends StatelessWidget {
             child: Icon(Icons.remove),
           ),
         ),
-        horizontalSpace(AppSize.s10),
+        horizontalSpaceRemoved(AppSize.s10),
         IntrinsicWidth(
           child: CustomText(
             text: quantity.toString(),
@@ -53,7 +53,7 @@ class QuantityIncreaseDecreaseWidget extends StatelessWidget {
             ).textTheme.titleMedium!.copyWith(fontSize: AppSize.s16.sp),
           ),
         ),
-        horizontalSpace(AppSize.s10),
+        horizontalSpaceRemoved(AppSize.s10),
         InkWell(
           onTap: onTapIncrease,
           borderRadius: BorderRadius.circular(AppSize.s9.r),

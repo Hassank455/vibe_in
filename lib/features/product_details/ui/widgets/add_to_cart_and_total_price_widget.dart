@@ -35,7 +35,7 @@ class AddToCartAndTotalPriceWidget extends StatelessWidget {
                   color: AppColors.gray,
                 ),
               ),
-              verticalSpace(AppSize.s6),
+              verticalSpaceRemoved(AppSize.s6),
               BlocSelector<ProductDetailsCubit, ProductDetailsState, int>(
                 selector: (state) => state.selectedPriceIndex,
 

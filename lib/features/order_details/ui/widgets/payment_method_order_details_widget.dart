@@ -5,7 +5,7 @@ import 'package:vibe_in/core/helpers/spacing.dart';
 import 'package:vibe_in/core/theming/app_size.dart';
 import 'package:vibe_in/core/theming/app_strings.dart';
 import 'package:vibe_in/core/theming/font_weight_helper.dart';
-import 'package:vibe_in/core/widgets/custom_cached_network_image.dart';
+import 'package:vibe_in/core/widgets/custom_cached_network_image_removed.dart';
 import 'package:vibe_in/core/widgets/custom_text.dart';
 
 class PaymentMethodOrderDetailsWidget extends StatelessWidget {
@@ -22,7 +22,7 @@ class PaymentMethodOrderDetailsWidget extends StatelessWidget {
             context,
           ).textTheme.titleLarge!.copyWith(fontWeight: FontWeightHelper.bold),
         ),
-        verticalSpace(AppSize.s20),
+        verticalSpaceRemoved(AppSize.s20),
         ListTile(
           contentPadding: EdgeInsets.zero,
           visualDensity: VisualDensity(
@@ -35,7 +35,7 @@ class PaymentMethodOrderDetailsWidget extends StatelessWidget {
               context,
             ).textTheme.titleLarge!.copyWith(fontSize: AppSize.s12.sp),
           ),
-          trailing: CustomCachedNetworkImage(
+          trailing: CustomCachedNetworkImageRemoved(
             urlImage: 'https://img.icons8.com/ios/50/000000/apple-pay.png',
             height: AppSize.s26.h,
             width: AppSize.s56.w,

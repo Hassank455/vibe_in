@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:vibe_in/core/helpers/responsive_helper/sizer_helper_extension.dart';
 import 'package:vibe_in/core/theming/app_colors.dart';
 import 'package:vibe_in/core/theming/app_size.dart';
 import 'custom_text.dart';
@@ -45,25 +45,30 @@ class CustomElevatedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double responsiveWidth =
+        width == double.infinity ? double.infinity : context.setWidth(width);
+    final double responsiveHeight = context.setHeight(height);
+    final double responsiveHeightContainer = context.setHeight(heightContainer);
+    final double radius = context.setMinSize(borderRadius);
+
     return Container(
-      height: heightContainer,
+      height: responsiveHeightContainer,
       padding: padding,
       decoration: BoxDecoration(
         gradient: gradient,
         color: gradient != null ? null : backGroundColor,
-        borderRadius: BorderRadius.circular(borderRadius.r),
+        borderRadius: BorderRadius.circular(radius),
         boxShadow: boxShadow,
       ),
       child: ElevatedButton(
-        
         onPressed: isLoading ? null : onTap,
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.transparent,
           elevation: 0,
           surfaceTintColor: Colors.transparent,
-          fixedSize: Size(width, height),
+          fixedSize: Size(responsiveWidth, responsiveHeight),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(borderRadius.r),
+            borderRadius: BorderRadius.circular(radius),
             side: BorderSide(
               color: borderColor ?? Colors.transparent,
               width: borderColor != null ? 1 : 0,
@@ -72,36 +77,33 @@ class CustomElevatedButton extends StatelessWidget {
           shadowColor: Colors.transparent,
         ),
         child: Center(
-          child:
-              isLoading
-                  ? LoadingAnimationWidget.threeArchedCircle(
-                    color: Colors.white,
-                    size: 40,
-                  )
-                  : child ?? _buildDefaultContent(context),
+          child: isLoading
+              ? LoadingAnimationWidget.threeArchedCircle(
+                  color: Colors.white,
+                  size: context.setMinSize(40),
+                )
+              : child ?? _buildDefaultContent(context),
         ),
       ),
     );
   }
 
   Widget _buildDefaultContent(BuildContext context) {
-    final spacing = icon != null ? const SizedBox(width: 15) : const SizedBox();
+    final spacing = icon != null ? SizedBox(width: context.setWidth(15)) : const SizedBox();
     final iconWidget = icon ?? const SizedBox();
 
     final textWidget = CustomText(
       text: title,
-      style:
-          textStyle ??
+      style: textStyle ??
           Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.white),
     );
 
     return FittedBox(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children:
-            reverseIcon
-                ? [textWidget, spacing, iconWidget]
-                : [iconWidget, spacing, textWidget],
+        children: reverseIcon
+            ? [textWidget, spacing, iconWidget]
+            : [iconWidget, spacing, textWidget],
       ),
     );
   }

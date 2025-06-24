@@ -20,11 +20,8 @@ class TextAndDescriptionPackageDetailsBottomSheet extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        CustomText(
-          text: title,
-          style: Theme.of(context).textTheme.titleLarge,
-        ),
-        verticalSpace(AppSize.s6),
+        CustomText(text: title, style: Theme.of(context).textTheme.titleLarge),
+        verticalSpaceRemoved(AppSize.s6),
         CustomText(
           text: AppStrings.pleaseSelectOnlyOne.tr(),
           style: Theme.of(

@@ -36,14 +36,14 @@ class ProceedToCheckoutWidget extends StatelessWidget {
             ),
           ],
         ),
-        verticalSpace(AppSize.s26),
+        verticalSpaceRemoved(AppSize.s26),
         CustomElevatedButton(
           onTap: () {
             context.pushNamed(Routes.checkoutScreen);
           },
           title: AppStrings.proceedToCheckout.tr(),
         ),
-        verticalSpace(AppSize.s26),
+        verticalSpaceRemoved(AppSize.s26),
       ],
     ).marginSymmetric(horizontal: AppSize.s16.w);
   }

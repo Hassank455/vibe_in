@@ -35,7 +35,7 @@ class BestSellerScreen extends StatelessWidget {
               context,
             ).textTheme.headlineSmall!.copyWith(fontSize: AppSize.s20.sp),
           ),
-          verticalSpace(AppSize.s20),
+          verticalSpaceRemoved(AppSize.s20),
           BlocBuilder<BestSellerCubit, BestSellerState>(
             builder: (context, state) {
               if (state.bestSellerState == RequestsStatus.loading) {

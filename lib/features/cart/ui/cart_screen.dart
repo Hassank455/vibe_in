@@ -19,7 +19,7 @@ class CartScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(),
-      bottomNavigationBar: ProceedToCheckoutWidget() ,
+      bottomNavigationBar: ProceedToCheckoutWidget(),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -30,14 +30,14 @@ class CartScreen extends StatelessWidget {
               fontWeight: FontWeightHelper.bold,
             ),
           ),
-          verticalSpace(AppSize.s10),
+          verticalSpaceRemoved(AppSize.s10),
           CustomText(
             text: '(3 ${AppStrings.items.tr()})',
             style: Theme.of(
               context,
             ).textTheme.titleMedium!.copyWith(color: AppColors.gray),
           ),
-          verticalSpace(AppSize.s20),
+          verticalSpaceRemoved(AppSize.s20),
           ListViewCartWidget(),
         ],
       ).marginSymmetric(horizontal: AppSize.s16.w),

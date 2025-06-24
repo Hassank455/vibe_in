@@ -2,8 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:vibe_in/core/helpers/app_logger.dart';
+import 'package:vibe_in/core/helpers/responsive_helper/sizer_helper_extension.dart';
 import 'package:vibe_in/core/helpers/spacing.dart';
 import 'package:vibe_in/core/theming/app_images.dart';
 import 'package:vibe_in/core/theming/app_size.dart';
@@ -52,20 +51,20 @@ class PhoneLoginTextFieldWidget extends StatelessWidget {
           prefixIcon: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              horizontalSpace(AppSize.s10),
+              horizontalSpace(context, AppSize.s10),
               CustomSvgImage(
                 imageName: AppSvgImage.sa,
-                width: AppSize.s36.w,
-                height: AppSize.s24.h,
+                width: context.setWidth(AppSize.s36),
+                height: context.setHeight(AppSize.s24),
               ),
-              horizontalSpace(AppSize.s10),
+              horizontalSpace(context, AppSize.s10),
               CustomText(
                 text: '+966',
-                style: Theme.of(
-                  context,
-                ).textTheme.titleMedium!.copyWith(fontSize: AppSize.s12.sp),
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                  fontSize: context.setSp(AppSize.s12),
+                ),
               ),
-              horizontalSpace(AppSize.s10),
+              horizontalSpace(context, AppSize.s10),
             ],
           ),
           hintText: AppStrings.mobileNumber.tr(),

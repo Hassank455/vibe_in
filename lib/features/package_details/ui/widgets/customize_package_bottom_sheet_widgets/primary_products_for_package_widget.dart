@@ -6,7 +6,7 @@ import 'package:vibe_in/core/helpers/spacing.dart';
 import 'package:vibe_in/core/theming/app_colors.dart';
 import 'package:vibe_in/core/theming/app_images.dart';
 import 'package:vibe_in/core/theming/app_size.dart';
-import 'package:vibe_in/core/widgets/custom_cached_network_image.dart';
+import 'package:vibe_in/core/widgets/custom_cached_network_image_removed.dart';
 import 'package:vibe_in/core/widgets/custom_image.dart';
 import 'package:vibe_in/core/widgets/custom_text.dart';
 import 'package:vibe_in/features/package_details/cubit/package_details_cubit.dart';
@@ -44,9 +44,12 @@ class PrimaryProductsForPackageWidget extends StatelessWidget {
                         child: Stack(
                           alignment: Alignment.center,
                           children: [
-                            CustomCachedNetworkImage(
+                            CustomCachedNetworkImageRemoved(
                               urlImage:
-                                  state.packageModelCopy!.products![index].image!,
+                                  state
+                                      .packageModelCopy!
+                                      .products![index]
+                                      .image!,
                               height: AppSize.s110.h,
                               width: double.infinity,
                               borderNumber: AppSize.s4.r,
@@ -87,7 +90,7 @@ class PrimaryProductsForPackageWidget extends StatelessWidget {
                           ],
                         ),
                       ),
-                      verticalSpace(AppSize.s10),
+                      verticalSpaceRemoved(AppSize.s10),
                       CustomText(
                         text: state.packageModelCopy!.products![index].name,
                         textAlign: TextAlign.center,

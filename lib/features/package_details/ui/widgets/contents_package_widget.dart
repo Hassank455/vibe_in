@@ -8,7 +8,7 @@ import 'package:vibe_in/core/theming/app_colors.dart';
 import 'package:vibe_in/core/theming/app_size.dart';
 import 'package:vibe_in/core/theming/app_strings.dart';
 import 'package:vibe_in/core/theming/font_weight_helper.dart';
-import 'package:vibe_in/core/widgets/custom_cached_network_image.dart';
+import 'package:vibe_in/core/widgets/custom_cached_network_image_removed.dart';
 import 'package:vibe_in/core/widgets/custom_text.dart';
 import 'package:vibe_in/features/bottom_nav_bar/main_page/data/models/package_model.dart';
 import 'package:vibe_in/features/package_details/cubit/package_details_cubit.dart';
@@ -30,7 +30,7 @@ class ContentsPackageWidget extends StatelessWidget {
             context,
           ).textTheme.titleSmall!.copyWith(fontWeight: FontWeightHelper.medium),
         ),
-        verticalSpace(AppSize.s12),
+        verticalSpaceRemoved(AppSize.s12),
         SizedBox(
           height: AppSize.s120.h,
           child: ListView.builder(
@@ -66,7 +66,7 @@ class ContentsPackageWidget extends StatelessWidget {
                                 : AppColors.lightestGray,
                         borderRadius: BorderRadius.circular(AppSize.s8.r),
                       ),
-                      child: CustomCachedNetworkImage(
+                      child: CustomCachedNetworkImageRemoved(
                         urlImage: displayImage!,
                         height: AppSize.s70.h,
                         width: AppSize.s70.w,
@@ -74,7 +74,7 @@ class ContentsPackageWidget extends StatelessWidget {
                         fit: BoxFit.contain,
                       ),
                     ),
-                    verticalSpace(AppSize.s4),
+                    verticalSpaceRemoved(AppSize.s4),
                     CustomText(
                       text: displayName,
                       textAlign: TextAlign.center,

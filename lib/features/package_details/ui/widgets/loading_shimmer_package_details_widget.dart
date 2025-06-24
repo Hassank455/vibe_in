@@ -19,13 +19,13 @@ class LoadingShimmerPackageDetailsWidget extends StatelessWidget {
             height: AppSize.s196.h,
             radius: AppSize.s8.r,
           ),
-          verticalSpace(AppSize.s16),
+          verticalSpaceRemoved(AppSize.s16),
           CustomShimmerWidget(width: AppSize.s220.h, height: AppSize.s20.h),
-          verticalSpace(AppSize.s10),
+          verticalSpaceRemoved(AppSize.s10),
           CustomShimmerWidget(width: AppSize.s80.h, height: AppSize.s30.h),
-          verticalSpace(AppSize.s10),
+          verticalSpaceRemoved(AppSize.s10),
           CustomShimmerWidget(width: AppSize.s200.h, height: AppSize.s18.h),
-          verticalSpace(AppSize.s16),
+          verticalSpaceRemoved(AppSize.s16),
           SizedBox(
             height: AppSize.s32.h,
             child: ListView.builder(
@@ -40,9 +40,9 @@ class LoadingShimmerPackageDetailsWidget extends StatelessWidget {
               },
             ),
           ),
-          verticalSpace(AppSize.s20),
+          verticalSpaceRemoved(AppSize.s20),
           CustomShimmerWidget(width: AppSize.s80.h, height: AppSize.s20.h),
-          verticalSpace(AppSize.s12),
+          verticalSpaceRemoved(AppSize.s12),
           SizedBox(
             height: AppSize.s118.h,
             child: ListView.builder(
@@ -60,12 +60,12 @@ class LoadingShimmerPackageDetailsWidget extends StatelessWidget {
                         radius: AppSize.s8.r,
                       ),
 
-                      verticalSpace(AppSize.s4),
+                      verticalSpaceRemoved(AppSize.s4),
                       CustomShimmerWidget(
                         width: AppSize.s50.h,
                         height: AppSize.s14.h,
                       ),
-                      verticalSpace(AppSize.s4),
+                      verticalSpaceRemoved(AppSize.s4),
                       CustomShimmerWidget(
                         width: AppSize.s70.h,
                         height: AppSize.s14.h,
@@ -76,9 +76,9 @@ class LoadingShimmerPackageDetailsWidget extends StatelessWidget {
               },
             ),
           ),
-          verticalSpace(AppSize.s20),
+          verticalSpaceRemoved(AppSize.s20),
           CustomShimmerWidget(width: AppSize.s80.h, height: AppSize.s20.h),
-          verticalSpace(AppSize.s12),
+          verticalSpaceRemoved(AppSize.s12),
           CustomShimmerWidget(
             width: double.infinity,
             height: AppSize.s100.h,

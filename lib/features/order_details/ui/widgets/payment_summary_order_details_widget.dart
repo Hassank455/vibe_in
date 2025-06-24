@@ -21,7 +21,7 @@ class PaymentSummaryOrderDetailsWidget extends StatelessWidget {
             context,
           ).textTheme.titleLarge!.copyWith(fontWeight: FontWeightHelper.bold),
         ),
-        verticalSpace(AppSize.s20),
+        verticalSpaceRemoved(AppSize.s20),
         ListView.builder(
           itemCount: 3,
           shrinkWrap: true,

@@ -62,7 +62,7 @@ class CustomizeAndAddToCartWidget extends StatelessWidget {
                     height: AppSize.s18.h,
                     width: AppSize.s18.w,
                   ),
-                  horizontalSpace(AppSize.s10),
+                  horizontalSpaceRemoved(AppSize.s10),
                   CustomText(
                     text: AppStrings.customize.tr(),
                     style: Theme.of(
@@ -74,7 +74,7 @@ class CustomizeAndAddToCartWidget extends StatelessWidget {
             ),
           ),
         ),
-        horizontalSpace(AppSize.s15),
+        horizontalSpaceRemoved(AppSize.s15),
         Expanded(
           flex: 4,
           child: CustomElevatedButton(

@@ -25,7 +25,7 @@ class ShippingAddressOrderDetailsWidget extends StatelessWidget {
             context,
           ).textTheme.titleLarge!.copyWith(fontWeight: FontWeightHelper.bold),
         ),
-        verticalSpace(AppSize.s20),
+        verticalSpaceRemoved(AppSize.s20),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -41,7 +41,7 @@ class ShippingAddressOrderDetailsWidget extends StatelessWidget {
                 height: AppSize.s24.h,
               ),
             ),
-            horizontalSpace(AppSize.s12),
+            horizontalSpaceRemoved(AppSize.s12),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -51,22 +51,22 @@ class ShippingAddressOrderDetailsWidget extends StatelessWidget {
                     text: 'Mohammed Al-Otaibi’s House',
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
-                  verticalSpace(AppSize.s6),
+                  verticalSpaceRemoved(AppSize.s6),
                   CustomText(
                     text: '+966512345678',
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
-                  verticalSpace(AppSize.s6),
+                  verticalSpaceRemoved(AppSize.s6),
                   CustomText(
                     text: 'Saudi Arabia',
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
-                  verticalSpace(AppSize.s6),
+                  verticalSpaceRemoved(AppSize.s6),
                   CustomText(
                     text: 'Riyadh',
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
-                  verticalSpace(AppSize.s6),
+                  verticalSpaceRemoved(AppSize.s6),
                   CustomText(
                     text:
                         'Jabal Tuwaiq Street, Villa No. 23, Al-Narjis District,  13324',
