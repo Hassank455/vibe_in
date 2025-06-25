@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:vibe_in/core/helpers/responsive_helper/sizer_helper_extension.dart';
 import 'package:vibe_in/core/helpers/spacing.dart';
 import 'package:vibe_in/core/theming/app_colors.dart';
 import 'package:vibe_in/core/theming/app_size.dart';
@@ -60,16 +60,15 @@ class TimelineStepWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
-          width: AppSize.s12.w,
+          width: context.setWidth(AppSize.s12),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                height: AppSize.s12.h,
-                width: AppSize.s12.w,
+                height: context.setHeight(AppSize.s12),
+                width: context.setWidth(AppSize.s12),
                 alignment: Alignment.center,
-
                 decoration: BoxDecoration(
                   color:
                       model.isActive
@@ -78,29 +77,33 @@ class TimelineStepWidget extends StatelessWidget {
                   shape: BoxShape.circle,
                 ),
               ),
-              verticalSpaceRemoved(AppSize.s5),
+              verticalSpace(context, AppSize.s5),
               if (!isLast)
                 SizedBox(
-                  width: AppSize.s12.w,
+                  width: context.setWidth(AppSize.s12),
                   child: Container(
-                    height: AppSize.s120.h,
-                    width: AppSize.s12.w,
+                    height: context.setHeight(AppSize.s120),
+                    width: context.setWidth(AppSize.s12),
                     alignment: Alignment.center,
-                    margin: EdgeInsets.symmetric(horizontal: 3.5.w),
+                    margin: EdgeInsets.symmetric(
+                      horizontal: context.setWidth(3.5),
+                    ),
                     decoration: BoxDecoration(
                       color:
                           model.isActive
                               ? AppColors.mainBrown
                               : AppColors.strongGray.withOpacity(0.5),
-                      borderRadius: BorderRadius.circular(AppSize.s10.r),
+                      borderRadius: BorderRadius.circular(
+                        context.setMinSize(AppSize.s10),
+                      ),
                     ),
                   ),
                 ),
-              verticalSpaceRemoved(AppSize.s5),
+              verticalSpace(context, AppSize.s5),
             ],
           ),
         ),
-        horizontalSpaceRemoved(AppSize.s10),
+        horizontalSpace(context, AppSize.s10),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -110,14 +113,14 @@ class TimelineStepWidget extends StatelessWidget {
                 fontWeight: FontWeightHelper.bold,
               ),
             ),
-            verticalSpaceRemoved(AppSize.s5),
+            verticalSpace(context, AppSize.s5),
             CustomText(
               text: model.date,
               style: Theme.of(
                 context,
               ).textTheme.titleSmall!.copyWith(color: AppColors.gray),
             ),
-            verticalSpaceRemoved(AppSize.s4),
+            verticalSpace(context, AppSize.s4),
             CustomText(
               text: model.time,
               style: Theme.of(

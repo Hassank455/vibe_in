@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:vibe_in/core/helpers/responsive_helper/sizer_helper_extension.dart';
 import 'package:vibe_in/core/theming/app_colors.dart';
 import 'package:vibe_in/core/theming/app_size.dart';
 import 'package:vibe_in/core/widgets/custom_text.dart';
@@ -13,13 +13,13 @@ class ItemFilterBottomSheet extends StatelessWidget {
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: AppColors.textFiledBackground,
-        borderRadius: BorderRadius.circular(AppSize.s6.r),
+        borderRadius: BorderRadius.circular(context.setMinSize(AppSize.s6)),
       ),
       child: CustomText(
         text: 'Coffee',
         style: Theme.of(
           context,
-        ).textTheme.titleMedium!.copyWith(fontSize: AppSize.s12.sp),
+        ).textTheme.titleMedium!.copyWith(fontSize: context.setSp(AppSize.s12)),
       ),
     );
   }

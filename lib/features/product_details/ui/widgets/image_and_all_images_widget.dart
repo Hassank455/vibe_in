@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:vibe_in/core/helpers/responsive_helper/sizer_helper_extension.dart';
 import 'package:vibe_in/core/theming/app_colors.dart';
-import 'package:vibe_in/core/widgets/custom_cached_network_image_removed.dart';
 import 'package:vibe_in/core/theming/app_size.dart';
 import 'package:vibe_in/core/helpers/spacing.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:vibe_in/core/widgets/custom_cached_network_image.dart';
 import 'package:vibe_in/core/widgets/custom_text.dart';
 import 'package:vibe_in/features/product_details/cubit/product_details_cubit.dart';
 import 'package:vibe_in/features/product_details/cubit/product_details_state.dart';
@@ -26,26 +26,27 @@ class ImageAndAllImagesWidget extends StatelessWidget {
               child: Stack(
                 alignment: Alignment.center,
                 children: [
-                  CustomCachedNetworkImageRemoved(
+                  CustomCachedNetworkImage(
                     urlImage: state.imageSelected ?? '',
-                    height: AppSize.s305.h,
-                    width: AppSize.s305.w,
+                    height: context.setHeight(AppSize.s305),
+                    width: context.setWidth(AppSize.s305),
                     fit: BoxFit.contain,
-                    borderNumber: AppSize.s1.r,
                   ),
                   if (productDetailsCubit.product.label != null)
                     PositionedDirectional(
-                      top: AppSize.s5.h,
-                      end: AppSize.s5.w,
+                      top: context.setHeight(AppSize.s5),
+                      end: context.setWidth(AppSize.s5),
                       child: Container(
                         padding: EdgeInsets.symmetric(
-                          horizontal: AppSize.s15.w,
-                          vertical: AppSize.s5.h,
+                          horizontal: context.setWidth(AppSize.s15),
+                          vertical: context.setHeight(AppSize.s5),
                         ),
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
                           color: AppColors.green,
-                          borderRadius: BorderRadius.circular(AppSize.s4.r),
+                          borderRadius: BorderRadius.circular(
+                            context.setMinSize(AppSize.s4),
+                          ),
                         ),
                         child: CustomText(
                           text: productDetailsCubit.product.label,
@@ -53,7 +54,7 @@ class ImageAndAllImagesWidget extends StatelessWidget {
                             context,
                           ).textTheme.titleSmall!.copyWith(
                             color: AppColors.white,
-                            fontSize: AppSize.s10.sp,
+                            fontSize: context.setSp(AppSize.s10),
                           ),
                         ),
                       ),
@@ -61,7 +62,7 @@ class ImageAndAllImagesWidget extends StatelessWidget {
                 ],
               ),
             ),
-            verticalSpaceRemoved(AppSize.s15),
+            verticalSpace(context, AppSize.s15),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(
@@ -69,26 +70,29 @@ class ImageAndAllImagesWidget extends StatelessWidget {
                 (index) => GestureDetector(
                   onTap: () => productDetailsCubit.changeCurrentImage(index),
                   child: Container(
-                    height: AppSize.s80.h,
-                    width: AppSize.s80.w,
-                    margin: EdgeInsets.symmetric(horizontal: AppSize.s5.w),
-                    padding: EdgeInsets.all(AppSize.s5.r),
+                    height: context.setHeight(AppSize.s80),
+                    width: context.setWidth(AppSize.s80),
+                    margin: EdgeInsets.symmetric(
+                      horizontal: context.setWidth(AppSize.s5),
+                    ),
+                    padding: EdgeInsets.all(context.setMinSize(AppSize.s5)),
                     decoration: BoxDecoration(
                       border: Border.all(
                         color:
                             index == state.currentIndex
                                 ? AppColors.black
                                 : Colors.transparent,
-                        width: AppSize.s1.w,
+                        width: context.setWidth(AppSize.s1),
                       ),
-                      borderRadius: BorderRadius.circular(AppSize.s8.r),
+                      borderRadius: BorderRadius.circular(
+                        context.setMinSize(AppSize.s8),
+                      ),
                     ),
-                    child: CustomCachedNetworkImageRemoved(
+                    child: CustomCachedNetworkImage(
                       urlImage: images[index],
-                      height: AppSize.s71.h,
-                      width: AppSize.s71.w,
+                      height: context.setHeight(AppSize.s71),
+                      width: context.setWidth(AppSize.s71),
                       fit: BoxFit.contain,
-                      borderNumber: AppSize.s1.r,
                     ),
                   ),
                 ),

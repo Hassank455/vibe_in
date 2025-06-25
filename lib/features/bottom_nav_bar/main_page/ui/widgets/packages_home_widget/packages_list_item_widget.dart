@@ -56,26 +56,20 @@ class PackagesListItemWidget extends StatelessWidget {
               maxLines: 1,
               style: Theme.of(context).textTheme.titleMedium!.copyWith(
                 fontWeight: FontWeightHelper.semiBold,
+                fontSize: context.setSp(AppSize.s14),
               ),
             ),
             verticalSpace(context, AppSize.s7),
             CustomText(
               text: packageModel.description,
               maxLines: 2,
-              style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                fontSize: context.setSp(AppSize.s12),
+              style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                fontWeight: FontWeightHelper.medium,
                 color: AppColors.gray,
+                fontSize: context.setSp(AppSize.s12),
               ),
             ),
             verticalSpace(context, AppSize.s7),
-            // CustomText(
-            //   text: '${packageModel.price}\$',
-            //   maxLines: 1,
-            //   style: Theme.of(context).textTheme.titleMedium!.copyWith(
-            //     fontSize: AppSize.s16.sp,
-            //     color: AppColors.mainBrown,
-            //   ),
-            // ),
           ],
         ),
       ),

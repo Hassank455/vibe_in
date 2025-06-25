@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vibe_in/core/helpers/extensions.dart';
+import 'package:vibe_in/core/helpers/responsive_helper/sizer_helper_extension.dart';
 import 'package:vibe_in/core/theming/app_size.dart';
 import 'package:vibe_in/features/bottom_nav_bar/main_page/ui/widgets/packages_home_widget/loading_package_item_widget.dart';
 
@@ -23,7 +23,7 @@ class LoadingPackagesScreen extends StatelessWidget {
             (context, index) => LoadingPackageItemWidget(
               height: AppSize.s305,
               heightImage: AppSize.s194,
-            ).marginOnly(bottom: AppSize.s20.h),
+            ).marginOnly(bottom: context.setHeight(AppSize.s20)),
       ),
     );
   }

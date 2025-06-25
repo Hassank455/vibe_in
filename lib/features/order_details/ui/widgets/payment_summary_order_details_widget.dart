@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:vibe_in/core/helpers/responsive_helper/sizer_helper_extension.dart';
 import 'package:vibe_in/core/helpers/spacing.dart';
 import 'package:vibe_in/core/theming/app_size.dart';
 import 'package:vibe_in/core/theming/app_strings.dart';
@@ -21,7 +21,7 @@ class PaymentSummaryOrderDetailsWidget extends StatelessWidget {
             context,
           ).textTheme.titleLarge!.copyWith(fontWeight: FontWeightHelper.bold),
         ),
-        verticalSpaceRemoved(AppSize.s20),
+        verticalSpace(context, AppSize.s20),
         ListView.builder(
           itemCount: 3,
           shrinkWrap: true,
@@ -35,15 +35,15 @@ class PaymentSummaryOrderDetailsWidget extends StatelessWidget {
                 ),
                 title: CustomText(
                   text: 'Subtotal',
-                  style: Theme.of(
-                    context,
-                  ).textTheme.titleLarge!.copyWith(fontSize: AppSize.s12.sp),
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                    fontSize: context.setSp(AppSize.s12),
+                  ),
                 ),
                 trailing: CustomText(
                   text: '210.0\$',
-                  style: Theme.of(
-                    context,
-                  ).textTheme.titleLarge!.copyWith(fontSize: AppSize.s12.sp),
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                    fontSize: context.setSp(AppSize.s12),
+                  ),
                 ),
               ),
         ),

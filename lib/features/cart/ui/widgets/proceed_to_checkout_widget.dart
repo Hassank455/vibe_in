@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vibe_in/core/helpers/extensions.dart';
+import 'package:vibe_in/core/helpers/responsive_helper/sizer_helper_extension.dart';
 import 'package:vibe_in/core/helpers/spacing.dart';
 import 'package:vibe_in/core/routing/routes.dart';
 import 'package:vibe_in/core/theming/app_colors.dart';
@@ -23,28 +23,28 @@ class ProceedToCheckoutWidget extends StatelessWidget {
           children: [
             CustomText(
               text: AppStrings.subtotal.tr(),
-              style: Theme.of(
-                context,
-              ).textTheme.titleMedium!.copyWith(fontSize: AppSize.s20.sp),
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                fontSize: context.setSp(AppSize.s20),
+              ),
             ),
             CustomText(
               text: '100\$',
               style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                fontSize: AppSize.s20.sp,
+                fontSize: context.setSp(AppSize.s20),
                 color: AppColors.mainBrown,
               ),
             ),
           ],
         ),
-        verticalSpaceRemoved(AppSize.s26),
+        verticalSpace(context, AppSize.s26),
         CustomElevatedButton(
           onTap: () {
             context.pushNamed(Routes.checkoutScreen);
           },
           title: AppStrings.proceedToCheckout.tr(),
         ),
-        verticalSpaceRemoved(AppSize.s26),
+        verticalSpace(context, AppSize.s26),
       ],
-    ).marginSymmetric(horizontal: AppSize.s16.w);
+    ).marginSymmetric(horizontal: context.setWidth(AppSize.s16));
   }
 }

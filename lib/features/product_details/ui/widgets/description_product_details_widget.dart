@@ -1,8 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vibe_in/core/helpers/extensions.dart';
+import 'package:vibe_in/core/helpers/responsive_helper/sizer_helper_extension.dart';
 import 'package:vibe_in/core/helpers/spacing.dart';
 import 'package:vibe_in/core/theming/app_colors.dart';
 import 'package:vibe_in/core/theming/app_size.dart';
@@ -11,7 +11,6 @@ import 'package:vibe_in/core/theming/font_weight_helper.dart';
 import 'package:vibe_in/core/widgets/custom_text.dart';
 import 'package:vibe_in/features/product_details/cubit/product_details_cubit.dart';
 import 'package:vibe_in/features/product_details/cubit/product_details_state.dart';
-import 'package:vibe_in/features/cart/ui/widgets/quantity_increase_dicrease_widget.dart';
 
 class DescriptionProductDetailsWidget extends StatelessWidget {
   const DescriptionProductDetailsWidget({super.key});
@@ -35,7 +34,7 @@ class DescriptionProductDetailsWidget extends StatelessWidget {
                     text: productDetailsCubit.product.name,
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
-                  verticalSpaceRemoved(AppSize.s6),
+                  verticalSpace(context, AppSize.s6),
                   CustomText(
                     text: productDetailsCubit.product.category!.name,
                     style: Theme.of(
@@ -47,13 +46,13 @@ class DescriptionProductDetailsWidget extends StatelessWidget {
             ),
           ],
         ),
-        verticalSpaceRemoved(AppSize.s16),
+        verticalSpace(context, AppSize.s16),
         CustomText(
           text: productDetailsCubit.product.description,
           textAlign: TextAlign.start,
           style: Theme.of(context).textTheme.titleSmall,
         ),
-        verticalSpaceRemoved(AppSize.s16),
+        verticalSpace(context, AppSize.s16),
         CustomText(
           text: AppStrings.selectWeight.tr(),
           textAlign: TextAlign.start,
@@ -61,12 +60,12 @@ class DescriptionProductDetailsWidget extends StatelessWidget {
             context,
           ).textTheme.titleSmall!.copyWith(fontWeight: FontWeightHelper.medium),
         ),
-        verticalSpaceRemoved(AppSize.s8),
+        verticalSpace(context, AppSize.s8),
         BlocSelector<ProductDetailsCubit, ProductDetailsState, int>(
           selector: (state) => state.selectedPriceIndex,
           builder: (context, state) {
             return SizedBox(
-              height: AppSize.s34.h,
+              height: context.setHeight(AppSize.s34),
               child: ListView.builder(
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
@@ -79,16 +78,18 @@ class DescriptionProductDetailsWidget extends StatelessWidget {
                     onTap: () => productDetailsCubit.selectPriceIndex(index),
                     child: Container(
                       padding: EdgeInsets.symmetric(
-                        horizontal: AppSize.s22.h,
-                        vertical: AppSize.s6.h,
+                        horizontal: context.setWidth(AppSize.s22),
+                        vertical: context.setHeight(AppSize.s6),
                       ),
                       decoration: BoxDecoration(
                         border: Border.all(
                           color:
                               isSelected ? AppColors.mainBrown : AppColors.gray,
-                          width: AppSize.s1.w,
+                          width: context.setWidth(AppSize.s1),
                         ),
-                        borderRadius: BorderRadius.circular(AppSize.s8.r),
+                        borderRadius: BorderRadius.circular(
+                          context.setMinSize(AppSize.s8),
+                        ),
                       ),
                       child: CustomText(
                         text: price.weight,
@@ -102,8 +103,8 @@ class DescriptionProductDetailsWidget extends StatelessWidget {
                   ).marginOnly(
                     end:
                         productDetailsCubit.product.prices!.length == index + 1
-                            ? AppSize.s0.w
-                            : AppSize.s13.w,
+                            ? context.setWidth(AppSize.s0)
+                            : context.setWidth(AppSize.s13),
                   );
                 },
               ),

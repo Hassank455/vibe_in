@@ -1,20 +1,16 @@
-import 'dart:math';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:vibe_in/core/helpers/enum.dart';
 import 'package:vibe_in/core/helpers/extensions.dart';
+import 'package:vibe_in/core/helpers/responsive_helper/sizer_helper_extension.dart';
 import 'package:vibe_in/core/helpers/spacing.dart';
-import 'package:vibe_in/core/theming/app_colors.dart';
 import 'package:vibe_in/core/theming/app_images.dart';
 import 'package:vibe_in/core/theming/app_size.dart';
 import 'package:vibe_in/core/theming/app_strings.dart';
 import 'package:vibe_in/core/widgets/custom_app_bar.dart';
 import 'package:vibe_in/core/widgets/custom_image.dart';
-import 'package:vibe_in/core/widgets/custom_shimmer_widget.dart';
 import 'package:vibe_in/core/widgets/custom_text.dart';
 import 'package:vibe_in/core/widgets/custom_text_form_field.dart';
 import 'package:vibe_in/features/bottom_nav_bar/main_page/data/models/package_model.dart';
@@ -36,11 +32,11 @@ class PackagesScreen extends StatelessWidget {
         children: [
           CustomText(
             text: AppStrings.packages.tr(),
-            style: Theme.of(
-              context,
-            ).textTheme.headlineSmall!.copyWith(fontSize: AppSize.s20.sp),
+            style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+              fontSize: context.setSp(AppSize.s20),
+            ),
           ),
-          verticalSpaceRemoved(AppSize.s16),
+          verticalSpace(context, AppSize.s16),
           CustomTextFormField(
             controller: packagesCubit.searchController,
             validator: (val) {
@@ -55,25 +51,25 @@ class PackagesScreen extends StatelessWidget {
                 packagesCubit.getPackages();
               },
               child: Padding(
-                padding: const EdgeInsetsDirectional.only(
-                  start: AppSize.s16,
-                  end: AppSize.s12,
+                padding: EdgeInsetsDirectional.only(
+                  start: context.setWidth(AppSize.s16),
+                  end: context.setWidth(AppSize.s12),
                 ),
                 child: CustomSvgImage(
                   imageName: AppSvgImage.search,
-                  width: AppSize.s26.w,
-                  height: AppSize.s26.h,
+                  width: context.setWidth(AppSize.s26),
+                  height: context.setHeight(AppSize.s26),
                 ),
               ),
             ),
           ),
-          verticalSpaceRemoved(AppSize.s20),
+          verticalSpace(context, AppSize.s20),
           BlocBuilder<PackagesCubit, PackagesState>(
             builder: (context, state) {
               if (state.packagesState == RequestsStatus.loading) {
                 return LoadingPackagesScreen(
-                  height: AppSize.s305,
-                  heightImage: AppSize.s194,
+                  height: context.setHeight(AppSize.s305),
+                  heightImage: context.setHeight(AppSize.s194),
                 );
               } else if (state.packagesState == RequestsStatus.success) {
                 final List<PackageModel>? packagesModel = state.packagesModel;
@@ -93,9 +89,9 @@ class PackagesScreen extends StatelessWidget {
                         }
                         return PackagesListItemWidget(
                           packageModel: packagesModel[index],
-                          height: AppSize.s305,
-                          heightImage: AppSize.s194,
-                        ).marginOnly(bottom: AppSize.s20.h);
+                          height: context.setHeight(AppSize.s305),
+                          heightImage: context.setHeight(AppSize.s194),
+                        ).marginOnly(bottom: context.setHeight(AppSize.s20));
                       },
                     ),
                   ),
@@ -106,7 +102,7 @@ class PackagesScreen extends StatelessWidget {
             },
           ),
         ],
-      ).marginSymmetric(horizontal: AppSize.s16.w),
+      ).marginSymmetric(horizontal: context.setWidth(AppSize.s16)),
     );
   }
 }

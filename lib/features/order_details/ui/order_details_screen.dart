@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:vibe_in/core/helpers/extensions.dart';
+import 'package:vibe_in/core/helpers/responsive_helper/sizer_helper_extension.dart';
 import 'package:vibe_in/core/helpers/spacing.dart';
 import 'package:vibe_in/core/theming/app_size.dart';
 import 'package:vibe_in/core/widgets/custom_app_bar.dart';
@@ -24,21 +25,21 @@ class OrderDetailsScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             HeaderOrderDetailsWidget(),
-            verticalSpaceRemoved(AppSize.s20),
+            verticalSpace(context, AppSize.s20),
             StepperOrderDetailsWidget(),
-            verticalSpaceRemoved(AppSize.s25),
+            verticalSpace(context, AppSize.s25),
             ProductsOrderDetailsWidget(),
-            verticalSpaceRemoved(AppSize.s25),
+            verticalSpace(context, AppSize.s25),
             ShippingAddressOrderDetailsWidget(),
-            verticalSpaceRemoved(AppSize.s25),
+            verticalSpace(context, AppSize.s25),
             PaymentSummaryOrderDetailsWidget(),
-            verticalSpaceRemoved(AppSize.s25),
+            verticalSpace(context, AppSize.s25),
             PaymentMethodOrderDetailsWidget(),
-            verticalSpaceRemoved(AppSize.s25),
+            verticalSpace(context, AppSize.s25),
             HaveAnIssueOrderDetailsWidget(),
-            verticalSpaceRemoved(AppSize.s25),
+            verticalSpace(context, AppSize.s25),
           ],
-        ).marginSymmetric(horizontal: AppSize.s16.w),
+        ).marginSymmetric(horizontal: context.setWidth(AppSize.s16)),
       ),
     );
   }
