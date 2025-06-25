@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:vibe_in/core/helpers/responsive_helper/sizer_helper_extension.dart';
 import 'package:vibe_in/core/theming/app_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:vibe_in/core/theming/app_size.dart';
@@ -18,7 +18,7 @@ class HeaderOrderDetailsWidget extends StatelessWidget {
         CustomText(
           text: AppStrings.trackOrder.tr(),
           style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-            fontSize: AppSize.s20.sp,
+            fontSize: context.setSp(AppSize.s20),
             fontWeight: FontWeightHelper.bold,
           ),
         ),
@@ -47,12 +47,14 @@ class HeaderOrderDetailsWidget extends StatelessWidget {
 
             Container(
               padding: EdgeInsets.symmetric(
-                horizontal: AppSize.s25.w,
-                vertical: AppSize.s6.h,
+                horizontal: context.setWidth(AppSize.s25),
+                vertical: context.setHeight(AppSize.s6),
               ),
               decoration: BoxDecoration(
                 color: AppColors.lightYellow,
-                borderRadius: BorderRadius.circular(AppSize.s4.r),
+                borderRadius: BorderRadius.circular(
+                  context.setMinSize(AppSize.s4),
+                ),
               ),
               child: CustomText(
                 text: 'Pending',

@@ -38,7 +38,7 @@ class ProfileDataMainWidget extends StatelessWidget {
               children: [
                 CustomCachedNetworkImage(
                   urlImage: profileModel.profileData!.avatar!,
-                  height: context.setHeight(AppSize.s60),
+                  height: context.sizeProvider.height,
                   width: context.setWidth(AppSize.s60),
                   isCircle: true,
                   fit: BoxFit.contain,
@@ -49,8 +49,9 @@ class ProfileDataMainWidget extends StatelessWidget {
                   children: [
                     CustomText(
                       text: profileModel.profileData!.name,
-                      style: Theme.of(context).textTheme.headlineMedium!
-                          .copyWith(fontSize: context.setSp(AppSize.s14)),
+                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                        fontWeight: FontWeightHelper.bold,
+                      ),
                     ),
                     verticalSpace(context, AppSize.s7),
                     CustomText(

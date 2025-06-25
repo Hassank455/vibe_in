@@ -1,8 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vibe_in/core/helpers/helpers.dart';
+import 'package:vibe_in/core/helpers/responsive_helper/sizer_helper_extension.dart';
 import 'package:vibe_in/core/helpers/spacing.dart';
 import 'package:vibe_in/core/theming/app_colors.dart';
 import 'package:vibe_in/core/theming/app_size.dart';
@@ -22,7 +22,6 @@ class AddToCartAndTotalPriceWidget extends StatelessWidget {
         context.read<ProductDetailsCubit>();
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
-
       children: [
         Expanded(
           flex: 2,
@@ -30,12 +29,12 @@ class AddToCartAndTotalPriceWidget extends StatelessWidget {
             children: [
               CustomText(
                 text: AppStrings.totalPrice.tr(),
-                style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                  fontSize: AppSize.s12.sp,
+                style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                  fontWeight: FontWeightHelper.medium,
                   color: AppColors.gray,
                 ),
               ),
-              verticalSpaceRemoved(AppSize.s6),
+              verticalSpace(context, AppSize.s6),
               BlocSelector<ProductDetailsCubit, ProductDetailsState, int>(
                 selector: (state) => state.selectedPriceIndex,
 
@@ -45,7 +44,7 @@ class AddToCartAndTotalPriceWidget extends StatelessWidget {
                         '\$${productDetailsCubit.product.prices![state].price} ',
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
                       fontWeight: FontWeightHelper.semiBold,
-                      fontSize: AppSize.s18.sp,
+                      fontSize: context.setSp(AppSize.s18),
                       color: AppColors.mainBrown,
                     ),
                   );

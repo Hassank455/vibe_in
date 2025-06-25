@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:vibe_in/core/helpers/responsive_helper/device_utils.dart';
+import 'package:vibe_in/core/helpers/responsive_helper/sizer_helper_extension.dart';
 import 'package:vibe_in/core/helpers/spacing.dart';
 import 'package:vibe_in/core/theming/app_colors.dart';
 import 'package:vibe_in/core/theming/app_size.dart';
@@ -16,58 +17,67 @@ class FilterProductsBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.symmetric(horizontal: AppSize.s16.w),
+      padding: EdgeInsets.symmetric(horizontal: context.setWidth(AppSize.s16)),
       decoration: BoxDecoration(
         color: Theme.of(context).scaffoldBackgroundColor,
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(AppSize.s15.r),
-          topRight: Radius.circular(AppSize.s15.r),
+          topLeft: Radius.circular(context.setMinSize(AppSize.s15)),
+          topRight: Radius.circular(context.setMinSize(AppSize.s15)),
         ),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            height: AppSize.s5.h,
-            width: AppSize.s53.w,
-            margin: EdgeInsets.only(top: AppSize.s15.h, bottom: AppSize.s5.h),
+            height: context.setHeight(AppSize.s5),
+            width: context.setWidth(AppSize.s53),
+            margin: EdgeInsets.only(
+              top: context.setMinSize(AppSize.s15),
+              bottom: context.setMinSize(AppSize.s5),
+            ),
             decoration: BoxDecoration(
               color: AppColors.lightGray,
-              borderRadius: BorderRadius.circular(AppSize.s2.r),
+              borderRadius: BorderRadius.circular(
+                context.setMinSize(AppSize.s2),
+              ),
             ),
           ),
-          verticalSpaceRemoved(AppSize.s20),
+          verticalSpace(context, AppSize.s20),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               CustomText(
                 text: AppStrings.filter.tr(),
-                style: Theme.of(
-                  context,
-                ).textTheme.headlineMedium!.copyWith(fontSize: AppSize.s20.sp),
+                style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                  fontSize: context.setSp(AppSize.s20),
+                ),
               ),
               CustomText(
                 text: AppStrings.reset.tr(),
-                style: Theme.of(
-                  context,
-                ).textTheme.titleMedium!.copyWith(fontSize: AppSize.s12.sp),
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                  fontSize: context.setSp(AppSize.s12),
+                ),
               ),
             ],
           ),
 
-          verticalSpaceRemoved(AppSize.s30),
+          verticalSpace(context, AppSize.s30),
           GridView.count(
-            crossAxisCount: 3,
-            mainAxisSpacing: AppSize.s20.h,
-            crossAxisSpacing: AppSize.s7.w,
+            crossAxisCount: DeviceUtils.valueDecider<int>(
+              context,
+              onMobile: 3,
+              others: 4,
+            ),
+            mainAxisSpacing: context.setMinSize(AppSize.s20),
+            crossAxisSpacing: context.setMinSize(AppSize.s7),
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             childAspectRatio: 2.5,
             children: List.generate(9, (index) => ItemFilterBottomSheet()),
           ),
-          verticalSpaceRemoved(AppSize.s40),
+          verticalSpace(context, AppSize.s40),
           CustomElevatedButton(onTap: () {}, title: AppStrings.filter.tr()),
-          verticalSpaceRemoved(AppSize.s40),
+          verticalSpace(context, AppSize.s40),
         ],
       ),
     );

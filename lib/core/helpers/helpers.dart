@@ -80,7 +80,7 @@ class Helper {
               ),
               child: const Icon(Icons.check, color: AppColors.white),
             ),
-            horizontalSpaceRemoved(AppSize.s10),
+            horizontalSpace(context, AppSize.s10),
             CustomText(
               text: AppStrings.addToCartSuccessfully.tr(),
               textAlign: TextAlign.center,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vibe_in/core/helpers/extensions.dart';
+import 'package:vibe_in/core/helpers/responsive_helper/sizer_helper_extension.dart';
 import 'package:vibe_in/core/theming/app_size.dart';
 import 'package:vibe_in/features/cart/ui/widgets/item_list_view_cart_widget.dart';
 
@@ -14,8 +14,9 @@ class ListViewCartWidget extends StatelessWidget {
         itemCount: 4,
         shrinkWrap: true,
         itemBuilder:
-            (context, index) =>
-                ItemListViewCartWidget().marginOnly(bottom: AppSize.s20.h),
+            (context, index) => ItemListViewCartWidget().marginOnly(
+              bottom: context.setHeight(AppSize.s20),
+            ),
       ),
     );
   }

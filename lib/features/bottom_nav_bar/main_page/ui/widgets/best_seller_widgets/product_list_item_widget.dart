@@ -59,6 +59,7 @@ class _ProductListItemWidgetState extends State<ProductListItemWidget>
         showModalBottomSheet(
           context: context,
           isScrollControlled: true,
+          constraints: BoxConstraints(minWidth: double.infinity),
           builder: (context) {
             return BlocProvider(
               create: (context) => ProductDetailsCubit(widget.productModel),
@@ -140,6 +141,7 @@ class _ProductListItemWidgetState extends State<ProductListItemWidget>
               style: Theme.of(context).textTheme.titleSmall!.copyWith(
                 color: AppColors.gray,
                 fontWeight: FontWeightHelper.medium,
+                fontSize: context.setSp(AppSize.s12),
               ),
             ),
             verticalSpace(context, AppSize.s2),
@@ -175,7 +177,9 @@ class _ProductListItemWidgetState extends State<ProductListItemWidget>
                     text:
                         '${AppStrings.aed.tr()} ${widget.productModel.prices![0].price}',
                     maxLines: 1,
-                    style: Theme.of(context).textTheme.titleMedium,
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                      fontSize: context.setSp(AppSize.s14),
+                    ),
                   ),
                   GestureDetector(
                     onTap: _toggleAdd,

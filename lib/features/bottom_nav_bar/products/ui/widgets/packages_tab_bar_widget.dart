@@ -46,7 +46,7 @@ class PackagesTabBarWidget extends StatelessWidget {
                 onTap: () {
                   showModalBottomSheet(
                     context: context,
-
+                    constraints: BoxConstraints(minWidth: double.infinity),
                     isScrollControlled: true,
                     builder: (context) {
                       return FilterProductsBottomSheet();

@@ -1,11 +1,8 @@
-import 'dart:developer';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:vibe_in/core/di/dependency_injection.dart';
 import 'package:vibe_in/core/helpers/extensions.dart';
+import 'package:vibe_in/core/helpers/responsive_helper/sizer_helper_extension.dart';
 import 'package:vibe_in/core/helpers/spacing.dart';
 import 'package:vibe_in/core/theming/app_colors.dart';
 import 'package:vibe_in/core/theming/app_images.dart';
@@ -36,6 +33,8 @@ class CustomizeAndAddToCartWidget extends StatelessWidget {
               showModalBottomSheet(
                 context: context,
                 isScrollControlled: true,
+                constraints: BoxConstraints(minWidth: double.infinity),
+
                 builder: (context) {
                   return BlocProvider.value(
                     value: packageDetailsCubit,
@@ -49,20 +48,22 @@ class CustomizeAndAddToCartWidget extends StatelessWidget {
               });
             },
             child: Container(
-              height: AppSize.s56,
+              height: context.setHeight(AppSize.s56),
               decoration: BoxDecoration(
                 color: AppColors.black,
-                borderRadius: BorderRadius.circular(AppSize.s8.r),
+                borderRadius: BorderRadius.circular(
+                  context.setMinSize(AppSize.s8),
+                ),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   CustomSvgImage(
                     imageName: AppSvgImage.edit,
-                    height: AppSize.s18.h,
-                    width: AppSize.s18.w,
+                    height: context.setHeight(AppSize.s18),
+                    width: context.setWidth(AppSize.s18),
                   ),
-                  horizontalSpaceRemoved(AppSize.s10),
+                  horizontalSpace(context, AppSize.s10),
                   CustomText(
                     text: AppStrings.customize.tr(),
                     style: Theme.of(
@@ -74,7 +75,7 @@ class CustomizeAndAddToCartWidget extends StatelessWidget {
             ),
           ),
         ),
-        horizontalSpaceRemoved(AppSize.s15),
+        horizontalSpace(context, AppSize.s15),
         Expanded(
           flex: 4,
           child: CustomElevatedButton(
@@ -84,10 +85,10 @@ class CustomizeAndAddToCartWidget extends StatelessWidget {
         ),
       ],
     ).marginOnly(
-      start: AppSize.s16.w,
-      end: AppSize.s16.w,
-      top: AppSize.s16.h,
-      bottom: AppSize.s30.h,
+      start: context.setWidth(AppSize.s16),
+      end: context.setWidth(AppSize.s16),
+      top: context.setHeight(AppSize.s16),
+      bottom: context.setHeight(AppSize.s30),
     );
   }
 }

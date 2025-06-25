@@ -48,9 +48,9 @@ class OrderListViewItemWidget extends StatelessWidget {
                     ),
                     child: CustomText(
                       text: 'Pending',
-                      style: Theme.of(
-                        context,
-                      ).textTheme.titleMedium!.copyWith(color: AppColors.yellow),
+                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                        color: AppColors.yellow,
+                      ),
                     ),
                   ),
                 ],
@@ -101,9 +101,8 @@ class OrderListViewItemWidget extends StatelessWidget {
                           CustomText(
                             text: 'Dolce Gusto',
                             maxLines: 1,
-                            style: Theme.of(
-                              context,
-                            ).textTheme.titleSmall!.copyWith(color: AppColors.gray),
+                            style: Theme.of(context).textTheme.titleSmall!
+                                .copyWith(color: AppColors.gray),
                           ),
                           verticalSpace(context, AppSize.s4),
                           CustomText(
@@ -111,18 +110,17 @@ class OrderListViewItemWidget extends StatelessWidget {
                             maxLines: 1,
                             style: Theme.of(
                               context,
-                            ).textTheme.titleMedium!.copyWith(
+                            ).textTheme.titleLarge!.copyWith(
                               color: AppColors.mainBrown,
-                              fontSize: context.setSp(AppSize.s16),
+                              fontWeight: FontWeightHelper.medium,
                             ),
                           ),
                           verticalSpace(context, AppSize.s4),
                           CustomText(
                             text: '${AppStrings.products.tr()}: X2',
                             maxLines: 1,
-                            style: Theme.of(
-                              context,
-                            ).textTheme.titleSmall!.copyWith(color: AppColors.gray),
+                            style: Theme.of(context).textTheme.titleSmall!
+                                .copyWith(color: AppColors.gray),
                           ),
                         ],
                       ),
@@ -132,7 +130,7 @@ class OrderListViewItemWidget extends StatelessWidget {
               ),
             ],
           ).marginOnly(bottom: context.setHeight(AppSize.s24));
-        }
+        },
       ),
     );
   }
