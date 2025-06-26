@@ -1,9 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:vibe_in/core/helpers/responsive_helper/size_provider.dart';
 import 'package:vibe_in/core/theming/app_strings.dart';
 import 'package:vibe_in/features/auth/login/cubit/login_cubit.dart';
 import 'package:vibe_in/features/auth/login/cubit/login_state.dart';
@@ -32,24 +32,23 @@ void main() {
       supportedLocales: const [Locale('en'), Locale('ar')],
       path: 'assets/translations',
       fallbackLocale: const Locale('en'),
-      startLocale: const Locale('en'), // Default language
-      child: ScreenUtilInit(
-        designSize: const Size(375, 812), // نفس التصميم الأصلي
-        minTextAdapt: true,
-        splitScreenMode: true,
-        builder: (context, child) {
-          return MaterialApp(
-            locale: const Locale('en'),
-            // localizationsDelegates: context.localizationDelegates,
-            // supportedLocales: context.supportedLocales,
-            builder:
-                (context, widget) => MediaQuery(
-                  data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
-                  child: widget!,
-                ),
-            home: BlocProvider<LoginCubit>.value(
-              value: mockLoginCubit,
-              child: const LoginScreen(),
+      startLocale: const Locale('en'),
+      child: MaterialApp(
+        locale: const Locale('en'),
+        builder: (context, widget) {
+          return MediaQuery(
+            data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+            child: SizeProvider(
+              baseSize: const Size(393, 852),
+              width: 393,
+              height: 852,
+              child: Builder(
+                builder:
+                    (context) => BlocProvider<LoginCubit>.value(
+                      value: mockLoginCubit,
+                      child: const LoginScreen(),
+                    ),
+              ),
             ),
           );
         },

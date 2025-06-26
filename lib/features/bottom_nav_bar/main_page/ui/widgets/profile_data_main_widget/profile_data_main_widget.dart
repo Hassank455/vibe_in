@@ -25,8 +25,8 @@ class ProfileDataMainWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizeProvider(
-      baseSize: Size(context.scaleWidget, AppSize.s60),
-      width: context.scaleWidget,
+      baseSize: Size(context.scaleWidth, AppSize.s60),
+      width: context.scaleWidth,
       height: context.setHeight(AppSize.s60),
       child: BlocBuilder<ProfileCubit, ProfileState>(
         builder: (context, state) {
