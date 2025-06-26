@@ -77,8 +77,9 @@ class BestSellerScreen extends StatelessWidget {
                                           )
                                           : DeviceUtils.valueDecider<double>(
                                             context,
-                                            onMobile: 0.5,
-                                            others: 0.54,
+                                            onMobile: 0.52,
+                                            onTablet: 0.5,
+                                            onDesktop: 0.55,
                                           ),
                                 ),
                             itemCount:
