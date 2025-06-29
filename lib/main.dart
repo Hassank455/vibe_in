@@ -21,7 +21,6 @@ Future<void> main({String? initialRouteOverride}) async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
   await Future.wait<void>([
-    // ScreenUtil.ensureScreenSize(),
     EasyLocalization.ensureInitialized(),
     setupGetIt(),
     SharedPrefHelper().initSharedPreference(),
