@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
-import 'package:vibe_in/core/networking/api_constants.dart';
 import 'package:vibe_in/core/networking/generic_api_response.dart';
 import 'package:vibe_in/features/auth/login/data/models/login_request_body.dart';
 import 'package:vibe_in/features/auth/login/data/models/login_response.dart';
@@ -18,39 +17,39 @@ part 'api_service.g.dart';
 abstract class ApiService {
   factory ApiService(Dio dio, {String baseUrl}) = _ApiService;
 
-  @POST(ApiConstants.login)
+  @POST('mobile/send-otp')
   Future<LoginResponse> login(@Body() LoginRequestBody loginRequestBody);
 
-  @POST(ApiConstants.checkOtp)
+  @POST('mobile/verify-otp')
   Future<VerificationResponse> checkOTP(
     @Body() VerificationRequestBody verificationRequestBody,
   );
 
-  @GET(ApiConstants.onboarding)
+  @GET('mobile/onbording')
   Future<OnboardingModel> getOnboarding();
 
-  @POST(ApiConstants.logout)
+  @POST('mobile/logout')
   Future<dynamic> logout();
 
-  @GET(ApiConstants.sliders)
+  @GET('mobile/sliders')
   Future<ApiResponse<List<SliderModel>>> getSliders();
 
-  @GET(ApiConstants.profile)
+  @GET('mobile/profile')
   Future<ProfileModel> getProfile();
 
-  @GET(ApiConstants.bestSellerProducts)
+  @GET('mobile/products/best/')
   Future<ApiResponse<List<ProductModel>>> getBestSellerProducts(
     @Query('per_page') int? perPage,
     @Query('page') int? page,
   );
 
-  @GET(ApiConstants.packages)
+  @GET('mobile/packages')
   Future<ApiResponse<List<PackageModel>>> getPackages(
     @Query('per_page') int? perPage,
     @Query('page') int? page,
     @Query('search') String? search,
   );
 
-  @GET('${ApiConstants.packages}/{id}')
+  @GET('mobile/packages/{id}')
   Future<ApiResponse<PackageModel>> getSinglePackage(@Path('id') int id);
 }
