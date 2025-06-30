@@ -10,7 +10,6 @@ import 'package:vibe_in/features/auth/onboarding/data/repo/onboarding_repo.dart'
 import 'package:vibe_in/features/auth/verification/cubit/verification_cubit.dart';
 import 'package:vibe_in/features/auth/verification/data/repo/verification_repo.dart';
 import 'package:vibe_in/features/best_seller_screen/cubit/best_seller_cubit.dart';
-import 'package:vibe_in/features/best_seller_screen/data/best_seller_repo.dart';
 import 'package:vibe_in/features/bottom_nav_bar/home/cubit/home_cubit.dart';
 import 'package:vibe_in/features/bottom_nav_bar/main_page/cubit/main_page_cubit.dart';
 import 'package:vibe_in/features/bottom_nav_bar/main_page/data/repo/main_page_repo.dart';
@@ -64,7 +63,6 @@ Future<void> setupGetIt() async {
   getIt.registerFactory<MainPageRepo>(() => MainPageRepo(getIt()));
   getIt.registerLazySingleton<MainPageCubit>(() => MainPageCubit(getIt()));
   // Main Page
-  getIt.registerFactory<BestSellerRepo>(() => BestSellerRepo(getIt()));
   getIt.registerFactory<BestSellerCubit>(() => BestSellerCubit(getIt()));
 
   getIt.registerFactory<PackagesCubit>(() => PackagesCubit(getIt()));
