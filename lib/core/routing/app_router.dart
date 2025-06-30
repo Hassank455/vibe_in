@@ -7,6 +7,7 @@ import 'package:vibe_in/features/auth/onboarding/cubit/onboarding_cubit.dart';
 import 'package:vibe_in/features/auth/onboarding/ui/onboarding_screen.dart';
 import 'package:vibe_in/features/auth/verification/cubit/verification_cubit.dart';
 import 'package:vibe_in/features/auth/verification/ui/verification_screen.dart';
+import 'package:vibe_in/features/best_seller_screen/cubit/best_seller_cubit.dart';
 import 'package:vibe_in/features/best_seller_screen/ui/best_seller_screen.dart';
 import 'package:vibe_in/features/bottom_nav_bar/home/cubit/home_cubit.dart';
 import 'package:vibe_in/features/bottom_nav_bar/home/ui/home_screen.dart';
@@ -18,6 +19,9 @@ import 'package:vibe_in/features/bottom_nav_bar/orders/cubit/orders_cubit.dart';
 import 'package:vibe_in/features/bottom_nav_bar/products/cubit/products_cubit.dart';
 import 'package:vibe_in/features/bottom_nav_bar/profile/cubit/profile_cubit.dart';
 import 'package:vibe_in/features/cart/ui/cart_screen.dart';
+import 'package:vibe_in/features/package_details/cubit/package_details_cubit.dart';
+import 'package:vibe_in/features/package_details/ui/package_details_screen.dart';
+import 'package:vibe_in/features/packages_screen/cubit/packages_cubit.dart';
 import 'package:vibe_in/features/packages_screen/ui/packages_screen.dart';
 
 class AppRouter {
@@ -42,7 +46,12 @@ class AppRouter {
                 providers: [
                   BlocProvider(create: (context) => getIt<HomeCubit>()),
                   BlocProvider(
-                    create: (context) => getIt<MainPageCubit>()..getSliders(),
+                    create:
+                        (context) =>
+                            getIt<MainPageCubit>()
+                              ..getSliders()
+                              ..getBestSellerProducts()
+                              ..getPackages(),
                   ),
                   BlocProvider(
                     create:
@@ -63,15 +72,40 @@ class AppRouter {
               ),
         );
       case Routes.bestSellerScreen:
-        return MaterialPageRoute(builder: (_) => const BestSellerScreen());
+        return MaterialPageRoute(
+          builder:
+              (_) => BlocProvider(
+                create:
+                    (context) =>
+                        getIt<BestSellerCubit>()..getBestSellerProducts(),
+                child: const BestSellerScreen(),
+              ),
+        );
       case Routes.packagesScreen:
-        return MaterialPageRoute(builder: (_) => const PackagesScreen());
+        return MaterialPageRoute(
+          builder:
+              (_) => BlocProvider(
+                create: (context) => getIt<PackagesCubit>()..getPackages(),
+                child: const PackagesScreen(),
+              ),
+        );
       case Routes.orderDetailsScreen:
         return MaterialPageRoute(builder: (_) => const OrderDetailsScreen());
       case Routes.cartScreen:
         return MaterialPageRoute(builder: (_) => const CartScreen());
       case Routes.checkoutScreen:
         return MaterialPageRoute(builder: (_) => const CheckoutScreen());
+      case Routes.packageDetailsScreen:
+        return MaterialPageRoute(
+          builder:
+              (_) => BlocProvider(
+                create:
+                    (context) =>
+                        getIt<PackageDetailsCubit>()
+                          ..getPackages(arguments as int),
+                child: const PackageDetailsScreen(),
+              ),
+        );
       case Routes.verificationScreen:
         final args = arguments as Map<String, dynamic>?;
         return MaterialPageRoute(

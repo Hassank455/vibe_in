@@ -9,6 +9,7 @@ import 'package:vibe_in/core/theming/app_size.dart';
 import 'package:vibe_in/core/theming/app_strings.dart';
 import 'package:vibe_in/core/widgets/custom_image.dart';
 import 'package:vibe_in/core/widgets/custom_text_form_field.dart';
+import 'package:vibe_in/features/bottom_nav_bar/main_page/data/models/product_model.dart';
 import 'package:vibe_in/features/bottom_nav_bar/main_page/ui/widgets/best_seller_widgets/product_list_item_widget.dart';
 import 'package:vibe_in/features/bottom_nav_bar/products/ui/widgets/filter_bottom_sheet/filter_products_bottom_sheet.dart';
 
@@ -75,19 +76,19 @@ class ProductTabBarWidget extends StatelessWidget {
           ),
         ),
         verticalSpace(AppSize.s20),
-        Expanded(
-          child: GridView.count(
-            crossAxisCount: 2,
-            mainAxisSpacing: AppSize.s20.h,
-            crossAxisSpacing: AppSize.s27.w,
-            shrinkWrap: true,
-            childAspectRatio: 0.5,
-            children: List.generate(
-              10,
-              (index) => const ProductListItemWidget(),
-            ),
-          ),
-        ),
+        // Expanded(
+        //   child: GridView.count(
+        //     crossAxisCount: 2,
+        //     mainAxisSpacing: AppSize.s20.h,
+        //     crossAxisSpacing: AppSize.s27.w,
+        //     shrinkWrap: true,
+        //     childAspectRatio: 0.5,
+        //     children: List.generate(
+        //       10,
+        //       (index) => ProductListItemWidget(productModel: ProductModel()),
+        //     ),
+        //   ),
+        // ),
       ],
     ).marginSymmetric(horizontal: AppSize.s16.w);
   }

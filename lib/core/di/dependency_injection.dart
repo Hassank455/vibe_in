@@ -9,6 +9,8 @@ import 'package:vibe_in/features/auth/onboarding/cubit/onboarding_cubit.dart';
 import 'package:vibe_in/features/auth/onboarding/data/repo/onboarding_repo.dart';
 import 'package:vibe_in/features/auth/verification/cubit/verification_cubit.dart';
 import 'package:vibe_in/features/auth/verification/data/repo/verification_repo.dart';
+import 'package:vibe_in/features/best_seller_screen/cubit/best_seller_cubit.dart';
+import 'package:vibe_in/features/best_seller_screen/data/best_seller_repo.dart';
 import 'package:vibe_in/features/bottom_nav_bar/home/cubit/home_cubit.dart';
 import 'package:vibe_in/features/bottom_nav_bar/main_page/cubit/main_page_cubit.dart';
 import 'package:vibe_in/features/bottom_nav_bar/main_page/data/repo/main_page_repo.dart';
@@ -16,6 +18,10 @@ import 'package:vibe_in/features/bottom_nav_bar/orders/cubit/orders_cubit.dart';
 import 'package:vibe_in/features/bottom_nav_bar/products/cubit/products_cubit.dart';
 import 'package:vibe_in/features/bottom_nav_bar/profile/cubit/profile_cubit.dart';
 import 'package:vibe_in/features/bottom_nav_bar/profile/data/repo/profile_repo.dart';
+import 'package:vibe_in/features/package_details/cubit/package_details_cubit.dart';
+import 'package:vibe_in/features/package_details/data/repo/package_details_repo.dart';
+import 'package:vibe_in/features/packages_screen/cubit/packages_cubit.dart';
+import 'package:vibe_in/features/product_details/cubit/product_details_cubit.dart';
 
 //! important
 // registerLazySingleton => create one instant and use it in all app
@@ -58,4 +64,23 @@ Future<void> setupGetIt() async {
   // Main Page
   getIt.registerFactory<MainPageRepo>(() => MainPageRepo(getIt()));
   getIt.registerLazySingleton<MainPageCubit>(() => MainPageCubit(getIt()));
+  // Main Page
+  getIt.registerFactory<BestSellerRepo>(() => BestSellerRepo(getIt()));
+  getIt.registerFactory<BestSellerCubit>(() => BestSellerCubit(getIt()));
+
+  getIt.registerFactory<PackagesCubit>(() => PackagesCubit(getIt()));
+
+  // Package Details
+  getIt.registerFactory<PackageDetailsRepo>(() => PackageDetailsRepo(getIt()));
+  getIt.registerFactory<PackageDetailsCubit>(
+    () => PackageDetailsCubit(getIt()),
+  );
+  // Product Details
+  // getIt.registerFactory<ProductDetailsCubit>(() => ProductDetailsCubit());
+}
+
+// to reset di
+Future<void> resetAndSetupDependencies() async {
+  await getIt.reset();
+  await setupGetIt();
 }

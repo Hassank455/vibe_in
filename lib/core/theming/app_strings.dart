@@ -1,15 +1,27 @@
 class AppStrings {
   static const english = 'English';
   static const arabic = 'Arabic';
+  static const aed = 'AED';
   static const welcomeBack = 'Welcome back';
   static const enterYourMobileNumber = 'Enter your mobile number';
   static const mobileNumber = 'Mobile Number';
   static const continueText = 'Continue';
   static const verify = 'Verify';
+  static const pleaseEnterSomething = 'Please enter something';
   static const timeOut = 'Time Out';
   static const otpMismatch = 'OTP Mismatch';
   static const startNow = 'Start Now';
   static const next = 'Next';
+  static const saveChanges = 'Save changes';
+  static const addOn = 'Add-On';
+  static const pleaseSelectOnlyOne = 'Please select only one item from the set';
+  static const customize = 'Customize';
+  static const description = 'Description';
+  static const contents = 'Contents';
+  static const numberOfMonthlyCycles = 'Number of Monthly Cycles Per Pack';
+  static const totalPrice = 'Total Price';
+  static const selectWeight = 'Select Weight';
+  static const gm = 'gm.';
   static const getHelp = 'Get Help';
   static const haveAnIssueWithOrder = 'Have an issue with your order?';
   static const paymentMethod = 'Payment Method';

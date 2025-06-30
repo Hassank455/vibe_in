@@ -10,6 +10,7 @@ class AppColors {
   static const Color lightGray = Color(0xFFB9BABD);
   static const Color textFiledBackground = Color(0xFFF7F7F7);
   static const Color strongGray = Color(0xFFB9BABD);
+  static const Color lightestGray = Color(0xFFFAFAFA);
 
   //For Shimmer
   static const Color darkGrey = Color(0xFF2E2E2E); // رمادي غامق

@@ -14,13 +14,13 @@ class QuantityIncreaseDecreaseWidget extends StatelessWidget {
   final bool canEdit;
   final Color backgroundColor;
 
-  QuantityIncreaseDecreaseWidget({
+  const QuantityIncreaseDecreaseWidget({
     super.key,
     required this.onTapDecrease,
     required this.onTapIncrease,
     required this.quantity,
     this.canEdit = true,
-   required this.backgroundColor ,
+    required this.backgroundColor,
   });
 
   @override
