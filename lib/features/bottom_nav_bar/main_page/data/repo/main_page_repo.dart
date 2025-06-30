@@ -20,12 +20,13 @@ class MainPageRepo {
     }
   }
 
-  Future<ApiResult<List<ProductModel>>> getBestSellerProducts({
+  Future<ApiResult<ApiResponse<List<ProductModel>>>> getBestSellerProducts({
     required int perPage,
+    required int page,
   }) async {
     try {
-      final response = await _apiService.getBestSellerProducts(perPage, 1);
-      return ApiResult.success(response.data);
+      final response = await _apiService.getBestSellerProducts(perPage, page);
+      return ApiResult.success(response);
     } catch (error) {
       return ApiResult.failure(ApiErrorHandler.handle(error));
     }

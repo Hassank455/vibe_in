@@ -35,12 +35,15 @@ class MainPageCubit extends Cubit<MainPageState> {
 
   Future<void> getBestSellerProducts() async {
     emit(state.copyWith(bestSellerState: RequestsStatus.loading));
-    final response = await _mainPageRepo.getBestSellerProducts(perPage: 10);
+    final response = await _mainPageRepo.getBestSellerProducts(
+      perPage: 10,
+      page: 1,
+    );
     if (response.isSuccess) {
       emit(
         state.copyWith(
           bestSellerState: RequestsStatus.success,
-          bestSellerModel: response.data,
+          bestSellerModel: response.data!.data,
         ),
       );
     } else {

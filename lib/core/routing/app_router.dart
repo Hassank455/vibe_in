@@ -77,7 +77,7 @@ class AppRouter {
               (_) => BlocProvider(
                 create:
                     (context) =>
-                        getIt<BestSellerCubit>()..getBestSellerProducts(),
+                        getIt<BestSellerCubit>()..refreshBestSellerProducts(),
                 child: const BestSellerScreen(),
               ),
         );
@@ -85,7 +85,7 @@ class AppRouter {
         return MaterialPageRoute(
           builder:
               (_) => BlocProvider(
-                create: (context) => getIt<PackagesCubit>()..getPackages(),
+                create: (context) => getIt<PackagesCubit>()..refreshPackages(),
                 child: const PackagesScreen(),
               ),
         );

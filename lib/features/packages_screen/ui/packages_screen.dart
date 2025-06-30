@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:vibe_in/core/helpers/enum.dart';
 import 'package:vibe_in/core/helpers/extensions.dart';
 import 'package:vibe_in/core/helpers/responsive_helper/sizer_helper_extension.dart';
@@ -13,11 +12,10 @@ import 'package:vibe_in/core/widgets/custom_app_bar.dart';
 import 'package:vibe_in/core/widgets/custom_image.dart';
 import 'package:vibe_in/core/widgets/custom_text.dart';
 import 'package:vibe_in/core/widgets/custom_text_form_field.dart';
-import 'package:vibe_in/features/bottom_nav_bar/main_page/data/models/package_model.dart';
-import 'package:vibe_in/features/bottom_nav_bar/main_page/ui/widgets/packages_home_widget/packages_list_item_widget.dart';
 import 'package:vibe_in/features/packages_screen/cubit/packages_cubit.dart';
 import 'package:vibe_in/features/packages_screen/cubit/packages_state.dart';
 import 'package:vibe_in/features/packages_screen/ui/widgets/loading_packages_screen.dart';
+import 'package:vibe_in/features/packages_screen/ui/widgets/success_package_screen.dart';
 
 class PackagesScreen extends StatelessWidget {
   const PackagesScreen({super.key});
@@ -43,12 +41,12 @@ class PackagesScreen extends StatelessWidget {
               return;
             },
             onFieldSubmitted: (p0) {
-              packagesCubit.getPackages();
+              packagesCubit.refreshPackages();
             },
             hintText: AppStrings.search.tr(),
             prefixIcon: GestureDetector(
               onTap: () {
-                packagesCubit.getPackages();
+                packagesCubit.refreshPackages();
               },
               child: Padding(
                 padding: EdgeInsetsDirectional.only(
@@ -72,29 +70,11 @@ class PackagesScreen extends StatelessWidget {
                   heightImage: context.setHeight(AppSize.s194),
                 );
               } else if (state.packagesState == RequestsStatus.success) {
-                final List<PackageModel>? packagesModel = state.packagesModel;
-                final loadingItemCount = 4;
-                return Expanded(
-                  child: LazyLoadScrollView(
-                    onEndOfPage: () => packagesCubit.loadMorePackages(),
-                    scrollOffset: 300,
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount:
-                          packagesModel!.length +
-                          (state.isLoadingMore ? loadingItemCount : 0),
-                      itemBuilder: (context, index) {
-                        if (index >= packagesModel.length) {
-                          return const LoadingPackagesScreen();
-                        }
-                        return PackagesListItemWidget(
-                          packageModel: packagesModel[index],
-                          height: context.setHeight(AppSize.s305),
-                          heightImage: context.setHeight(AppSize.s194),
-                        ).marginOnly(bottom: context.setHeight(AppSize.s20));
-                      },
-                    ),
-                  ),
+                return SuccessPackageScreen(
+                  packagesModel: state.packagesModel ?? [],
+                  isLoadingMore: state.isLoadingMore,
+                  onEndOfPage:
+                      () => packagesCubit.refreshPackages(loadMore: true),
                 );
               } else {
                 return Container();
