@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:vibe_in/core/helpers/responsive_helper/sizer_helper_extension.dart';
 import 'package:vibe_in/core/helpers/spacing.dart';
 import 'package:vibe_in/core/theming/app_colors.dart';
 import 'package:vibe_in/core/theming/app_size.dart';
@@ -22,24 +22,24 @@ class MainPackageInfoWidget extends StatelessWidget {
       children: [
         CustomCachedNetworkImage(
           urlImage: package.images!.first.url!,
-          height: AppSize.s196.h,
+          height: context.setHeight(AppSize.s196),
           width: double.infinity,
-          borderNumber: AppSize.s8.r,
+          borderRadius: context.setMinSize(AppSize.s8),
           // fit: BoxFit.contain,
         ),
-        verticalSpace(AppSize.s16),
+        verticalSpace(context, AppSize.s16),
         CustomText(
           text: package.name,
           style: Theme.of(
             context,
-          ).textTheme.titleLarge!.copyWith(fontSize: AppSize.s18.sp),
+          ).textTheme.titleLarge!.copyWith(fontSize: AppSize.s18),
         ),
-        verticalSpace(AppSize.s10),
+        verticalSpace(context, AppSize.s10),
         CustomText(
           text:
               '${AppStrings.aed.tr()} ${context.read<PackageDetailsCubit>().state.totalPrice}',
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
-            fontSize: AppSize.s22.sp,
+            fontSize: AppSize.s22,
             color: AppColors.mainBrown,
           ),
         ),

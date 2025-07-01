@@ -6,6 +6,7 @@ import 'package:vibe_in/core/di/dependency_injection.dart';
 import 'package:vibe_in/core/helpers/enum.dart';
 import 'package:vibe_in/core/helpers/extensions.dart';
 import 'package:vibe_in/core/helpers/helpers.dart';
+import 'package:vibe_in/core/helpers/responsive_helper/sizer_helper_extension.dart';
 import 'package:vibe_in/core/helpers/spacing.dart';
 import 'package:vibe_in/core/routing/routes.dart';
 import 'package:vibe_in/core/theming/app_colors.dart';
@@ -36,19 +37,27 @@ class ButtonAndResendOtpWidget extends StatelessWidget {
           if (getIt.isRegistered<ProfileCubit>()) {
             await getIt<ProfileCubit>().close();
             await getIt.unregister<ProfileCubit>();
-            getIt.registerLazySingleton<ProfileCubit>(() => ProfileCubit(getIt()));
-          }else{
-            getIt.registerLazySingleton<ProfileCubit>(() => ProfileCubit(getIt()));
+            getIt.registerLazySingleton<ProfileCubit>(
+              () => ProfileCubit(getIt()),
+            );
+          } else {
+            getIt.registerLazySingleton<ProfileCubit>(
+              () => ProfileCubit(getIt()),
+            );
           }
 
           if (getIt.isRegistered<MainPageCubit>()) {
             await getIt<MainPageCubit>().close();
             await getIt.unregister<MainPageCubit>();
-            getIt.registerLazySingleton<MainPageCubit>(() => MainPageCubit(getIt()));
-          }else{
-            getIt.registerLazySingleton<MainPageCubit>(() => MainPageCubit(getIt()));
+            getIt.registerLazySingleton<MainPageCubit>(
+              () => MainPageCubit(getIt()),
+            );
+          } else {
+            getIt.registerLazySingleton<MainPageCubit>(
+              () => MainPageCubit(getIt()),
+            );
           }
-          
+
           context.pushNamedAndRemoveUntil(
             Routes.homeScreen,
             predicate: (route) => false,
@@ -76,7 +85,7 @@ class ButtonAndResendOtpWidget extends StatelessWidget {
               isLoading: state.verificationStatus == RequestsStatus.loading,
               title: AppStrings.verify.tr(),
             ),
-            verticalSpace(AppSize.s40),
+            verticalSpace(context,AppSize.s40),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -87,18 +96,18 @@ class ButtonAndResendOtpWidget extends StatelessWidget {
                     fontWeight: FontWeightHelper.regular,
                   ),
                 ),
-                horizontalSpace(AppSize.s8),
+                verticalSpace(context,AppSize.s8),
                 CustomText(
                   text: verificationCodeCubit.formatTime(),
                   style: Theme.of(
                     context,
                   ).textTheme.titleMedium!.copyWith(color: AppColors.mainBrown),
                 ),
-                horizontalSpace(AppSize.s8),
+                verticalSpace(context,AppSize.s8),
                 state.resendCodeStatus == RequestsStatus.loading
                     ? LoadingAnimationWidget.staggeredDotsWave(
                       color: AppColors.mainBrown,
-                      size: 40,
+                      size: context.setMinSize(AppSize.s40),
                     )
                     : GestureDetector(
                       onTap: () {

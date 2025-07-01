@@ -22,7 +22,7 @@ class HaveAnIssueOrderDetailsWidget extends StatelessWidget {
             context,
           ).textTheme.titleLarge!.copyWith(fontWeight: FontWeightHelper.bold),
         ),
-        verticalSpace(AppSize.s20),
+        verticalSpace(context, AppSize.s20),
         CustomElevatedButton(
           onTap: () {},
           title: AppStrings.getHelp.tr(),

@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:vibe_in/core/helpers/responsive_helper/sizer_helper_extension.dart';
 import 'package:vibe_in/core/theming/app_colors.dart';
 import 'package:vibe_in/core/theming/app_size.dart';
 import 'package:vibe_in/core/theming/app_strings.dart';
@@ -19,12 +19,16 @@ class TabsHeaderOrderWidget extends StatelessWidget {
       selector: (state) => state.currentIndex,
       builder: (context, currentIndex) {
         return Container(
-          height: AppSize.s48.h,
-          margin: EdgeInsets.symmetric(horizontal: AppSize.s16.w),
-          padding: EdgeInsets.all(AppSize.s4.r),
+          height: context.setHeight(AppSize.s48),
+          margin: EdgeInsets.symmetric(
+            horizontal: context.setWidth(AppSize.s16),
+          ),
+          padding: EdgeInsets.all(context.setMinSize(AppSize.s4)),
           decoration: BoxDecoration(
             color: AppColors.textFiledBackground,
-            borderRadius: BorderRadius.circular(AppSize.s30.r),
+            borderRadius: BorderRadius.circular(
+              context.setMinSize(AppSize.s30),
+            ),
           ),
           child: Stack(
             alignment: AlignmentDirectional.centerStart,
@@ -41,12 +45,14 @@ class TabsHeaderOrderWidget extends StatelessWidget {
                 child: Container(
                   width:
                       MediaQuery.of(context).size.width / 3 -
-                      AppSize.s16.w -
+                      context.setWidth(AppSize.s16) -
                       4, // نصف عرض الـ Container مع حسم الهوامش
                   height: double.infinity,
                   decoration: BoxDecoration(
                     color: Colors.black,
-                    borderRadius: BorderRadius.circular(30),
+                    borderRadius: BorderRadius.circular(
+                      context.setMinSize(AppSize.s30),
+                    ),
                   ),
                 ),
               ),
@@ -69,7 +75,7 @@ class TabsHeaderOrderWidget extends StatelessWidget {
                           style: Theme.of(
                             context,
                           ).textTheme.titleMedium!.copyWith(
-                            fontSize: AppSize.s12.sp,
+                            fontSize: context.setSp(AppSize.s12),
                             color: isSelected ? Colors.white : Colors.black,
                           ),
                         ),

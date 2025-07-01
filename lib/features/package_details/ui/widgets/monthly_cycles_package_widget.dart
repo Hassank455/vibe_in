@@ -1,7 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:vibe_in/core/helpers/responsive_helper/size_provider.dart';
+import 'package:vibe_in/core/helpers/responsive_helper/sizer_helper_extension.dart';
 import 'package:vibe_in/core/helpers/spacing.dart';
 import 'package:vibe_in/core/theming/app_colors.dart';
 import 'package:vibe_in/core/theming/app_size.dart';
@@ -28,44 +29,65 @@ class MonthlyCyclesPackageWidget extends StatelessWidget {
             color: AppColors.gray,
           ),
         ),
-        verticalSpace(AppSize.s16),
-        SizedBox(
-          height: AppSize.s32.h,
-          child: ListView.builder(
-            itemCount: cycles!.length,
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (context, index) {
-              return GestureDetector(
-                onTap: () {
-                  packageDetailsCubit.changeSelectedCycle(cycles[index]);
-                },
-                child: Container(
-                  margin: EdgeInsets.only(right: AppSize.s8.w),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: AppSize.s10.w,
-                    vertical: AppSize.s6.h,
-                  ),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(AppSize.s36.r),
-                    border: Border.all(
-                      color:
-                          selectedCycle?.id == cycles[index].id
-                              ? AppColors.mainBrown
-                              : AppColors.lightGray,
+        verticalSpace(context, AppSize.s16),
+        SizeProvider(
+          baseSize: Size(AppSize.s76, AppSize.s32),
+          width: context.setMinSize(AppSize.s76),
+          height: context.setMinSize(AppSize.s32),
+          child: Builder(
+            builder: (context) {
+              return SizedBox(
+                height: context.sizeProvider.height,
+                child: ListView.builder(
+                  itemCount: cycles!.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    return SizedBox(
+                      width: context.sizeProvider.width,
+                      child: GestureDetector(
+                        onTap: () {
+                          packageDetailsCubit.changeSelectedCycle(
+                            cycles[index],
+                          );
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(
+                            right: context.setWidth(AppSize.s8),
+                          ),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: context.setWidth(AppSize.s10),
+                            vertical: context.setHeight(AppSize.s6),
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(
+                              context.setMinSize(AppSize.s36),
+                            ),
+                            border: Border.all(
+                              color:
+                                  selectedCycle?.id == cycles[index].id
+                                      ? AppColors.mainBrown
+                                      : AppColors.lightGray,
 
-                      width: AppSize.s1.w,
-                    ),
-                  ),
-                  child: CustomText(
-                    text: cycles[index].name,
-                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                      fontSize: AppSize.s12.sp,
-                      color:
-                          selectedCycle?.id == cycles[index].id
-                              ? AppColors.mainBrown
-                              : null,
-                    ),
-                  ),
+                              width: context.setWidth(AppSize.s1),
+                            ),
+                          ),
+                          child: CustomText(
+                            text: cycles[index].name,
+                            style: Theme.of(
+                              context,
+                            ).textTheme.titleSmall!.copyWith(
+                              fontWeight: FontWeightHelper.semiBold,
+                              fontSize: context.setSp(AppSize.s12),
+                              color:
+                                  selectedCycle?.id == cycles[index].id
+                                      ? AppColors.mainBrown
+                                      : null,
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
                 ),
               );
             },

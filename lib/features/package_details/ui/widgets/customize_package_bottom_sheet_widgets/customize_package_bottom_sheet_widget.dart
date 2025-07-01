@@ -1,8 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vibe_in/core/helpers/extensions.dart';
+import 'package:vibe_in/core/helpers/responsive_helper/sizer_helper_extension.dart';
 import 'package:vibe_in/core/helpers/spacing.dart';
 import 'package:vibe_in/core/theming/app_colors.dart';
 import 'package:vibe_in/core/theming/app_size.dart';
@@ -29,8 +29,8 @@ class CustomizePackageBottomSheetWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).scaffoldBackgroundColor,
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(AppSize.s15.r),
-          topRight: Radius.circular(AppSize.s15.r),
+          topLeft: Radius.circular(context.setMinSize(AppSize.s15)),
+          topRight: Radius.circular(context.setMinSize(AppSize.s15)),
         ),
       ),
       child: Column(
@@ -40,22 +40,24 @@ class CustomizePackageBottomSheetWidget extends StatelessWidget {
           Align(
             alignment: Alignment.topCenter,
             child: Container(
-              height: AppSize.s5.h,
-              width: AppSize.s53.w,
+              height: context.setHeight(AppSize.s5),
+              width: context.setWidth(AppSize.s53),
               margin: EdgeInsets.only(
-                top: AppSize.s15.h,
-                bottom: AppSize.s20.h,
+                top: context.setHeight(AppSize.s15),
+                bottom: context.setHeight(AppSize.s20),
               ),
               decoration: BoxDecoration(
                 color: AppColors.lightGray,
-                borderRadius: BorderRadius.circular(AppSize.s2.r),
+                borderRadius: BorderRadius.circular(
+                  context.setMinSize(AppSize.s2),
+                ),
               ),
             ),
           ),
           TextAndDescriptionPackageDetailsBottomSheet(title: package.name!),
-          verticalSpace(AppSize.s20),
+          verticalSpace(context, AppSize.s20),
           PrimaryProductsForPackageWidget(),
-          verticalSpace(AppSize.s25),
+          verticalSpace(context, AppSize.s25),
           BlocBuilder<PackageDetailsCubit, PackageDetailsState>(
             builder: (context, state) {
               return TextAndDescriptionPackageDetailsBottomSheet(
@@ -63,9 +65,9 @@ class CustomizePackageBottomSheetWidget extends StatelessWidget {
               );
             },
           ),
-          verticalSpace(AppSize.s20),
+          verticalSpace(context, AppSize.s20),
           AlternativeProductForPackageWidget(),
-          verticalSpace(AppSize.s30),
+          verticalSpace(context, AppSize.s30),
           BlocBuilder<PackageDetailsCubit, PackageDetailsState>(
             builder: (context, state) {
               return Row(
@@ -80,7 +82,6 @@ class CustomizePackageBottomSheetWidget extends StatelessWidget {
                         ),
                         TextSpan(text: ' '),
                         TextSpan(
-                          // text: '( ${state.addOnLength} )',
                           text: '( ${packageDetailsCubit.addOnLength} )',
                           style: Theme.of(context).textTheme.titleMedium,
                         ),
@@ -88,7 +89,6 @@ class CustomizePackageBottomSheetWidget extends StatelessWidget {
                     ),
                   ),
                   CustomText(
-                    // text: '\$${state.addOnPrice}',
                     text: '\$${packageDetailsCubit.addOnPrice}',
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(
                       color: AppColors.mainBrown,
@@ -98,16 +98,16 @@ class CustomizePackageBottomSheetWidget extends StatelessWidget {
                 ],
               );
             },
-          ).marginSymmetric(horizontal: AppSize.s16.w),
-          verticalSpace(AppSize.s16),
+          ).marginSymmetric(horizontal: context.setWidth(AppSize.s16)),
+          verticalSpace(context, AppSize.s16),
           CustomElevatedButton(
             onTap: () {
               packageDetailsCubit.saveChangesForCustomization();
               context.pop();
             },
             title: AppStrings.saveChanges.tr(),
-          ).marginSymmetric(horizontal: AppSize.s16.w),
-          verticalSpace(AppSize.s30),
+          ).marginSymmetric(horizontal: context.setWidth(AppSize.s16)),
+          verticalSpace(context, AppSize.s30),
         ],
       ),
     );

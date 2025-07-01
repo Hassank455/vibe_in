@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vibe_in/core/helpers/extensions.dart';
+import 'package:vibe_in/core/helpers/responsive_helper/size_provider.dart';
+import 'package:vibe_in/core/helpers/responsive_helper/sizer_helper_extension.dart';
 import 'package:vibe_in/core/helpers/spacing.dart';
 import 'package:vibe_in/core/theming/app_colors.dart';
 import 'package:vibe_in/core/theming/app_images.dart';
@@ -18,91 +19,103 @@ class PrimaryProductsForPackageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final packageDetailsCubit = context.read<PackageDetailsCubit>();
-    return BlocBuilder<PackageDetailsCubit, PackageDetailsState>(
-      builder: (context, state) {
-        return SizedBox(
-          height: AppSize.s137.h,
-          child: ListView.builder(
-            itemCount: state.packageModelCopy!.products!.length,
-            padding: EdgeInsets.symmetric(horizontal: AppSize.s16.w),
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (context, index) {
-              return GestureDetector(
-                onTap: () {
-                  packageDetailsCubit.changeSelectedProduct(
-                    state.packageModelCopy!.products![index],
-                  );
-                },
-                child: SizedBox(
-                  width: AppSize.s110.w,
-                  height: AppSize.s137.h,
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: AppSize.s110.h,
-                        width: double.infinity,
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            CustomCachedNetworkImage(
-                              urlImage:
-                                  state.packageModelCopy!.products![index].image!,
-                              height: AppSize.s110.h,
-                              width: double.infinity,
-                              borderNumber: AppSize.s4.r,
-                              fit: BoxFit.contain,
-                            ),
-                            if (state.selectedProduct!.id ==
-                                state.packageModelCopy!.products![index].id)
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: AppColors.black.withOpacity(0.8),
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(AppSize.s4.r),
+    return SizeProvider(
+      baseSize: Size(AppSize.s110, AppSize.s137),
+      width: context.setMinSize(AppSize.s110),
+      height: context.setMinSize(AppSize.s137),
+      child: BlocBuilder<PackageDetailsCubit, PackageDetailsState>(
+        builder: (context, state) {
+          return SizedBox(
+            height: context.sizeProvider.height,
+            child: ListView.builder(
+              itemCount: state.packageModelCopy!.products!.length,
+              padding: EdgeInsets.symmetric(
+                horizontal: context.setWidth(AppSize.s16),
+              ),
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  onTap: () {
+                    packageDetailsCubit.changeSelectedProduct(
+                      state.packageModelCopy!.products![index],
+                    );
+                  },
+                  child: SizedBox(
+                    width: context.sizeProvider.width,
+                    height: context.sizeProvider.height,
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: context.setHeight(AppSize.s110),
+                          width: double.infinity,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              CustomCachedNetworkImage(
+                                urlImage:
+                                    state
+                                        .packageModelCopy!
+                                        .products![index]
+                                        .image!,
+                                height: context.setHeight(AppSize.s110),
+                                width: double.infinity,
+                                borderRadius: context.setMinSize(AppSize.s4),
+                                fit: BoxFit.contain,
+                              ),
+                              if (state.selectedProduct!.id ==
+                                  state.packageModelCopy!.products![index].id)
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: AppColors.black.withOpacity(0.8),
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(
+                                        context.setMinSize(AppSize.s4),
+                                      ),
+                                    ),
                                   ),
                                 ),
+                              Container(
+                                alignment: Alignment.center,
+                                width: context.setWidth(AppSize.s42),
+                                height: context.setHeight(AppSize.s42),
+                                decoration: BoxDecoration(
+                                  color:
+                                      state.selectedProduct!.id ==
+                                              state
+                                                  .packageModelCopy!
+                                                  .products![index]
+                                                  .id
+                                          ? AppColors.mainBrown
+                                          : AppColors.black,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: CustomSvgImage(
+                                  imageName: AppSvgImage.edit,
+                                  color: AppColors.white,
+                                  height: context.setHeight(AppSize.s18),
+                                  width: context.setWidth(AppSize.s18),
+                                ),
                               ),
-                            Container(
-                              alignment: Alignment.center,
-                              width: AppSize.s42.w,
-                              height: AppSize.s42.h,
-                              decoration: BoxDecoration(
-                                color:
-                                    state.selectedProduct!.id ==
-                                            state
-                                                .packageModelCopy!
-                                                .products![index]
-                                                .id
-                                        ? AppColors.mainBrown
-                                        : AppColors.black,
-                                shape: BoxShape.circle,
-                              ),
-                              child: CustomSvgImage(
-                                imageName: AppSvgImage.edit,
-                                color: AppColors.white,
-                                height: AppSize.s18.h,
-                                width: AppSize.s18.w,
-                              ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                      verticalSpace(AppSize.s10),
-                      CustomText(
-                        text: state.packageModelCopy!.products![index].name,
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          fontSize: AppSize.s12.sp,
+                        verticalSpace(context, AppSize.s10),
+                        CustomText(
+                          text: state.packageModelCopy!.products![index].name,
+                          textAlign: TextAlign.center,
+                          maxLines: 1,
+                          style: Theme.of(context).textTheme.titleLarge!
+                              .copyWith(fontSize: context.setSp(AppSize.s12)),
                         ),
-                      ),
-                    ],
-                  ),
-                ).marginOnly(end: AppSize.s10.w),
-              );
-            },
-          ),
-        );
-      },
+                      ],
+                    ),
+                  ).marginOnly(end: context.setWidth(AppSize.s10)),
+                );
+              },
+            ),
+          );
+        },
+      ),
     );
   }
 }

@@ -1,8 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vibe_in/core/helpers/extensions.dart';
+import 'package:vibe_in/core/helpers/responsive_helper/sizer_helper_extension.dart';
 import 'package:vibe_in/core/helpers/spacing.dart';
 import 'package:vibe_in/core/theming/app_colors.dart';
 import 'package:vibe_in/core/theming/app_size.dart';
@@ -27,14 +27,14 @@ class LoginScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            verticalSpace(AppSize.s20),
+            verticalSpace(context, AppSize.s20),
             CustomText(
               text: AppStrings.welcomeBack.tr(),
               style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                 fontWeight: FontWeightHelper.bold,
               ),
             ),
-            verticalSpace(AppSize.s7),
+            verticalSpace(context, AppSize.s7),
             CustomText(
               text: AppStrings.enterYourMobileNumber.tr(),
               style: Theme.of(context).textTheme.titleMedium!.copyWith(
@@ -42,12 +42,12 @@ class LoginScreen extends StatelessWidget {
                 fontWeight: FontWeightHelper.regular,
               ),
             ),
-            verticalSpace(AppSize.s34),
+            verticalSpace(context, AppSize.s34),
             PhoneLoginTextFieldWidget(),
-            verticalSpace(AppSize.s50),
+            verticalSpace(context, AppSize.s50),
             ButtonLoginWidget(),
           ],
-        ).marginSymmetric(horizontal: AppSize.s16.w),
+        ).marginSymmetric(horizontal: context.setWidth(AppSize.s16)),
       ).withKey(const Key('login_form')),
     );
   }

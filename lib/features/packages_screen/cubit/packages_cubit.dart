@@ -11,73 +11,50 @@ class PackagesCubit extends Cubit<PackagesState> {
   int currentPage = 1;
   bool hasMoreData = true;
   final TextEditingController searchController = TextEditingController();
-  Future<void> getPackages() async {
-    emit(state.copyWith(packagesState: RequestsStatus.loading));
+
+  Future<void> refreshPackages({bool loadMore = false}) async {
+    if (loadMore) {
+      if (!hasMoreData || state.isLoadingMore) return;
+      emit(state.copyWith(isLoadingMore: true));
+      currentPage++;
+    } else {
+      currentPage = 1;
+      hasMoreData = true;
+      emit(state.copyWith(packagesState: RequestsStatus.loading));
+    }
+
     final response = await _mainPageRepo.getPackages(
       perPage: 10,
       page: currentPage,
       search: searchController.text,
     );
+
     if (response.isSuccess) {
       hasMoreData =
           response.data?.pagination?.currentPage !=
           response.data?.pagination?.lastPage;
+
+      final newPackages = response.data?.data ?? [];
+      final allPackages =
+          loadMore ? [...?state.packagesModel, ...newPackages] : newPackages;
+
       emit(
         state.copyWith(
+          packagesModel: allPackages,
           packagesState: RequestsStatus.success,
-          packagesModel: response.data!.data,
+          isLoadingMore: false,
         ),
       );
     } else {
-      emitError(response);
-    }
-  }
-
-  Future<void> loadMorePackages() async {
-    if (!hasMoreData || state.isLoadingMore) return;
-    emit(state.copyWith(isLoadingMore: true));
-    try {
-      currentPage++;
-      final response = await _mainPageRepo.getPackages(
-        perPage: 10,
-        page: currentPage,
-        search: searchController.text,
+      final errorMessage =
+          response.errorHandler?.getAllErrorMessages() ?? 'An error occurred';
+      emit(
+        state.copyWith(
+          error: errorMessage,
+          packagesState: RequestsStatus.error,
+          isLoadingMore: false,
+        ),
       );
-
-      if (response.isSuccess) {
-        final List<PackageModel> newPackages = response.data?.data ?? [];
-        final List<PackageModel> allPackages = [
-          ...state.packagesModel ?? [],
-          ...newPackages,
-        ];
-        hasMoreData =
-            response.data?.pagination?.currentPage !=
-            response.data?.pagination?.lastPage;
-
-        emit(
-          state.copyWith(
-            packagesModel: allPackages,
-            packagesState: RequestsStatus.success,
-            isLoadingMore: false,
-          ),
-        );
-      } else {
-        emitError(response);
-      }
-    } catch (e) {
-      emit(state.copyWith(isLoadingMore: false));
     }
-  }
-
-  void emitError(response) {
-    final errorMessage =
-        response.errorHandler?.getAllErrorMessages() ?? 'An error occurred';
-    emit(
-      state.copyWith(
-        error: errorMessage,
-        packagesState: RequestsStatus.error,
-        isLoadingMore: false,
-      ),
-    );
   }
 }

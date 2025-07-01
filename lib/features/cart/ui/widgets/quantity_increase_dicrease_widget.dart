@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:vibe_in/core/helpers/responsive_helper/sizer_helper_extension.dart';
 import 'package:vibe_in/core/helpers/spacing.dart';
-import 'package:vibe_in/core/theming/app_colors.dart';
 import 'package:vibe_in/core/theming/app_size.dart';
 import 'package:vibe_in/core/widgets/custom_text.dart';
 
@@ -32,7 +31,7 @@ class QuantityIncreaseDecreaseWidget extends StatelessWidget {
       children: [
         InkWell(
           onTap: onTapDecrease,
-          borderRadius: BorderRadius.circular(AppSize.s9.r),
+          borderRadius: BorderRadius.circular(context.setMinSize(AppSize.s9)),
           child: Container(
             padding: EdgeInsets.all(AppSize.s6),
             clipBehavior: Clip.antiAlias,
@@ -44,21 +43,21 @@ class QuantityIncreaseDecreaseWidget extends StatelessWidget {
             child: Icon(Icons.remove),
           ),
         ),
-        horizontalSpace(AppSize.s10),
+        horizontalSpace(context, AppSize.s10),
         IntrinsicWidth(
           child: CustomText(
             text: quantity.toString(),
-            style: Theme.of(
-              context,
-            ).textTheme.titleMedium!.copyWith(fontSize: AppSize.s16.sp),
+            style: Theme.of(context).textTheme.titleMedium!.copyWith(
+              fontSize: context.setSp(AppSize.s16),
+            ),
           ),
         ),
-        horizontalSpace(AppSize.s10),
+        horizontalSpace(context, AppSize.s10),
         InkWell(
           onTap: onTapIncrease,
-          borderRadius: BorderRadius.circular(AppSize.s9.r),
+          borderRadius: BorderRadius.circular(context.setMinSize(AppSize.s9)),
           child: Container(
-            padding: EdgeInsets.all(AppSize.s6.r),
+            padding: EdgeInsets.all(context.setMinSize(AppSize.s6)),
             clipBehavior: Clip.antiAlias,
             alignment: Alignment.center,
             decoration: BoxDecoration(

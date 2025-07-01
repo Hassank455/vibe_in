@@ -1,14 +1,9 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
 name: Flutter CI/CD Pipeline
 
 on:
   push:
     branches:  
-    # - features/authentication
+    #  - refactor/core-files-and-firebase-security
      - development
      - staging
      - master
@@ -71,19 +66,19 @@ jobs:
         run: |
           echo "API_BASE_URL=$API_BASE_URL" >> .env
 
+      - name: 🔐 Decode Firebase config files
+        run: ./scripts/decode_firebase_files.sh
+        env:
+          GOOGLE_SERVICES_JSON_BASE64: ${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}
+          GOOGLESERVICE_INFO_PLIST_BASE64: ${{ secrets.GOOGLESERVICE_INFO_PLIST_BASE64 }}
+                    
       - name: Generate *.g.dart files
         run: flutter pub run build_runner build --delete-conflicting-outputs
 
       - name: Build release APK
         run: flutter build apk --release
 
-  #    - name: Build IPA
-  #      run: flutter build ipa --export-options-plist=ExportOptions.plist
-
-  #    - name: Compress Archives and IPAs
-  #      run: |
-  #        cd build
-  #        tar -czf ios_build.tar.gz ios  
+ 
        
 
       - name: Upload artifact
@@ -92,7 +87,6 @@ jobs:
           name: release-apk
           path: |
             build/app/outputs/flutter-apk/app-release.apk
-        #   build/ios/ipa/*.ipa
 
 
       - name: Extract version from pubspec.yaml

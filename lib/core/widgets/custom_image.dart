@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:vibe_in/core/helpers/responsive_helper/sizer_helper_extension.dart';
 import 'package:vibe_in/core/theming/app_size.dart';
 
 class CustomPngImage extends StatelessWidget {
@@ -22,8 +22,8 @@ class CustomPngImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Image.asset(
       'assets/images/$imageName.png',
-      height: height ?? AppSize.s30.h,
-      width: width ?? AppSize.s30.w,
+      height: context.setHeight(height ?? AppSize.s30),
+      width: context.setWidth(width ?? AppSize.s30),
       fit: fit ?? BoxFit.cover,
       color: color,
     );
@@ -55,8 +55,8 @@ class CustomSvgImage extends StatelessWidget {
     Widget svgImage = SvgPicture.asset(
       'assets/svgs/$imageName.svg',
       color: color,
-      height: height ?? AppSize.s30.h,
-      width: width ?? AppSize.s30.w,
+      height: context.setHeight(height ?? AppSize.s30),
+      width: context.setWidth(width ?? AppSize.s30),
       fit: fit ?? BoxFit.contain,
     );
 

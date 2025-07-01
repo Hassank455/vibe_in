@@ -1,7 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vibe_in/core/helpers/extensions.dart';
+import 'package:vibe_in/core/helpers/responsive_helper/sizer_helper_extension.dart';
 import 'package:vibe_in/core/helpers/spacing.dart';
 import 'package:vibe_in/core/theming/app_colors.dart';
 import 'package:vibe_in/core/theming/app_size.dart';
@@ -23,12 +22,11 @@ class OnboardingItem extends StatelessWidget {
           children: [
             CustomCachedNetworkImage(
               urlImage: onBoardingData.image!,
-              height: MediaQuery.of(context).size.height * 0.8,
+              height: context.screenHeight * 0.8,
               width: double.infinity,
-              borderNumber: AppSize.s1.r,
             ),
             Container(
-              height: MediaQuery.of(context).size.height * 0.15,
+              height: context.screenHeight * 0.15,
               width: double.infinity,
               alignment: AlignmentDirectional.bottomStart,
               decoration: BoxDecoration(
@@ -72,25 +70,23 @@ class OnboardingItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               CustomText(
-                // text: 'Welcome to Vibe In!',
                 text: onBoardingData.title,
                 textAlign: TextAlign.center,
                 style: Theme.of(
                   context,
                 ).textTheme.headlineSmall!.copyWith(color: AppColors.white),
               ),
-              verticalSpace(AppSize.s15),
+              verticalSpace(context, AppSize.s15),
               CustomText(
-                // text: 'Order your favorite coffee with ease and convenience.',
                 text: onBoardingData.description,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.titleSmall!.copyWith(
                   color: AppColors.white,
-                  fontSize: AppSize.s18.sp,
+                  fontSize: context.setSp(AppSize.s18),
                 ),
               ),
             ],
-          ).marginSymmetric(horizontal: AppSize.s16.w),
+          ).marginSymmetric(horizontal: context.setWidth(AppSize.s16)),
         ),
       ],
     );

@@ -1,16 +1,15 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vibe_in/core/helpers/enum.dart';
 import 'package:vibe_in/core/helpers/extensions.dart';
+import 'package:vibe_in/core/helpers/responsive_helper/sizer_helper_extension.dart';
 import 'package:vibe_in/core/helpers/spacing.dart';
 import 'package:vibe_in/core/theming/app_colors.dart';
 import 'package:vibe_in/core/theming/app_size.dart';
 import 'package:vibe_in/core/theming/app_strings.dart';
 import 'package:vibe_in/core/theming/font_weight_helper.dart';
 import 'package:vibe_in/core/widgets/custom_app_bar.dart';
-import 'package:vibe_in/core/widgets/custom_cached_network_image.dart';
 import 'package:vibe_in/core/widgets/custom_text.dart';
 import 'package:vibe_in/features/bottom_nav_bar/main_page/data/models/package_model.dart';
 import 'package:vibe_in/features/package_details/cubit/package_details_cubit.dart';
@@ -44,18 +43,18 @@ class PackageDetailsScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   MainPackageInfoWidget(package: package),
-                  verticalSpace(AppSize.s10),
+                  verticalSpace(context, AppSize.s10),
                   MonthlyCyclesPackageWidget(),
-                  verticalSpace(AppSize.s20),
+                  verticalSpace(context, AppSize.s20),
                   ContentsPackageWidget(),
-                  verticalSpace(AppSize.s20),
+                  verticalSpace(context, AppSize.s20),
                   CustomText(
                     text: AppStrings.description.tr(),
                     style: Theme.of(context).textTheme.titleSmall!.copyWith(
                       fontWeight: FontWeightHelper.medium,
                     ),
                   ),
-                  verticalSpace(AppSize.s12),
+                  verticalSpace(context, AppSize.s12),
                   CustomText(
                     text: package.description,
                     style: Theme.of(
@@ -69,7 +68,7 @@ class PackageDetailsScreen extends StatelessWidget {
             return Container();
           }
         },
-      ).marginSymmetric(horizontal: AppSize.s16.w),
+      ).marginSymmetric(horizontal: context.setWidth(AppSize.s16)),
     );
   }
 }

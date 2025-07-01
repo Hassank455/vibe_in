@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:vibe_in/core/helpers/responsive_helper/sizer_helper_extension.dart';
 import 'package:vibe_in/core/helpers/spacing.dart';
 import 'package:vibe_in/core/theming/app_colors.dart';
 import 'package:vibe_in/core/theming/app_images.dart';
@@ -20,35 +20,34 @@ class ItemListViewCartWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          height: AppSize.s106.h,
-          width: AppSize.s100.w,
+          height: context.setHeight(AppSize.s106),
+          width: context.setWidth(AppSize.s100),
           padding: EdgeInsets.symmetric(
-            horizontal: AppSize.s12.w,
-            vertical: AppSize.s15.h,
+            horizontal: context.setWidth(AppSize.s12),
+            vertical: context.setHeight(AppSize.s15),
           ),
           decoration: BoxDecoration(
             color:
                 Theme.of(context).brightness == Brightness.dark
                     ? Theme.of(context).cardColor
                     : AppColors.textFiledBackground,
-            borderRadius: BorderRadius.circular(AppSize.s8.r),
+            borderRadius: BorderRadius.circular(context.setMinSize(AppSize.s8)),
           ),
           child: CustomCachedNetworkImage(
             urlImage:
                 'https://chickchack.s3.eu-west-2.amazonaws.com/customer-dashboard/1744786351349Rectangle_39_1_.png',
-            height: AppSize.s75.h,
-            width: AppSize.s75.w,
+            height: context.setHeight(AppSize.s75),
+            width: context.setWidth(AppSize.s75),
             fit: BoxFit.contain,
-            borderNumber: AppSize.s1.r,
           ),
         ),
-        horizontalSpace(AppSize.s10),
+        horizontalSpace(context, AppSize.s10),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              verticalSpace(AppSize.s4),
+              verticalSpace(context, AppSize.s4),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,25 +59,25 @@ class ItemListViewCartWidget extends StatelessWidget {
                       style: Theme.of(context).textTheme.titleSmall,
                     ),
                   ),
-                  horizontalSpace(AppSize.s10),
+                  horizontalSpace(context, AppSize.s10),
                   CustomText(
                     text: '20.00\$',
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                      fontSize: AppSize.s18.sp,
+                      fontSize: context.setSp(AppSize.s18),
                       color: AppColors.mainBrown,
                     ),
                   ),
                 ],
               ),
 
-              verticalSpace(AppSize.s5),
+              verticalSpace(context, AppSize.s5),
               CustomText(
                 text: 'Dolce Gusto',
                 style: Theme.of(
                   context,
                 ).textTheme.titleSmall!.copyWith(color: AppColors.gray),
               ),
-              verticalSpace(AppSize.s5),
+              verticalSpace(context, AppSize.s5),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -96,7 +95,7 @@ class ItemListViewCartWidget extends StatelessWidget {
                         width: AppSize.s24,
                         height: AppSize.s24,
                       ),
-                      horizontalSpace(AppSize.s4),
+                      horizontalSpace(context, AppSize.s4),
                       CustomText(
                         text: AppStrings.remove.tr(),
                         style: Theme.of(

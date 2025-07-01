@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:vibe_in/core/helpers/responsive_helper/sizer_helper_extension.dart';
 import 'package:vibe_in/core/helpers/spacing.dart';
 import 'package:vibe_in/core/theming/app_size.dart';
 import 'package:vibe_in/core/widgets/custom_shimmer_widget.dart';
@@ -16,29 +16,38 @@ class LoadingPackageItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: height.h,
-      width: AppSize.s284.w,
+      height: context.setHeight(height),
+      width: context.sizeProvider.width,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(AppSize.s8.r),
+        borderRadius: BorderRadius.circular(context.setMinSize(AppSize.s8)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            height: heightImage.h,
+            height: context.setHeight(heightImage),
             width: double.infinity,
             child: CustomShimmerWidget(
               width: double.infinity,
-              height: heightImage.h,
-              radius: AppSize.s8.r,
+              height: context.setHeight(heightImage),
+              radius: context.setMinSize(AppSize.s8),
             ),
           ),
-          verticalSpace(AppSize.s9),
-          CustomShimmerWidget(width: AppSize.s200.w, height: AppSize.s20.h),
-          verticalSpace(AppSize.s7),
-          CustomShimmerWidget(width: AppSize.s240.w, height: AppSize.s30.h),
-          verticalSpace(AppSize.s7),
-          CustomShimmerWidget(width: AppSize.s80.w, height: AppSize.s25.h),
+          verticalSpace(context, AppSize.s9),
+          CustomShimmerWidget(
+            width: context.setWidth(AppSize.s200),
+            height: context.setHeight(AppSize.s20),
+          ),
+          verticalSpace(context, AppSize.s7),
+          CustomShimmerWidget(
+            width: context.setWidth(AppSize.s240),
+            height: context.setHeight(AppSize.s30),
+          ),
+          verticalSpace(context, AppSize.s7),
+          CustomShimmerWidget(
+            width: context.setWidth(AppSize.s80),
+            height: context.setHeight(AppSize.s25),
+          ),
         ],
       ),
     );

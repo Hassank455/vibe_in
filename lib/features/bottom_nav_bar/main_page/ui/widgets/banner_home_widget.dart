@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vibe_in/core/helpers/enum.dart';
 import 'package:vibe_in/core/helpers/extensions.dart';
+import 'package:vibe_in/core/helpers/responsive_helper/sizer_helper_extension.dart';
 import 'package:vibe_in/core/theming/app_size.dart';
 import 'package:vibe_in/core/widgets/custom_cached_network_image.dart';
 import 'package:vibe_in/core/widgets/custom_shimmer_widget.dart';
@@ -21,21 +21,21 @@ class BannerHomeWidget extends StatelessWidget {
         if (state.sliderState == RequestsStatus.loading) {
           return CustomShimmerWidget(
             width: double.infinity,
-            height: AppSize.s194.h,
+            height: context.setHeight(AppSize.s194),
           );
         } else if (state.sliderState == RequestsStatus.success) {
           List<SliderModel>? sliderModel = state.sliderModel!;
           return SizedBox(
-            height: AppSize.s194.h,
+            height: context.setHeight(AppSize.s194),
             width: double.infinity,
             child: CarouselSlider.builder(
               itemCount: sliderModel.length,
               itemBuilder:
                   (context, index, _) => CustomCachedNetworkImage(
                     urlImage: sliderModel[index].image!,
-                    height: AppSize.s194.h,
+                    height: context.setHeight(AppSize.s194),
                     width: double.infinity,
-                    borderNumber: AppSize.s8.r,
+                    borderRadius: context.setMinSize(AppSize.s8),
                     fit: BoxFit.fill,
                   ),
               options: CarouselOptions(
@@ -50,6 +50,6 @@ class BannerHomeWidget extends StatelessWidget {
           return Container();
         }
       },
-    ).marginSymmetric(horizontal: AppSize.s16.w);
+    ).marginSymmetric(horizontal: context.setWidth(AppSize.s16));
   }
 }

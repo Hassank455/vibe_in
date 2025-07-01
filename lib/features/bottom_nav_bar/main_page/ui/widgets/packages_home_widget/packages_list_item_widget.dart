@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vibe_in/core/helpers/extensions.dart';
+import 'package:vibe_in/core/helpers/responsive_helper/sizer_helper_extension.dart';
 import 'package:vibe_in/core/helpers/spacing.dart';
 import 'package:vibe_in/core/routing/routes.dart';
 import 'package:vibe_in/core/theming/app_colors.dart';
@@ -31,51 +31,45 @@ class PackagesListItemWidget extends StatelessWidget {
         );
       },
       child: Container(
-        height: height.h,
-        width: AppSize.s284.w,
+        height: context.setHeight(height),
+        width: context.sizeProvider.width,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(AppSize.s8.r),
+          borderRadius: BorderRadius.circular(context.setMinSize(AppSize.s8)),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              height: heightImage.h,
+              height: context.setHeight(heightImage),
               width: double.infinity,
               child: CustomCachedNetworkImage(
                 urlImage: packageModel.images!.first.url!,
-                height: heightImage.h,
+                height: context.setHeight(heightImage),
                 width: double.infinity,
                 fit: BoxFit.cover,
-                borderNumber: AppSize.s8.r,
+                borderRadius: context.setMinSize(AppSize.s8),
               ),
             ),
-            verticalSpace(AppSize.s9),
+            verticalSpace(context, AppSize.s9),
             CustomText(
               text: packageModel.name,
               maxLines: 1,
               style: Theme.of(context).textTheme.titleMedium!.copyWith(
                 fontWeight: FontWeightHelper.semiBold,
+                fontSize: context.setSp(AppSize.s14),
               ),
             ),
-            verticalSpace(AppSize.s7),
+            verticalSpace(context, AppSize.s7),
             CustomText(
               text: packageModel.description,
               maxLines: 2,
-              style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                fontSize: AppSize.s12.sp,
+              style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                fontWeight: FontWeightHelper.medium,
                 color: AppColors.gray,
+                fontSize: context.setSp(AppSize.s12),
               ),
             ),
-            verticalSpace(AppSize.s7),
-            // CustomText(
-            //   text: '${packageModel.price}\$',
-            //   maxLines: 1,
-            //   style: Theme.of(context).textTheme.titleMedium!.copyWith(
-            //     fontSize: AppSize.s16.sp,
-            //     color: AppColors.mainBrown,
-            //   ),
-            // ),
+            verticalSpace(context, AppSize.s7),
           ],
         ),
       ),

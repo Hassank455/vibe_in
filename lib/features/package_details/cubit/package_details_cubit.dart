@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vibe_in/core/helpers/enum.dart';
 import 'package:vibe_in/features/bottom_nav_bar/main_page/data/models/package_model.dart';
@@ -20,7 +18,6 @@ class PackageDetailsCubit extends Cubit<PackageDetailsState> {
           packageModel: response.data!.data,
           packageModelCopy: response.data!.data,
           selectedProduct: response.data!.data.products?.first,
-          // totalPrice: double.parse(response.data!.data.price!),
           packageState: RequestsStatus.success,
         ),
       );
@@ -52,61 +49,6 @@ class PackageDetailsCubit extends Cubit<PackageDetailsState> {
     addOnPrice = state.addOnPrice;
     addOnLength = state.addOnLength;
   }
-
-  // void toggleAlternativeSelection(int alternativeId) {
-  //   final selectedProduct = state.selectedProduct;
-  //   if (selectedProduct == null) return;
-
-  //   final updatedAlternatives =
-  //       selectedProduct.alternatives?.map((alt) {
-  //         if (alt.id == alternativeId) {
-  //           return Alternatives(
-  //             id: alt.id,
-  //             name: alt.name,
-  //             image: alt.image,
-  //             addOn: alt.addOn,
-  //             isSelected: !alt.isSelected,
-  //           );
-  //         }
-  //         return alt;
-  //       }).toList();
-
-  //   final updatedProduct = Products(
-  //     id: selectedProduct.id,
-  //     name: selectedProduct.name,
-  //     image: selectedProduct.image,
-  //     alternatives: updatedAlternatives,
-  //   );
-
-  //   updatedAlternatives?.forEach((alt) {
-  //     if (alt.id == alternativeId) {
-  //       if (alt.isSelected) {
-  //         addOnPrice += double.parse(alt.addOn!);
-  //         addOnLength += 1;
-  //       } else {
-  //         addOnPrice -= double.parse(alt.addOn!);
-  //         addOnLength -= 1;
-  //       }
-  //     }
-  //   });
-
-  //   emit(
-  //     state.copyWith(
-  //       selectedProduct: updatedProduct,
-  //       packageModelCopy: state.packageModelCopy!.copyWith(
-  //         products:
-  //             state.packageModelCopy!.products!
-  //                 .map(
-  //                   (product) =>
-  //                       product.id == selectedProduct.id
-  //                           ? updatedProduct
-  //                           : product,
-  //                 )
-  //                 .toList(),
-  //       ),
-  //     ),
-  //   );
-  // }
 
   void toggleAlternativeSelection(int alternativeId) {
     final selectedProduct = state.selectedProduct;
@@ -167,8 +109,6 @@ class PackageDetailsCubit extends Cubit<PackageDetailsState> {
                   .toList()
                   .cast<Products>(),
         ),
-        // addOnPrice: addOnPrice,
-        // addOnLength: addOnLength,
       ),
     );
   }
