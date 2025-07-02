@@ -15,7 +15,7 @@ ProductModel _$ProductModelFromJson(Map<String, dynamic> json) => ProductModel(
   category:
       json['category'] == null
           ? null
-          : Category.fromJson(json['category'] as Map<String, dynamic>),
+          : CategoryModel.fromJson(json['category'] as Map<String, dynamic>),
   prices:
       (json['prices'] as List<dynamic>?)
           ?.map((e) => PricesModel.fromJson(e as Map<String, dynamic>))
@@ -37,14 +37,6 @@ Map<String, dynamic> _$ProductModelToJson(ProductModel instance) =>
       'prices': instance.prices,
       'brand': instance.brand,
     };
-
-Category _$CategoryFromJson(Map<String, dynamic> json) =>
-    Category(id: (json['id'] as num?)?.toInt(), name: json['name'] as String?);
-
-Map<String, dynamic> _$CategoryToJson(Category instance) => <String, dynamic>{
-  'id': instance.id,
-  'name': instance.name,
-};
 
 Brand _$BrandFromJson(Map<String, dynamic> json) =>
     Brand(id: (json['id'] as num?)?.toInt(), name: json['name'] as String?);
