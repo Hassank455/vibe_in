@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import 'api_error_model.dart';
 
@@ -7,30 +8,24 @@ class ApiErrorHandler {
     if (error is DioException) {
       switch (error.type) {
         case DioExceptionType.connectionError:
-          return ApiErrorModel(data: "Connection to server failed");
+          return ApiErrorModel(data: 'connection_failed'.tr());
         case DioExceptionType.cancel:
-          return ApiErrorModel(data: "Request to the server was cancelled");
+          return ApiErrorModel(data: 'request_cancelled'.tr());
         case DioExceptionType.connectionTimeout:
-          return ApiErrorModel(data: "Connection timeout with the server");
+          return ApiErrorModel(data: 'connection_timeout'.tr());
         case DioExceptionType.unknown:
-          return ApiErrorModel(
-            data: "Connection to the server failed due to internet connection",
-          );
+          return ApiErrorModel(data: 'no_internet_connection'.tr());
         case DioExceptionType.receiveTimeout:
-          return ApiErrorModel(
-            data: "Receive timeout in connection with the server",
-          );
+          return ApiErrorModel(data: 'receive_timeout'.tr());
         case DioExceptionType.badResponse:
           return _handleError(error.response?.data);
         case DioExceptionType.sendTimeout:
-          return ApiErrorModel(
-            data: "Send timeout in connection with the server",
-          );
+          return ApiErrorModel(data: 'send_timeout'.tr());
         default:
-          return ApiErrorModel(data: "Something went wrong");
+          return ApiErrorModel(data: 'something_went_wrong'.tr());
       }
     } else {
-      return ApiErrorModel(data: "Unknown error occurred");
+      return ApiErrorModel(data: 'unknown_error'.tr());
     }
   }
 }
