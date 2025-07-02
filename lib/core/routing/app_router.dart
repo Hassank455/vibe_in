@@ -57,7 +57,10 @@ class AppRouter {
                     create:
                         (context) => getIt<ProfileCubit>()..getProfileData(),
                   ),
-                  BlocProvider(create: (context) => getIt<ProductsCubit>()),
+                  BlocProvider(
+                    create:
+                        (context) => getIt<ProductsCubit>()..getCategories(),
+                  ),
                   BlocProvider(create: (context) => getIt<OrdersCubit>()),
                 ],
                 child: const HomeScreen(),

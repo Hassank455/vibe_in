@@ -1,5 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:vibe_in/core/helpers/enum.dart';
 import 'package:vibe_in/core/helpers/responsive_helper/device_utils.dart';
 import 'package:vibe_in/core/helpers/responsive_helper/sizer_helper_extension.dart';
 import 'package:vibe_in/core/helpers/spacing.dart';
@@ -8,6 +10,9 @@ import 'package:vibe_in/core/theming/app_size.dart';
 import 'package:vibe_in/core/theming/app_strings.dart';
 import 'package:vibe_in/core/widgets/custom_elevation_button.dart';
 import 'package:vibe_in/core/widgets/custom_text.dart';
+import 'package:vibe_in/features/bottom_nav_bar/products/cubit/products_cubit.dart';
+import 'package:vibe_in/features/bottom_nav_bar/products/cubit/products_state.dart';
+import 'package:vibe_in/features/bottom_nav_bar/products/data/models/category_model.dart';
 import 'package:vibe_in/features/bottom_nav_bar/products/ui/widgets/filter_bottom_sheet/item_filter_bottom_sheet.dart';
 
 class FilterProductsBottomSheet extends StatelessWidget {
@@ -52,28 +57,51 @@ class FilterProductsBottomSheet extends StatelessWidget {
                   fontSize: context.setSp(AppSize.s20),
                 ),
               ),
-              CustomText(
-                text: AppStrings.reset.tr(),
-                style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                  fontSize: context.setSp(AppSize.s12),
+              GestureDetector(
+                onTap: () {
+                  context.read<ProductsCubit>().resetCategories();
+                },
+                child: CustomText(
+                  text: AppStrings.reset.tr(),
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                    fontSize: context.setSp(AppSize.s12),
+                  ),
                 ),
               ),
             ],
           ),
 
           verticalSpace(context, AppSize.s30),
-          GridView.count(
-            crossAxisCount: DeviceUtils.valueDecider<int>(
-              context,
-              onMobile: 3,
-              others: 4,
-            ),
-            mainAxisSpacing: context.setMinSize(AppSize.s20),
-            crossAxisSpacing: context.setMinSize(AppSize.s7),
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            childAspectRatio: 2.5,
-            children: List.generate(9, (index) => ItemFilterBottomSheet()),
+          BlocBuilder<ProductsCubit, ProductsState>(
+            builder: (context, state) {
+              if (state.categoryStatus == RequestsStatus.loading) {
+                return Container();
+              } else if (state.categoryStatus == RequestsStatus.success) {
+                final List<CategoryModel>? categories = state.categoryModel;
+                final List<int>? selectedCategory = state.selectedCategory;
+                return GridView.count(
+                  crossAxisCount: DeviceUtils.valueDecider<int>(
+                    context,
+                    onMobile: 3,
+                    others: 4,
+                  ),
+                  mainAxisSpacing: context.setMinSize(AppSize.s20),
+                  crossAxisSpacing: context.setMinSize(AppSize.s7),
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  childAspectRatio: 2.5,
+                  children: List.generate(
+                    categories!.length,
+                    (index) => ItemFilterBottomSheet(
+                      categoryModel: categories[index],
+                      selectedCategory: selectedCategory!,
+                    ),
+                  ),
+                );
+              } else {
+                return Container();
+              }
+            },
           ),
           verticalSpace(context, AppSize.s40),
           CustomElevatedButton(onTap: () {}, title: AppStrings.filter.tr()),
