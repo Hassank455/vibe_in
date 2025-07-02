@@ -1,5 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:vibe_in/core/di/dependency_injection.dart';
 import 'package:vibe_in/core/helpers/extensions.dart';
 import 'package:vibe_in/core/helpers/responsive_helper/sizer_helper_extension.dart';
 import 'package:vibe_in/core/helpers/spacing.dart';
@@ -9,6 +11,7 @@ import 'package:vibe_in/core/theming/app_size.dart';
 import 'package:vibe_in/core/theming/app_strings.dart';
 import 'package:vibe_in/core/widgets/custom_image.dart';
 import 'package:vibe_in/core/widgets/custom_text_form_field.dart';
+import 'package:vibe_in/features/bottom_nav_bar/products/cubit/products_cubit.dart';
 import 'package:vibe_in/features/bottom_nav_bar/products/ui/widgets/filter_bottom_sheet/filter_products_bottom_sheet.dart';
 
 class ProductTabBarWidget extends StatelessWidget {
@@ -16,6 +19,7 @@ class ProductTabBarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<ProductsCubit>();
     return Column(
       children: [
         verticalSpace(context, AppSize.s30),
@@ -49,7 +53,10 @@ class ProductTabBarWidget extends StatelessWidget {
                     constraints: BoxConstraints(minWidth: double.infinity),
                     isScrollControlled: true,
                     builder: (context) {
-                      return FilterProductsBottomSheet();
+                      return BlocProvider.value(
+                        value: cubit,
+                        child: FilterProductsBottomSheet(),
+                      );
                     },
                   );
                 },

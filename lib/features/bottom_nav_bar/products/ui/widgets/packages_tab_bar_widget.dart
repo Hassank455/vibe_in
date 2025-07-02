@@ -21,60 +21,21 @@ class PackagesTabBarWidget extends StatelessWidget {
         verticalSpace(context, AppSize.s30),
         SizedBox(
           height: context.setHeight(AppSize.s48),
-          child: Row(
-            children: [
-              Expanded(
-                child: CustomTextFormField(
-                  controller: TextEditingController(),
-                  validator: (val) {},
-                  hintText: AppStrings.search.tr(),
-                  prefixIcon: Padding(
-                    padding: const EdgeInsetsDirectional.only(
-                      start: AppSize.s16,
-                      end: AppSize.s12,
-                    ),
-                    child: CustomSvgImage(
-                      imageName: AppSvgImage.search,
-                      width: context.setWidth(AppSize.s26),
-                      height: context.setHeight(AppSize.s26),
-                    ),
-                  ),
-                ),
+          child: CustomTextFormField(
+            controller: TextEditingController(),
+            validator: (val) {},
+            hintText: AppStrings.search.tr(),
+            prefixIcon: Padding(
+              padding: const EdgeInsetsDirectional.only(
+                start: AppSize.s16,
+                end: AppSize.s12,
               ),
-              horizontalSpace(context, AppSize.s5),
-              GestureDetector(
-                onTap: () {
-                  showModalBottomSheet(
-                    context: context,
-                    constraints: BoxConstraints(minWidth: double.infinity),
-                    isScrollControlled: true,
-                    builder: (context) {
-                      return FilterProductsBottomSheet();
-                    },
-                  );
-                },
-                child: Container(
-                  width: context.setWidth(AppSize.s48),
-                  height: context.setHeight(AppSize.s48),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: context.setWidth(AppSize.s13),
-                    vertical: context.setHeight(AppSize.s12),
-                  ),
-                  decoration: BoxDecoration(
-                    color: AppColors.lightBrownBackground,
-                    borderRadius: BorderRadius.circular(
-                      context.setMinSize(AppSize.s8),
-                    ),
-                  ),
-                  child: CustomSvgImage(
-                    imageName: AppSvgImage.setting,
-                    width: context.setWidth(AppSize.s24),
-                    height: context.setHeight(AppSize.s24),
-                    color: AppColors.mainBrown,
-                  ),
-                ),
+              child: CustomSvgImage(
+                imageName: AppSvgImage.search,
+                width: context.setWidth(AppSize.s26),
+                height: context.setHeight(AppSize.s26),
               ),
-            ],
+            ),
           ),
         ),
         verticalSpace(context, AppSize.s20),

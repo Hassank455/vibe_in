@@ -6,6 +6,7 @@ import 'package:vibe_in/features/auth/login/data/models/login_response.dart';
 import 'package:vibe_in/features/auth/onboarding/data/models/onboarding_model.dart';
 import 'package:vibe_in/features/auth/verification/data/model/verification_request_body.dart';
 import 'package:vibe_in/features/auth/verification/data/model/verification_response.dart';
+import 'package:vibe_in/features/bottom_nav_bar/products/data/models/category_model.dart';
 import 'package:vibe_in/features/bottom_nav_bar/main_page/data/models/package_model.dart';
 import 'package:vibe_in/features/bottom_nav_bar/main_page/data/models/product_model.dart';
 import 'package:vibe_in/features/bottom_nav_bar/main_page/data/models/slider_model.dart';
@@ -52,4 +53,7 @@ abstract class ApiService {
 
   @GET('mobile/packages/{id}')
   Future<ApiResponse<PackageModel>> getSinglePackage(@Path('id') int id);
+
+  @GET('mobile/categories')
+  Future<ApiResponse<List<CategoryModel>>> getCategories();
 }

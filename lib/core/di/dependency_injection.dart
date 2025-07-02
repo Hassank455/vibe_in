@@ -15,6 +15,7 @@ import 'package:vibe_in/features/bottom_nav_bar/main_page/cubit/main_page_cubit.
 import 'package:vibe_in/features/bottom_nav_bar/main_page/data/repo/main_page_repo.dart';
 import 'package:vibe_in/features/bottom_nav_bar/orders/cubit/orders_cubit.dart';
 import 'package:vibe_in/features/bottom_nav_bar/products/cubit/products_cubit.dart';
+import 'package:vibe_in/features/bottom_nav_bar/products/data/repo/products_repo.dart';
 import 'package:vibe_in/features/bottom_nav_bar/profile/cubit/profile_cubit.dart';
 import 'package:vibe_in/features/bottom_nav_bar/profile/data/repo/profile_repo.dart';
 import 'package:vibe_in/features/package_details/cubit/package_details_cubit.dart';
@@ -49,11 +50,10 @@ Future<void> setupGetIt() async {
   getIt.registerFactory<HomeCubit>(() => HomeCubit());
 
   // Products
-  // getIt.registerFactory<VerificationRepo>(() => VerificationRepo(getIt()));
-  getIt.registerFactory<ProductsCubit>(() => ProductsCubit());
+  getIt.registerFactory<ProductsRepo>(() => ProductsRepo(getIt()));
+  getIt.registerFactory<ProductsCubit>(() => ProductsCubit(getIt()));
 
   // Orders
-  // getIt.registerFactory<VerificationRepo>(() => VerificationRepo(getIt()));
   getIt.registerFactory<OrdersCubit>(() => OrdersCubit());
 
   // Profile
