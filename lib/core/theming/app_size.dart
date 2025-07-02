@@ -79,4 +79,7 @@ class AppSize {
   static const double s310 = 310.0;
   static const double s320 = 320.0;
   static const double s322 = 322.0;
+
+  static const loadingItemCount = 4;
+
 }

@@ -57,5 +57,13 @@
     "Please enter your mobile number": "Please enter your mobile number",
     "Mobile number must be 9 digits": "Mobile number must be 9 digits",
     "Mobile number must start with 5": "Mobile number must start with 5",
-    "Continue": "Continue"
+    "Continue": "Continue",
+    "connection_failed": "Connection to server failed",
+    "request_cancelled": "Request to the server was cancelled",
+    "connection_timeout": "Connection timeout with the server",
+    "no_internet_connection": "Connection to the server failed due to internet connection",
+    "receive_timeout": "Receive timeout in connection with the server",
+    "send_timeout": "Send timeout in connection with the server",
+    "something_went_wrong": "Something went wrong",
+    "unknown_error": "Unknown error occurred"
 }
