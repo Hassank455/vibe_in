@@ -59,7 +59,11 @@ class AppRouter {
                   ),
                   BlocProvider(
                     create:
-                        (context) => getIt<ProductsCubit>()..getCategories(),
+                        (context) =>
+                            getIt<ProductsCubit>()
+                              ..getCategories()
+                              ..refreshProducts()
+                              ..refreshPackages(),
                   ),
                   BlocProvider(create: (context) => getIt<OrdersCubit>()),
                 ],

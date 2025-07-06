@@ -56,4 +56,12 @@ abstract class ApiService {
 
   @GET('mobile/categories')
   Future<ApiResponse<List<CategoryModel>>> getCategories();
+
+  @GET('mobile/products')
+  Future<ApiResponse<List<ProductModel>>> getProducts(
+    @Query('per_page') int? perPage,
+    @Query('page') int? page,
+    @Query('categories') String? categories,
+    @Query('search') String? search,
+  );
 }

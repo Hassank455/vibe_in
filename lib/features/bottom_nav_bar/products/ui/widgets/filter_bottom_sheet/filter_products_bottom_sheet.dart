@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vibe_in/core/helpers/enum.dart';
+import 'package:vibe_in/core/helpers/extensions.dart';
 import 'package:vibe_in/core/helpers/responsive_helper/device_utils.dart';
 import 'package:vibe_in/core/helpers/responsive_helper/sizer_helper_extension.dart';
 import 'package:vibe_in/core/helpers/spacing.dart';
@@ -20,6 +21,7 @@ class FilterProductsBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final productsCubit = context.read<ProductsCubit>();
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(horizontal: context.setWidth(AppSize.s16)),
@@ -59,7 +61,7 @@ class FilterProductsBottomSheet extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  context.read<ProductsCubit>().resetCategories();
+                  productsCubit.resetCategories();
                 },
                 child: CustomText(
                   text: AppStrings.reset.tr(),
@@ -104,7 +106,13 @@ class FilterProductsBottomSheet extends StatelessWidget {
             },
           ),
           verticalSpace(context, AppSize.s40),
-          CustomElevatedButton(onTap: () {}, title: AppStrings.filter.tr()),
+          CustomElevatedButton(
+            onTap: () {
+              productsCubit.refreshProducts();
+              context.pop();
+            },
+            title: AppStrings.filter.tr(),
+          ),
           verticalSpace(context, AppSize.s40),
         ],
       ),
