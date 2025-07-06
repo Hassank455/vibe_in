@@ -65,27 +65,25 @@ class PackageDetailsCubit extends Cubit<PackageDetailsState> {
 
     final updatedAlternatives =
         selectedProduct.alternatives?.map((alt) {
-          // إذا كان هذا هو البديل الذي ضغطنا عليه
+          // If this is the alternative we pressed for
           if (alt.id == alternativeId) {
             final isNowSelected = !alt.isSelected;
 
-            // إزالة السعر السابق إذا كان هناك بديل سابق محدد
+            // Remove previous price if there is a previous alternative specified
             if (currentSelectedAlt != null) {
               addOnPrice -= double.parse(currentSelectedAlt.addOn ?? '0.0');
               addOnLength -= 1;
             }
 
-            // إذا حددنا هذا البديل الآن نضيف سعره
+            // If we define this alternative now, we add its price.
             if (isNowSelected) {
               addOnPrice += double.parse(alt.addOn ?? '0.0');
-              addOnLength = 1;
-            } else {
-              addOnLength = 0; // ألغينا التحديد، نرجع للمنتج الأصلي
+              addOnLength += 1;
             }
 
             return alt.copyWith(isSelected: isNowSelected);
           } else {
-            // كل البدائل الأخرى لازم تكون غير محددة
+            // All other alternatives must be unspecified.
             return alt.copyWith(isSelected: false);
           }
         }).toList();
