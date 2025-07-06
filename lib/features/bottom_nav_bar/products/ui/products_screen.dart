@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:vibe_in/core/helpers/app_logger.dart';
 import 'package:vibe_in/core/helpers/responsive_helper/sizer_helper_extension.dart';
 import 'package:vibe_in/core/theming/app_size.dart';
 import 'package:vibe_in/core/theming/app_strings.dart';
@@ -34,9 +35,10 @@ class ProductsScreen extends StatelessWidget {
         ),
       ),
 
-      body: BlocBuilder<ProductsCubit, ProductsState>(
+      body: BlocSelector<ProductsCubit, ProductsState, int>(
+        selector: (state) => state.currentIndex,
         builder: (context, selectedIndex) {
-          if (selectedIndex.currentIndex == 0) {
+          if (selectedIndex == 0) {
             return ProductTabBarWidget();
           } else {
             return PackagesTabBarWidget();

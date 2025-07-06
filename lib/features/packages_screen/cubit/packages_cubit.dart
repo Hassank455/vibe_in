@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vibe_in/core/helpers/enum.dart';
-import 'package:vibe_in/features/bottom_nav_bar/main_page/data/models/package_model.dart';
 import 'package:vibe_in/features/bottom_nav_bar/main_page/data/repo/main_page_repo.dart';
 import 'package:vibe_in/features/packages_screen/cubit/packages_state.dart';
 

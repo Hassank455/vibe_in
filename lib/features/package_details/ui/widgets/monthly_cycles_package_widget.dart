@@ -51,6 +51,7 @@ class MonthlyCyclesPackageWidget extends StatelessWidget {
                           );
                         },
                         child: Container(
+                          alignment: Alignment.center,
                           margin: EdgeInsets.only(
                             right: context.setWidth(AppSize.s8),
                           ),
@@ -73,6 +74,7 @@ class MonthlyCyclesPackageWidget extends StatelessWidget {
                           ),
                           child: CustomText(
                             text: cycles[index].name,
+                            textAlign: TextAlign.center,
                             style: Theme.of(
                               context,
                             ).textTheme.titleSmall!.copyWith(
