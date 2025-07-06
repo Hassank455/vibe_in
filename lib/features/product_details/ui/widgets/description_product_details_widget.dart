@@ -77,9 +77,10 @@ class DescriptionProductDetailsWidget extends StatelessWidget {
                   return GestureDetector(
                     onTap: () => productDetailsCubit.selectPriceIndex(index),
                     child: Container(
+                      alignment: Alignment.center,
                       padding: EdgeInsets.symmetric(
-                        horizontal: context.setWidth(AppSize.s22),
-                        vertical: context.setHeight(AppSize.s6),
+                        horizontal: context.setMinSize(AppSize.s22),
+                        vertical: context.setMinSize(AppSize.s6),
                       ),
                       decoration: BoxDecoration(
                         border: Border.all(
@@ -95,6 +96,7 @@ class DescriptionProductDetailsWidget extends StatelessWidget {
                         text: price.weight,
                         style: Theme.of(context).textTheme.titleSmall!.copyWith(
                           fontWeight: FontWeightHelper.semiBold,
+                          fontSize: context.setSp(AppSize.s12),
                           color:
                               isSelected ? AppColors.mainBrown : AppColors.gray,
                         ),

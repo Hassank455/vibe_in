@@ -12,12 +12,10 @@ import 'package:vibe_in/features/bottom_nav_bar/main_page/data/models/package_mo
 
 class PackagesListItemWidget extends StatelessWidget {
   final PackageModel packageModel;
-  final double height;
   final double heightImage;
   const PackagesListItemWidget({
     super.key,
     required this.packageModel,
-    this.height = AppSize.s263,
     this.heightImage = AppSize.s154,
   });
 
@@ -31,7 +29,6 @@ class PackagesListItemWidget extends StatelessWidget {
         );
       },
       child: Container(
-        height: context.setHeight(height),
         width: context.sizeProvider.width,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(context.setMinSize(AppSize.s8)),

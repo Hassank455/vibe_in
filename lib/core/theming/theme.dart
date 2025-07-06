@@ -107,7 +107,7 @@ class Themes {
       filled: true,
       fillColor: AppColors.darkCardColor,
       contentPadding: EdgeInsets.symmetric(
-        vertical: context.setHeight(AppSize.s18),
+        vertical: context.setHeight(AppSize.s14),
         horizontal: context.setWidth(AppSize.s16),
       ),
       hintStyle: AppTextStyles.regular(context, color: AppColors.white),

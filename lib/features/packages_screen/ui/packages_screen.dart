@@ -117,11 +117,13 @@ class PackagesScreen extends StatelessWidget {
               (isLoadingMore ? AppSize.loadingItemCount : 0),
           itemBuilder: (context, index) {
             if (index >= packagesModel.length) {
-              return buildLoadingWidget();
+              return LoadingPackageItemWidget(
+              height: AppSize.s305,
+              heightImage: AppSize.s194,
+            ).marginOnly(bottom: context.setHeight(AppSize.s20));
             }
             return PackagesListItemWidget(
               packageModel: packagesModel[index],
-              height: context.setHeight(AppSize.s305),
               heightImage: context.setHeight(AppSize.s194),
             ).marginOnly(bottom: context.setHeight(AppSize.s20));
           },

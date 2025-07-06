@@ -51,7 +51,7 @@ Future<void> setupGetIt() async {
 
   // Products
   getIt.registerFactory<ProductsRepo>(() => ProductsRepo(getIt()));
-  getIt.registerFactory<ProductsCubit>(() => ProductsCubit(getIt()));
+  getIt.registerFactory<ProductsCubit>(() => ProductsCubit(getIt(), getIt()));
 
   // Orders
   getIt.registerFactory<OrdersCubit>(() => OrdersCubit());
