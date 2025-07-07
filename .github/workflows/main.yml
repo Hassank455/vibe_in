@@ -68,8 +68,13 @@ jobs:
       - name: 🔐 Decode Firebase config files
         run: ./scripts/decode_firebase_files.sh
         env:
-          GOOGLE_SERVICES_JSON_BASE64: ${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}
-          GOOGLESERVICE_INFO_PLIST_BASE64: ${{ secrets.GOOGLESERVICE_INFO_PLIST_BASE64 }}
+          GOOGLE_SERVICES_JSON_DEV:  ${{ secrets.GOOGLE_SERVICES_JSON_DEV }}
+          GOOGLE_SERVICES_JSON_STG:  ${{ secrets.GOOGLE_SERVICES_JSON_STG }}
+          GOOGLE_SERVICES_JSON_PROD: ${{ secrets.GOOGLE_SERVICES_JSON_PROD }}
+
+          GOOGLESERVICE_INFO_PLIST_DEV:  ${{ secrets.GOOGLESERVICE_INFO_PLIST_DEV }}
+          GOOGLESERVICE_INFO_PLIST_STG:  ${{ secrets.GOOGLESERVICE_INFO_PLIST_STG }}
+          GOOGLESERVICE_INFO_PLIST_PROD: ${{ secrets.GOOGLESERVICE_INFO_PLIST_PROD }}
               
       - name: Generate *.g.dart files
         run: flutter pub run build_runner build --delete-conflicting-outputs
@@ -119,8 +124,13 @@ jobs:
       - name: 🔐 Decode Firebase config files
         run: ./scripts/decode_firebase_files.sh
         env:
-          GOOGLE_SERVICES_JSON_BASE64: ${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}
-          GOOGLESERVICE_INFO_PLIST_BASE64: ${{ secrets.GOOGLESERVICE_INFO_PLIST_BASE64 }}
+          GOOGLE_SERVICES_JSON_DEV:  ${{ secrets.GOOGLE_SERVICES_JSON_DEV }}
+          GOOGLE_SERVICES_JSON_STG:  ${{ secrets.GOOGLE_SERVICES_JSON_STG }}
+          GOOGLE_SERVICES_JSON_PROD: ${{ secrets.GOOGLE_SERVICES_JSON_PROD }}
+
+          GOOGLESERVICE_INFO_PLIST_DEV:  ${{ secrets.GOOGLESERVICE_INFO_PLIST_DEV }}
+          GOOGLESERVICE_INFO_PLIST_STG:  ${{ secrets.GOOGLESERVICE_INFO_PLIST_STG }}
+          GOOGLESERVICE_INFO_PLIST_PROD: ${{ secrets.GOOGLESERVICE_INFO_PLIST_PROD }}
                     
       - name: Generate *.g.dart files
         run: flutter pub run build_runner build --delete-conflicting-outputs

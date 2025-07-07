@@ -46,7 +46,6 @@ app.*.map.json
 **/*.g.dart
 *.env
 # Firebase config files (security)
-android/app/google-services.json
-ios/Runner/GoogleService-Info.plist
-google-services.json.base64
-GoogleService-Info.plist.base64
+**/google-services.json
+**/GoogleService-Info.plist
+*.base64

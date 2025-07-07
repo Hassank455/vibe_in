@@ -3,6 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
 import 'package:vibe_in/core/networking/api_service.dart';
 import 'package:vibe_in/core/networking/dio_factory.dart';
+import 'package:vibe_in/env.dart';
 import 'package:vibe_in/features/auth/login/cubit/login_cubit.dart';
 import 'package:vibe_in/features/auth/login/data/repo/login_repo.dart';
 import 'package:vibe_in/features/auth/onboarding/cubit/onboarding_cubit.dart';
@@ -31,7 +32,7 @@ Future<void> setupGetIt() async {
   // Dio & ApiService
   Dio dio = await DioFactory.getDio();
   getIt.registerLazySingleton<ApiService>(
-    () => ApiService(dio, baseUrl: dotenv.env['API_BASE_URL_DEV']!),
+    () => ApiService(dio, baseUrl: AppEnvironment.baseUrl),
   );
 
   // Onboarding
