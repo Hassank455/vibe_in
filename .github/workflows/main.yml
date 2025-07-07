@@ -3,7 +3,6 @@ name: Flutter CI/CD Pipeline
 on:
   push:
     branches:  
-    #  - refactor/core-files-and-firebase-security
      - development
      - staging
      - master
@@ -13,6 +12,7 @@ on:
 
 env:
   API_BASE_URL: ${{ secrets.API_BASE_URL }}
+  API_BASE_URL_DEV: ${{ secrets.API_BASE_URL_DEV }}
 
 jobs:
   testing: # name for job
@@ -34,6 +34,7 @@ jobs:
       - name: 🛠️ Create .env from secrets
         run: |
           echo "API_BASE_URL=$API_BASE_URL" >> .env
+          echo "API_BASE_URL_DEV=$API_BASE_URL_DEV" >> .env
 
       - name: Generate *.g.dart files
         run: flutter pub run build_runner build --delete-conflicting-outputs
@@ -41,10 +42,58 @@ jobs:
       - name: Run Tests
         run: flutter test
 
+  integration-testing:
+    name: 🤝 Run Integration Tests
+    needs: testing           # لا تبدأ إلا بعد نجاح unit & widget tests
+    runs-on: ubuntu-latest   # يفي بالغرض مع android-emulator-runner
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.29.0'
+          cache: true
+
+      - name: Install Dependencies
+        run: flutter pub get
+
+      - name: 🛠️ Create .env from secrets
+        run: |
+          echo "API_BASE_URL=$API_BASE_URL" >> .env
+          echo "API_BASE_URL_DEV=$API_BASE_URL_DEV" >> .env
+
+      - name: 🔐 Decode Firebase config files
+        run: ./scripts/decode_firebase_files.sh
+        env:
+          GOOGLE_SERVICES_JSON_BASE64: ${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}
+          GOOGLESERVICE_INFO_PLIST_BASE64: ${{ secrets.GOOGLESERVICE_INFO_PLIST_BASE64 }}
+              
+      - name: Generate *.g.dart files
+        run: flutter pub run build_runner build --delete-conflicting-outputs
+
+      - name: Enable KVM group perms
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' |
+            sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      # تشغيل الاختبارات على محاكي Android headless
+      - name: Run Integration Tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 30
+          arch: x86_64
+          profile: Nexus 6
+          script: flutter test integration_test
+
   build:
     name: 🛠️ Build APK
-    needs: testing # wait first job then run this jobs
-    runs-on: macOS-latest # get the macos to run flow
+    needs: integration-testing 
+    runs-on: macOS-latest 
     permissions:
       contents: write  # لإنشاء الإصدارات والعلامات (Tags)
       pull-requests: write  # للتعليق على طلبات السحب
@@ -65,6 +114,7 @@ jobs:
       - name: 🛠️ Create .env from secrets
         run: |
           echo "API_BASE_URL=$API_BASE_URL" >> .env
+          echo "API_BASE_URL_DEV=$API_BASE_URL_DEV" >> .env
 
       - name: 🔐 Decode Firebase config files
         run: ./scripts/decode_firebase_files.sh
@@ -77,9 +127,6 @@ jobs:
 
       - name: Build release APK
         run: flutter build apk --release
-
- 
-       
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -125,21 +172,21 @@ jobs:
           body: "Automatic release for build ${{ github.run_number }}"
 
       
-      - name: 📝 Comment on PR
-        if: github.event_name == 'pull_request' 
-        uses: actions/github-script@v6
-        with:
-          script: |
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: `
-                ✅ *APK build succeeded!*
-                🔢 *Run Number:* #${{ github.run_number }}
-                📥 [Download APK](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})
-              `
-            });          
+      #- name: 📝 Comment on PR
+      #  if: github.event_name == 'pull_request' 
+      #  uses: actions/github-script@v6
+      #  with:
+      #    script: |
+      #      github.rest.issues.createComment({
+      #        issue_number: context.issue.number,
+      #        owner: context.repo.owner,
+      #        repo: context.repo.repo,
+      #        body: `
+      #          ✅ *APK build succeeded!*
+      #          🔢 *Run Number:* #${{ github.run_number }}
+      #          📥 [Download APK](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})
+      #        `
+      #      });          
 
       - name: 📣 Notify Slack - Build Success
         if: success()
