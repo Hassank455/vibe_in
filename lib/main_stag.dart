@@ -14,12 +14,17 @@ import 'package:vibe_in/core/helpers/extensions.dart';
 import 'package:vibe_in/core/helpers/shared_pref_helper.dart';
 import 'package:vibe_in/core/routing/app_router.dart';
 import 'package:vibe_in/core/routing/routes.dart';
+import 'package:vibe_in/env.dart';
 import 'package:vibe_in/vibe_in_app.dart';
 
 // dart run build_runner build  --delete-conflicting-outputs
+//flutter run --debug -t lib/main_stag.dart  --flavor staging
+//flutter run --release -t lib/main_stag.dart  --flavor staging
+
 Future<void> main({String? initialRouteOverride}) async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
+  AppEnvironment.setupEnv(Environment.staging);
   await Future.wait<void>([
     EasyLocalization.ensureInitialized(),
     setupGetIt(),
@@ -29,19 +34,15 @@ Future<void> main({String? initialRouteOverride}) async {
   final String initialRoute = await _determineInitialRoute();
   Bloc.observer = MyBlocObserver();
   runApp(
-    DevicePreview(
-      enabled: !kReleaseMode,
-      builder:
-          (context) => EasyLocalization(
-            supportedLocales: const [Locale('en'), Locale('ar')],
-            path: 'assets/translations',
-            fallbackLocale: const Locale('en'),
-            startLocale: const Locale('en'), // Default language
-            child: VibeInApp(
-              appRouter: AppRouter(),
-              initialRoute: initialRouteOverride ?? initialRoute,
-            ),
-          ),
+    EasyLocalization(
+      supportedLocales: const [Locale('en'), Locale('ar')],
+      path: 'assets/translations',
+      fallbackLocale: const Locale('en'),
+      startLocale: const Locale('en'), // Default language
+      child: VibeInApp(
+        appRouter: AppRouter(),
+        initialRoute: initialRouteOverride ?? initialRoute,
+      ),
     ),
   );
 }
