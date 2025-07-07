@@ -6,7 +6,7 @@ import 'package:integration_test/integration_test.dart';
 import 'package:vibe_in/core/theming/app_strings.dart';
 import 'package:vibe_in/features/auth/verification/cubit/verification_cubit.dart';
 import 'package:vibe_in/features/auth/verification/ui/verification_screen.dart';
-import 'package:vibe_in/main.dart' as app;
+import 'package:vibe_in/main_prod.dart' as app;
 import 'package:vibe_in/core/routing/routes.dart';
 
 void main() {

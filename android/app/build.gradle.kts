@@ -40,6 +40,29 @@ android {
             signingConfig = signingConfigs.getByName("debug")
         }
     }
+
+    flavorDimensions += "default" // if i am want to add flavors in group
+
+    productFlavors {
+        create("development") {
+            dimension = "default"
+            applicationIdSuffix = ".dev"
+            manifestPlaceholders["appName"] = "[DEV] vibe in"
+        }
+
+        create("staging") {
+            dimension = "default"
+            applicationIdSuffix = ".stg"
+            manifestPlaceholders["appName"] = "[STG] vibe in"
+        }
+
+        create("production") {
+            dimension = "default"
+            // لا تضيف suffix هنا عشان يبقى الـ package الأساسي
+            manifestPlaceholders["appName"] = "vibe in"
+        }
+    }
+
 }
 
 flutter {
