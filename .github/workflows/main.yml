@@ -13,302 +13,188 @@ on:
 env:
   API_BASE_URL: ${{ secrets.API_BASE_URL }}
   API_BASE_URL_DEV: ${{ secrets.API_BASE_URL_DEV }}
+  API_BASE_URL_STAG: ${{ secrets.API_BASE_URL_STAG }}
 
 jobs:
-  testing: # name for job
-    name: 🧪 Run Unit & Widget Tests
-    runs-on: ubuntu-latest # get the ubuntu to run flow
+  build-test-deploy:
+    #—- مــصــفــوفــة تضبط كــل فــرع —#
+    strategy:
+      matrix:
+        include:
+  # فرع التطوير
+          - branch: development
+            flavor: development
+            target: lib/main_dev.dart
+            build_flag: debug      # أسرع
+            run_integration: true
+            deploy_firebase: false
+            runner: ubuntu-latest
+          # فرع الـ staging
+          - branch: staging
+            flavor: staging
+            target: lib/main_stag.dart
+            build_flag: release
+            run_integration: true
+            deploy_firebase: true   # Firebase App Distribution
+            runner: ubuntu-latest
+          # فرع الإنتاج
+          - branch: master
+            flavor: production
+            target: lib/main_prod.dart
+            build_flag: release
+            run_integration: false  # نوفّر وقت
+            deploy_firebase: false
+            runner: macos-latest     # لو احتجت .ipa لاحقًا
+    # نفّذ فقط لو الفرع يطابق البند في المصفوفة
+    if: github.ref == 'refs/heads/' + matrix.branch
+    runs-on: ${{ matrix.runner }}
+
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4 # get code form the "development" branch
+    - name: Checkout Repository
+      uses: actions/checkout@v4
 
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '3.29.0'  # Change to your Flutter version
-          cache: true
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.29.0'
+        cache: true
 
-      - name: Install Dependencies
-        run: flutter pub get
-      - name: 🛠️ Create .env from secrets
-        run: |
-          echo "API_BASE_URL=$API_BASE_URL" >> .env
-          echo "API_BASE_URL_DEV=$API_BASE_URL_DEV" >> .env
+    - name: 📦 Cache dependencies & Gradle
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.pub-cache
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
 
-      - name: Generate *.g.dart files
-        run: flutter pub run build_runner build --delete-conflicting-outputs
+    - name: 📦 Install & Code-gen
+      run: |
+        flutter pub get
+        flutter pub run build_runner build --delete-conflicting-outputs
 
-      - name: Run Tests
-        run: flutter test
-
-  integration-testing:
-    name: 🤝 Run Integration Tests
-    needs: testing           # لا تبدأ إلا بعد نجاح unit & widget tests
-    runs-on: ubuntu-latest   # يفي بالغرض مع android-emulator-runner
-
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '3.29.0'
-          cache: true
-
-      - name: Install Dependencies
-        run: flutter pub get
-
-      - name: 🛠️ Create .env from secrets
-        run: |
-          echo "API_BASE_URL=$API_BASE_URL" >> .env
-          echo "API_BASE_URL_DEV=$API_BASE_URL_DEV" >> .env
-
-      - name: 🔐 Decode Firebase config files
-        run: ./scripts/decode_firebase_files.sh
-        env:
-          GOOGLE_SERVICES_JSON_DEV:  ${{ secrets.GOOGLE_SERVICES_JSON_DEV }}
-          GOOGLE_SERVICES_JSON_STG:  ${{ secrets.GOOGLE_SERVICES_JSON_STG }}
-          GOOGLE_SERVICES_JSON_PROD: ${{ secrets.GOOGLE_SERVICES_JSON_PROD }}
-
-          GOOGLESERVICE_INFO_PLIST_DEV:  ${{ secrets.GOOGLESERVICE_INFO_PLIST_DEV }}
-          GOOGLESERVICE_INFO_PLIST_STG:  ${{ secrets.GOOGLESERVICE_INFO_PLIST_STG }}
-          GOOGLESERVICE_INFO_PLIST_PROD: ${{ secrets.GOOGLESERVICE_INFO_PLIST_PROD }}
-              
-      - name: Generate *.g.dart files
-        run: flutter pub run build_runner build --delete-conflicting-outputs
-
-      - name: Enable KVM group perms
-        run: |
-          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' |
-            sudo tee /etc/udev/rules.d/99-kvm4all.rules
-          sudo udevadm control --reload-rules
-          sudo udevadm trigger --name-match=kvm
-
-      # تشغيل الاختبارات على محاكي Android headless
-      - name: Run Integration Tests
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 30
-          arch: x86_64
-          profile: Nexus 6
-          script: flutter test integration_test
-
-  build:
-    name: 🛠️ Build APK
-    needs: integration-testing 
-    runs-on: macOS-latest 
-    permissions:
-      contents: write  # لإنشاء الإصدارات والعلامات (Tags)
-      pull-requests: write  # للتعليق على طلبات السحب
-      id-token: write  # قد يكون مطلوباً لبعض التكاملات
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4 # get code form the "development" branch
-
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '3.29.0'  # Change to your Flutter version
-          cache: true
-
-      - name: Install Dependencies
-        run: flutter pub get     
-
-      - name: 🛠️ Create .env from secrets
-        run: |
-          echo "API_BASE_URL=$API_BASE_URL" >> .env
-          echo "API_BASE_URL_DEV=$API_BASE_URL_DEV" >> .env
-
-      - name: 🔐 Decode Firebase config files
-        run: ./scripts/decode_firebase_files.sh
-        env:
-          GOOGLE_SERVICES_JSON_DEV:  ${{ secrets.GOOGLE_SERVICES_JSON_DEV }}
-          GOOGLE_SERVICES_JSON_STG:  ${{ secrets.GOOGLE_SERVICES_JSON_STG }}
-          GOOGLE_SERVICES_JSON_PROD: ${{ secrets.GOOGLE_SERVICES_JSON_PROD }}
-
-          GOOGLESERVICE_INFO_PLIST_DEV:  ${{ secrets.GOOGLESERVICE_INFO_PLIST_DEV }}
-          GOOGLESERVICE_INFO_PLIST_STG:  ${{ secrets.GOOGLESERVICE_INFO_PLIST_STG }}
-          GOOGLESERVICE_INFO_PLIST_PROD: ${{ secrets.GOOGLESERVICE_INFO_PLIST_PROD }}
-                    
-      - name: Generate *.g.dart files
-        run: flutter pub run build_runner build --delete-conflicting-outputs
-
-      - name: Build release APK
-        run: flutter build apk --release
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: release-apk
-          path: |
-            build/app/outputs/flutter-apk/app-release.apk
+    # --------- 5) .env + Firebase ---------
+    - name: 🛠️ Prepare env & 🔐 Decode Firebase config files
+      run: |
+        echo "API_BASE_URL=$API_BASE_URL" >> .env
+        echo "API_BASE_URL_DEV=$API_BASE_URL_DEV" >> .env
+        echo "API_BASE_URL_STAG=$API_BASE_URL_STAG" >> .env
+        ./scripts/decode_firebase_files.sh
+      env:
+        GOOGLE_SERVICES_JSON_DEVELOPMENT:  ${{ secrets.GOOGLE_SERVICES_JSON_DEV }}
+        GOOGLE_SERVICES_JSON_STAGING:      ${{ secrets.GOOGLE_SERVICES_JSON_STG }}
+        GOOGLE_SERVICES_JSON_PRODUCTION:   ${{ secrets.GOOGLE_SERVICES_JSON_PROD }}
+        GOOGLESERVICE_INFO_PLIST_DEVELOPMENT: ${{ secrets.GOOGLESERVICE_INFO_PLIST_DEV }}
+        GOOGLESERVICE_INFO_PLIST_STAGING:     ${{ secrets.GOOGLESERVICE_INFO_PLIST_STG }}
+        GOOGLESERVICE_INFO_PLIST_PRODUCTION:  ${{ secrets.GOOGLESERVICE_INFO_PLIST_PROD }}
 
 
-      - name: Extract version from pubspec.yaml
-        id: extract_version
-        run: |
-          version=$(grep '^version: ' pubspec.yaml | cut -d ' ' -f 2 | tr -d '\r')
-          echo "VERSION=$version" >> $GITHUB_ENV   
+    - name: 🧪 Run unit/widget tests
+      run: flutter test
+
+    - name: Enable KVM group perms
+      run: |
+        echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' |
+          sudo tee /etc/udev/rules.d/99-kvm4all.rules
+        sudo udevadm control --reload-rules
+        sudo udevadm trigger --name-match=kvm
+
+    - name: 🤝 Run integration tests
+      if: matrix.run_integration == true
+      uses: reactivecircus/android-emulator-runner@v2
+      with:
+        api-level: 30
+        arch: x86_64
+        profile: Nexus 6
+        script: flutter test integration_test
+
+    # --------- 8) Build APK ---------
+    - name: 🏗️ Build APK
+      run: |
+        flutter build apk --${{ matrix.build_flag }} \
+          -t ${{ matrix.target }} \
+          --flavor ${{ matrix.flavor }}
+      env:
+        DART_DEFINES: FLAVOR=${{ matrix.flavor }}
+
+    # --------- 9) Upload artifact ---------
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: app-${{ matrix.flavor }}
+        path: build/app/outputs/flutter-apk/*.apk
+
+    - name: Extract version from pubspec.yaml
+      if: matrix.branch == 'master'
+      id: extract_version
+      run: |
+        version=$(grep '^version: ' pubspec.yaml | cut -d ' ' -f 2 | tr -d '\r')
+        echo "VERSION=$version" >> $GITHUB_ENV   
+        
+    - name: Check if Tag Exists
+      if: matrix.branch == 'master'
+      id: check_tag
+      run: |
+        if git rev-parse "v${{ env.VERSION }}" >/dev/null 2>&1; then
+          echo "TAG_EXISTS=true" >> $GITHUB_ENV
+        else
+          echo "TAG_EXISTS=false" >> $GITHUB_ENV
+        fi      
           
-      - name: Check if Tag Exists
-        id: check_tag
-        run: |
-          if git rev-parse "v${{ env.VERSION }}" >/dev/null 2>&1; then
-            echo "TAG_EXISTS=true" >> $GITHUB_ENV
-          else
-            echo "TAG_EXISTS=false" >> $GITHUB_ENV
-          fi      
+    - name: Modify Tag if needed
+      if: matrix.branch == 'master' && env.TAG_EXISTS == 'true'
+      id: modify_tag
+      run: |
+        new_version="${{ env.VERSION }}-build-${{ github.run_number }}"
+        echo "VERSION=$new_version" >> $GITHUB_ENV        
 
-          
-      - name: Modify Tag
-        if: env.TAG_EXISTS == 'true'
-        id: modify_tag
-        run: |
-          new_version="${{ env.VERSION }}-build-${{ github.run_number }}"
-          echo "VERSION=$new_version" >> $GITHUB_ENV
+    # --------- 10) GitHub Release فقط على master ---------
+    - name: ✨ GitHub Release
+      if: matrix.branch == 'master'
+      uses: ncipollo/release-action@v1
+      with:
+        artifacts: build/app/outputs/flutter-apk/*.apk
+        tag: v${{ env.VERSION }}
+        token: ${{ secrets.GITHUB_TOKEN }}
+        allowUpdates: true
+        draft: false
+        prerelease: false
+        body: "Automatic release for version v${{ env.VERSION }}"
 
-      - name: Create Release
-        uses: ncipollo/release-action@v1
-        with:
-        #  artifacts: "build/app/outputs/flutter-apk/app-release.apk,build/app/outputs/bundle/release/app-release.aab,build/ios_build.tar.gz"
-          artifacts: "build/app/outputs/flutter-apk/app-release.apk"
-          tag: v${{ env.VERSION }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-          allowUpdates: true  # السماح بتحديث الإصدار الموجود
-          draft: false
-          prerelease: false
-          body: "Automatic release for build ${{ github.run_number }}"
+    # --------- 11) Firebase App Distribution فقط على staging ---------
+    - name: 🚀 Firebase App Distribution
+      if: matrix.deploy_firebase == true
+      uses: wzieba/Firebase-Distribution-Github-Action@v1
+      with:
+        appId: ${{ secrets.FIREBASE_ANDROID_APP_ID }}
+        serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
+        groups: testers
+        file: build/app/outputs/flutter-apk/app-${{ matrix.build_flag }}.apk
+        releaseNotes: "CI build ${{ github.run_number }} - ${{ matrix.flavor }}"
 
-      
-      #- name: 📝 Comment on PR
-      #  if: github.event_name == 'pull_request' 
-      #  uses: actions/github-script@v6
-      #  with:
-      #    script: |
-      #      github.rest.issues.createComment({
-      #        issue_number: context.issue.number,
-      #        owner: context.repo.owner,
-      #        repo: context.repo.repo,
-      #        body: `
-      #          ✅ *APK build succeeded!*
-      #          🔢 *Run Number:* #${{ github.run_number }}
-      #          📥 [Download APK](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})
-      #        `
-      #      });          
-
-      - name: 📣 Notify Slack - Build Success
-        if: success()
-        uses: slackapi/slack-github-action@v2.0.0
-        with:
-          webhook-type: incoming-webhook
-          payload: |
+    # --------- 12) Slack notification ---------
+    - name: 📣 Notify Slack
+      if: always()
+      uses: slackapi/slack-github-action@v2.0.0
+      with:
+        webhook-type: incoming-webhook
+        payload: |
+          {
+            "username": "GitHub CI/CD",
+            "icon_emoji": ":rocket:",
+            "channel": "#vibe-in",
+            "attachments": [
               {
-                "username": "GitHub CI/CD",
-                "icon_url": "https://github.com/rtCamp.png?size=48",
-                "channel": "#vibe-in",
-                "attachments": [
-                  {
-                    "color": "good",
-                    "title": "✅ Build Succeeded",
-                    "text": "*Build succeeded!* :tada:\n\n🔧 *Repo:* `${{ github.repository }}`\n🌿 *Branch:* `${{ github.ref_name }}`\n📦 *Run:* <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}>"
-                  }
-                ]
+                "color": "${{ job.status == 'success' && 'good' || 'danger' }}",
+                "title": "${{ job.status == 'success' && '✅ Build Succeeded' || '❌ Build Failed' }} – ${{ matrix.flavor }}",
+                "text": "Run: <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|${{ github.run_id }}> on *${{ github.ref_name }}*"
               }
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}           
-            
-      - name: 📣 Notify Slack - Build Failed
-        if: failure()
-        uses: slackapi/slack-github-action@v2.0.0
-        with:
-          webhook-type: incoming-webhook
-          payload: |
-            {
-              "username": "GitHub CI/CD",
-              "icon_url": "https://github.com/rtCamp.png?size=48",
-              "channel": "#vibe-in",
-              "attachments": [
-                {
-                  "color": "danger",
-                  "title": "❌ Build Failed",
-                  "text": "*Build failed!* :x:\n\n🔧 *Repo:* `${{ github.repository }}`\n🌿 *Branch:* `${{ github.ref_name }}`\n📦 *Run:* <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}>"
-                }
-              ]
-            }
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
-            
-
-  deploy:
-      name: 🚀 Deploy to Firebase App Distribution
-      needs: build
-      runs-on: ubuntu-latest
-      if: github.ref == 'refs/heads/staging'
-      steps:
-        - name: Checkout code
-          uses: actions/checkout@v4
-  
-        - name: Download APK artifact
-          uses: actions/download-artifact@v4
-          with:
-            name: release-apk
-  
-        - name: Deploy to Firebase App Distribution
-          uses: wzieba/Firebase-Distribution-Github-Action@v1
-          with:
-            appId: ${{ secrets.FIREBASE_ANDROID_APP_ID }}
-            serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
-            groups: testers
-            file: app-release.apk
-            releaseNotes: "New CI/CD build from GitHub Actions"
-
-        - name: 📣 Notify Slack - Deploy Success
-          if: success()
-          uses: slackapi/slack-github-action@v2.0.0
-          with:
-            webhook-type: incoming-webhook
-            payload: |
-                {
-                  "username": "GitHub CI/CD",
-                  "icon_url": "https://github.com/rtCamp.png?size=48",
-                  "channel": "#vibe-in",
-                  "attachments": [
-                    {
-                      "color": "good",
-                      "title": "✅ Deploy Succeeded",
-                      "text": "*Deployment succeeded!* :tada:\n\n🔧 *Repo:* `${{ github.repository }}`\n🌿 *Branch:* `${{ github.ref_name }}`\n📦 *Run:* <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}>"
-                    }
-                  ]
-                }
-          env:
-            SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}     
-            
-        - name: 📣 Notify Slack - Deploy Failed
-          if: failure()
-          uses: slackapi/slack-github-action@v2.0.0
-          with:
-            webhook-type: incoming-webhook
-            payload: |
-              {
-                "username": "GitHub CI/CD",
-                "icon_url": "https://github.com/rtCamp.png?size=48",
-                "channel": "#vibe-in",
-                "attachments": [
-                  {
-                    "color": "danger",
-                    "title": "❌ Deploy Failed",
-                    "text": "*Deployment failed!* :x:\n\n🔧 *Repo:* `${{ github.repository }}`\n🌿 *Branch:* `${{ github.ref_name }}`\n📦 *Run:* <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}>"
-                  }
-                ]
-              }
-          env:
-            SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
-            
-
-
-
-
-            
+            ]
+          }
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
 
