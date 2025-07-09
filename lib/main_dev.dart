@@ -21,6 +21,7 @@ import 'package:vibe_in/vibe_in_app.dart';
 // flutter run --debug -t lib/main_dev.dart  --flavor development
 // flutter run --release -t lib/main_dev.dart  --flavor development
 
+
 Future<void> main({String? initialRouteOverride}) async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
