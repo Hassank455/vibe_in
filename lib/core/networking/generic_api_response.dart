@@ -13,6 +13,16 @@ class ApiResponse<T> {
     this.pagination,
   });
 
+  Map<String, dynamic> toJson() {
+    return {
+      'status': status,
+      'code': code,
+      'message': message,
+      'data': data,
+      'pagination': pagination,
+    };
+  }
+
   factory ApiResponse.fromJson(
     Map<String, dynamic> json,
     T Function(dynamic) fromJsonT,
@@ -50,5 +60,14 @@ class Pagination {
       perPage: json['per_page'],
       total: json['total'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'current_page': currentPage,
+      'last_page': lastPage,
+      'per_page': perPage,
+      'total': total,
+    };
   }
 }

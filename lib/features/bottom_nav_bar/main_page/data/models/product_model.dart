@@ -26,6 +26,8 @@ class ProductModel {
 
   factory ProductModel.fromJson(Map<String, dynamic> json) =>
       _$ProductModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ProductModelToJson(this);
 }
 
 @JsonSerializable()
@@ -36,6 +38,8 @@ class Brand {
   Brand({this.id, this.name});
 
   factory Brand.fromJson(Map<String, dynamic> json) => _$BrandFromJson(json);
+
+  Map<String, dynamic> toJson() => _$BrandToJson(this);
 }
 
 @JsonSerializable()
@@ -49,4 +53,6 @@ class PricesModel {
 
   factory PricesModel.fromJson(Map<String, dynamic> json) =>
       _$PricesModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PricesModelToJson(this);
 }
