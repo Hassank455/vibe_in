@@ -10,4 +10,6 @@ class SliderModel {
 
   factory SliderModel.fromJson(Map<String, dynamic> json) =>
       _$SliderModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SliderModelToJson(this);
 }

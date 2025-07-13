@@ -45,6 +45,8 @@ class PackageModel {
 
   factory PackageModel.fromJson(Map<String, dynamic> json) =>
       _$PackageModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PackageModelToJson(this);
 }
 
 @JsonSerializable()
@@ -72,6 +74,8 @@ class Products {
 
   factory Products.fromJson(Map<String, dynamic> json) =>
       _$ProductsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ProductsToJson(this);
 }
 
 @JsonSerializable()
@@ -109,6 +113,8 @@ class Alternatives {
 
   factory Alternatives.fromJson(Map<String, dynamic> json) =>
       _$AlternativesFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AlternativesToJson(this);
 }
 
 @JsonSerializable()
@@ -119,6 +125,8 @@ class Images {
   Images({this.id, this.url});
 
   factory Images.fromJson(Map<String, dynamic> json) => _$ImagesFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ImagesToJson(this);
 }
 
 @JsonSerializable()
@@ -141,4 +149,6 @@ class Cycles {
   });
 
   factory Cycles.fromJson(Map<String, dynamic> json) => _$CyclesFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CyclesToJson(this);
 }
