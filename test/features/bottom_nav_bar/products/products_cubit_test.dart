@@ -1,72 +1,3 @@
-// import 'package:flutter_test/flutter_test.dart';
-// import 'package:bloc_test/bloc_test.dart';
-// import 'package:vibe_in/features/bottom_nav_bar/products/cubit/products_cubit.dart';
-// import 'package:vibe_in/features/bottom_nav_bar/products/cubit/products_state.dart';
-// import 'package:vibe_in/features/bottom_nav_bar/products/data/repo/products_repo.dart';
-// import 'package:vibe_in/features/bottom_nav_bar/main_page/data/repo/main_page_repo.dart';
-// import 'package:mocktail/mocktail.dart';
-
-// class MockProductsRepo extends Mock implements ProductsRepo {}
-// class MockMainPageRepo extends Mock implements MainPageRepo {}
-
-// void main() {
-//   late ProductsCubit productsCubit;
-//   late ProductsRepo productsRepo;
-//   late MainPageRepo mainPageRepo;
-
-//   setUp(() {
-//     productsRepo = MockProductsRepo();
-//     mainPageRepo = MockMainPageRepo();
-//     productsCubit = ProductsCubit(productsRepo, mainPageRepo);
-//   });
-
-//   tearDown(() async {
-//     await productsCubit.close();
-//   });
-
-//   // ---------------------------------------------------------------------------
-//   blocTest<ProductsCubit, ProductsState>(
-//     '📍 emits new index when changeTab is called',
-//     build: () => productsCubit,
-//     act: (cubit) => cubit.changeTab(2),
-//     expect: () => [
-//       isA<ProductsState>().having((s) => s.currentIndex, 'currentIndex', 2),
-//     ],
-//   );
-
-//   // ---------------------------------------------------------------------------
-//   blocTest<ProductsCubit, ProductsState>(
-//     '➕ adds category when selectCategory is called and it was not selected',
-//     build: () => productsCubit,
-//     act: (cubit) => cubit.selectCategory(5),
-//     expect: () => [
-//       isA<ProductsState>().having((s) => s.selectedCategory, 'selectedCategory', contains(5)),
-//     ],
-//   );
-
-//   // ---------------------------------------------------------------------------
-//   blocTest<ProductsCubit, ProductsState>(
-//     '➖ removes category when selectCategory is called and it was already selected',
-//     build: () => productsCubit,
-//     seed: () => const ProductsState(selectedCategory: [1, 5, 9]),
-//     act: (cubit) => cubit.selectCategory(5),
-//     expect: () => [
-//       isA<ProductsState>().having((s) => s.selectedCategory, 'selectedCategory', [1, 9]),
-//     ],
-//   );
-
-//   // ---------------------------------------------------------------------------
-//   blocTest<ProductsCubit, ProductsState>(
-//     '🧼 resets all selected categories when resetCategories is called',
-//     build: () => productsCubit,
-//     seed: () => const ProductsState(selectedCategory: [3, 7]),
-//     act: (cubit) => cubit.resetCategories(),
-//     expect: () => [
-//       isA<ProductsState>().having((s) => s.selectedCategory, 'selectedCategory', isEmpty),
-//     ],
-//   );
-// }
-
 import 'dart:io';
 import 'dart:convert';
 
@@ -78,11 +9,34 @@ import 'package:shelf/shelf_io.dart' as shelf_io;
 import 'package:vibe_in/core/helpers/enum.dart';
 import 'package:vibe_in/core/networking/api_service.dart';
 import 'package:vibe_in/core/networking/generic_api_response.dart';
+import 'package:vibe_in/features/bottom_nav_bar/main_page/data/models/package_model.dart';
+import 'package:vibe_in/features/bottom_nav_bar/main_page/data/models/product_model.dart';
 import 'package:vibe_in/features/bottom_nav_bar/products/cubit/products_cubit.dart';
 import 'package:vibe_in/features/bottom_nav_bar/products/cubit/products_state.dart';
 import 'package:vibe_in/features/bottom_nav_bar/products/data/models/category_model.dart';
 import 'package:vibe_in/features/bottom_nav_bar/products/data/repo/products_repo.dart';
 import 'package:vibe_in/features/bottom_nav_bar/main_page/data/repo/main_page_repo.dart';
+
+ProductModel product1 = ProductModel(
+  id: 1,
+  name: "Product 1",
+  description: "desc",
+  label: "Hot",
+  images: ["https://example.com/p1.jpg"],
+  category: CategoryModel(id: 1, name: "Fruits"),
+  prices: [PricesModel(id: 1, weight: "1kg", price: "20", quantity: "1")],
+  brand: Brand(id: 1, name: "Brand A"),
+);
+ProductModel product2 = ProductModel(
+  id: 2,
+  name: "Product 2",
+  description: "desc",
+  label: "Hot",
+  images: ["https://example.com/p2.jpg"],
+  category: CategoryModel(id: 1, name: "Fruits"),
+  prices: [PricesModel(id: 2, weight: "1kg", price: "20", quantity: "1")],
+  brand: Brand(id: 1, name: "Brand A"),
+);
 
 Future<HttpServer> startMockServer({
   required dynamic responseBody,
@@ -122,6 +76,16 @@ void main() {
       BaseOptions(
         baseUrl: 'http://localhost:$dynamicPort/',
         validateStatus: (status) => status! < 400,
+      ),
+    );
+    dio.interceptors.add(
+      LogInterceptor(
+        request: true,
+        requestHeader: true,
+        requestBody: true,
+        responseHeader: true,
+        responseBody: true,
+        error: true,
       ),
     );
     apiService = ApiService(dio);
@@ -283,5 +247,233 @@ void main() {
       await productsCubit.close();
       await server.close(force: true);
     },
+  );
+
+  // 📦 emits [loading, success] when refreshProducts is called (initial load)
+  blocTest<ProductsCubit, ProductsState>(
+    '📦 emits [loading, success] when refreshProducts is called (initial)',
+    setUp: () async {
+      server = await startMockServer(
+        responseBody: ApiResponse(
+          status: true,
+          code: 200,
+          message: "Success",
+          data: [product1],
+        ),
+      );
+      dynamicPort = server.port;
+      setupCubit();
+    },
+    build: () => productsCubit,
+    act: (cubit) => cubit.refreshProducts(),
+    expect:
+        () => [
+          isA<ProductsState>().having(
+            (s) => s.productsStatus,
+            'loading',
+            RequestsStatus.loading,
+          ),
+          isA<ProductsState>()
+              .having(
+                (s) => s.productsStatus,
+                'success',
+                RequestsStatus.success,
+              )
+              .having((s) => s.productModel?.length, 'products length', 1),
+        ],
+    tearDown: () async {
+      await productsCubit.close();
+      await server.close(force: true);
+    },
+  );
+
+  // 📦 getProducts: success (load more)
+  blocTest<ProductsCubit, ProductsState>(
+    '📦 emits [load more loading, success] when refreshProducts is called with loadMore = true',
+    setUp: () async {
+      server = await startMockServer(
+        responseBody: ApiResponse(
+          status: true,
+          code: 200,
+          message: "Success",
+          data: [product2],
+          pagination: Pagination(
+            currentPage: 2,
+            lastPage: 2,
+            perPage: 1,
+            total: 2,
+          ),
+        ),
+      );
+      dynamicPort = server.port;
+      setupCubit();
+      productsCubit.emit(
+        productsCubit.state.copyWith(productModel: [product2]),
+      );
+    },
+    build: () => productsCubit,
+    act: (cubit) => cubit.refreshProducts(loadMore: true),
+    expect:
+        () => [
+          isA<ProductsState>().having(
+            (s) => s.isLoadingMoreProduct,
+            'loading more',
+            true,
+          ),
+          isA<ProductsState>()
+              .having((s) => s.productsStatus, 'status', RequestsStatus.success)
+              .having((s) => s.productModel?.length, 'length', 2),
+        ],
+    tearDown: () async {
+      await productsCubit.close();
+      await server.close(force: true);
+    },
+  );
+
+  // ❌ getProducts: error (initial load)
+  blocTest<ProductsCubit, ProductsState>(
+    '❌ emits [loading, error] when refreshProducts fails initially',
+    setUp: () async {
+      server = await startMockServer(
+        statusCode: 422,
+        responseBody: {
+          "status": false,
+          "code": 422,
+          "message": "Validation Error",
+          "data": {
+            "product": ["Product fetch failed"],
+          },
+        },
+      );
+      dynamicPort = server.port;
+      setupCubit();
+    },
+    build: () => productsCubit,
+    act: (cubit) => cubit.refreshProducts(),
+    expect:
+        () => [
+          isA<ProductsState>().having(
+            (s) => s.productsStatus,
+            'loading',
+            RequestsStatus.loading,
+          ),
+          isA<ProductsState>()
+              .having((s) => s.productsStatus, 'error', RequestsStatus.error)
+              .having(
+                (s) => s.error,
+                'error message',
+                contains('Product fetch failed'),
+              ),
+        ],
+    tearDown: () async {
+      await productsCubit.close();
+      await server.close(force: true);
+    },
+  );
+
+  // ❌ getProducts: error (load more)
+  blocTest<ProductsCubit, ProductsState>(
+    '❌ emits [load more loading, error] when refreshProducts fails with loadMore = true',
+    setUp: () async {
+      server = await startMockServer(statusCode: 500, responseBody: {});
+      dynamicPort = server.port;
+      setupCubit();
+      productsCubit.emit(
+        productsCubit.state.copyWith(productModel: [product1]),
+      );
+    },
+    build: () => productsCubit,
+    act: (cubit) => cubit.refreshProducts(loadMore: true),
+    expect:
+        () => [
+          isA<ProductsState>().having(
+            (s) => s.isLoadingMoreProduct,
+            'loading more',
+            true,
+          ),
+          isA<ProductsState>().having(
+            (s) => s.productsStatus,
+            'error',
+            RequestsStatus.error,
+          ),
+        ],
+    tearDown: () async {
+      await productsCubit.close();
+      await server.close(force: true);
+    },
+  );
+
+  blocTest<ProductsCubit, ProductsState>(
+    '🌐 emits [loading, error] when refreshProducts fails due to no internet',
+    setUp: () {
+      dio = Dio(
+        BaseOptions(
+          baseUrl: 'http://localhost:0/',
+          connectTimeout: const Duration(milliseconds: 100),
+          receiveTimeout: const Duration(milliseconds: 100),
+          validateStatus: (_) => true,
+        ),
+      );
+      apiService = ApiService(dio);
+      productsRepo = ProductsRepo(apiService);
+      mainPageRepo = MainPageRepo(apiService);
+      productsCubit = ProductsCubit(productsRepo, mainPageRepo);
+    },
+    build: () => productsCubit,
+    act: (cubit) => cubit.refreshProducts(),
+    expect:
+        () => [
+          isA<ProductsState>().having(
+            (s) => s.productsStatus,
+            'loading',
+            RequestsStatus.loading,
+          ),
+          isA<ProductsState>()
+              .having((s) => s.productsStatus, 'error', RequestsStatus.error)
+              .having(
+                (s) => s.error,
+                'error message',
+                anyOf(
+                  contains('no_internet_connection'),
+                  contains('timed out'),
+                ),
+              ),
+        ],
+    tearDown: () async => await productsCubit.close(),
+  );
+  blocTest<ProductsCubit, ProductsState>(
+    '⏱️ emits [loading, error] when refreshProducts times out initially',
+    setUp: () {
+      dio = Dio(
+        BaseOptions(
+          baseUrl: 'http://10.255.255.1/', // simulate timeout
+          connectTimeout: const Duration(milliseconds: 100),
+          receiveTimeout: const Duration(milliseconds: 100),
+          validateStatus: (_) => true,
+        ),
+      );
+      apiService = ApiService(dio);
+      productsRepo = ProductsRepo(apiService);
+      mainPageRepo = MainPageRepo(apiService);
+      productsCubit = ProductsCubit(productsRepo, mainPageRepo);
+    },
+    build: () => productsCubit,
+    act: (cubit) => cubit.refreshProducts(),
+    expect:
+        () => [
+          isA<ProductsState>().having(
+            (s) => s.productsStatus,
+            'loading',
+            RequestsStatus.loading,
+          ),
+          isA<ProductsState>()
+              .having((s) => s.productsStatus, 'error', RequestsStatus.error)
+              .having(
+                (s) => s.error,
+                'error message',
+                anyOf(contains('timeout'), contains('timed out')),
+              ),
+        ],
+    tearDown: () async => await productsCubit.close(),
   );
 }
