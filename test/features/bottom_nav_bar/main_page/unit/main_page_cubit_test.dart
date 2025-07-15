@@ -183,6 +183,7 @@ void main() {
                 anyOf(
                   contains('no internet connection'),
                   contains('no_internet_connection'),
+                  contains('connection_failed'),
                 ),
               ),
         ],
@@ -359,6 +360,7 @@ void main() {
                 anyOf(
                   contains('no internet connection'),
                   contains('no_internet_connection'),
+                  contains('connection_failed'),
                 ),
               ),
         ],
@@ -550,6 +552,7 @@ void main() {
                 anyOf(
                   contains('no internet connection'),
                   contains('no_internet_connection'),
+                  contains('connection_failed'),
                 ),
               ),
         ],

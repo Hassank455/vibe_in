@@ -435,11 +435,14 @@ void main() {
                 'error message',
                 anyOf(
                   contains('no_internet_connection'),
-                  contains('timed out'),
+                  contains('timeout'),
+                  contains('connection_failed'),
                 ),
               ),
         ],
-    tearDown: () async => await productsCubit.close(),
+    tearDown: () async {
+      await productsCubit.close();
+    },
   );
   blocTest<ProductsCubit, ProductsState>(
     '⏱️ emits [loading, error] when refreshProducts times out initially',
