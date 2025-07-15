@@ -3,6 +3,7 @@ name: Flutter CI/CD Pipeline
 on:
   push:
     branches:  
+     - chore/add-missing-tests
      - development
      - staging
      - master
@@ -46,7 +47,7 @@ jobs:
             deploy_firebase: false
             runner: macos-latest     # لو احتجت .ipa لاحقًا
     # نفّذ فقط لو الفرع يطابق البند في المصفوفة
-    if: github.ref == 'refs/heads/' + matrix.branch
+   # if: github.ref == format('refs/heads/{0}', matrix.branch)
     runs-on: ${{ matrix.runner }}
 
     concurrency:
@@ -54,6 +55,18 @@ jobs:
       cancel-in-progress: true
 
     steps:
+      
+    - name: Check branch
+      run: |
+        BRANCH_NAME="${GITHUB_REF##*/}"
+        echo "Current branch is: $BRANCH_NAME"
+        if [ "$BRANCH_NAME" != "${{ matrix.branch }}" ]; then
+          echo "Skipping because this matrix branch (${{ matrix.branch }}) doesn't match current ref ($BRANCH_NAME)"
+          exit 0
+        fi
+
+
+
     - name: Checkout Repository
       uses: actions/checkout@v4
 
@@ -96,12 +109,12 @@ jobs:
     - name: 🧪 Run unit/widget tests
       run: flutter test
 
-    - name: Enable KVM group perms
-      run: |
-        echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' |
-          sudo tee /etc/udev/rules.d/99-kvm4all.rules
-        sudo udevadm control --reload-rules
-        sudo udevadm trigger --name-match=kvm
+  #  - name: Enable KVM group perms
+  #    run: |
+  #      echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' |
+  #        sudo tee /etc/udev/rules.d/99-kvm4all.rules
+   #     sudo udevadm control --reload-rules
+    #    sudo udevadm trigger --name-match=kvm
 
     - name: 🤝 Run integration tests
       if: matrix.run_integration == true
@@ -163,7 +176,7 @@ jobs:
         allowUpdates: true
         draft: false
         prerelease: false
-        body: "Automatic release for version v${{ env.VERSION }}"
+        body: "Automatic release for version ${{ github.run_number }}"
 
     # --------- 11) Firebase App Distribution فقط على staging ---------
     - name: 🚀 Firebase App Distribution
