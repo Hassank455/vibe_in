@@ -94,6 +94,11 @@ void main() {
     productsCubit = ProductsCubit(productsRepo, mainPageRepo);
   }
 
+  Future<void> cleanUp() async {
+  await productsCubit.close();
+  await server.close(force: true);
+}
+
   // 📍 emits new index when changeTab is called
   blocTest<ProductsCubit, ProductsState>(
     '📍 emits new index when changeTab is called',
@@ -203,10 +208,7 @@ void main() {
               )
               .having((s) => s.categoryModel!.length, 'category count', 2),
         ],
-    tearDown: () async {
-      await productsCubit.close();
-      await server.close(force: true);
-    },
+    tearDown: cleanUp,
   );
 
   blocTest<ProductsCubit, ProductsState>(
@@ -243,10 +245,7 @@ void main() {
                 contains('Category fetch failed'),
               ),
         ],
-    tearDown: () async {
-      await productsCubit.close();
-      await server.close(force: true);
-    },
+    tearDown: cleanUp,
   );
 
   // 📦 emits [loading, success] when refreshProducts is called (initial load)
@@ -257,7 +256,8 @@ void main() {
         responseBody: ApiResponse(
           status: true,
           code: 200,
-          message: "Success",
+          message:
+              "", // If you set Success, you are saying that this value is required for the test to pass, which it is not.
           data: [product1],
         ),
       );
@@ -281,35 +281,77 @@ void main() {
               )
               .having((s) => s.productModel?.length, 'products length', 1),
         ],
-    tearDown: () async {
-      await productsCubit.close();
-      await server.close(force: true);
-    },
+    tearDown: cleanUp,
   );
 
-  // 📦 getProducts: success (load more)
   blocTest<ProductsCubit, ProductsState>(
-    '📦 emits [load more loading, success] when refreshProducts is called with loadMore = true',
+    '📦 emits [loading, success] with empty list',
     setUp: () async {
       server = await startMockServer(
         responseBody: ApiResponse(
           status: true,
           code: 200,
-          message: "Success",
-          data: [product2],
+          message: "",
+          data: [], // 🟢 تحقق أن هذا لا يكسر الكود
+        ),
+      );
+      dynamicPort = server.port;
+      setupCubit();
+    },
+    build: () => productsCubit,
+    act: (cubit) => cubit.refreshProducts(),
+    expect:
+        () => [
+          isA<ProductsState>().having(
+            (s) => s.productsStatus,
+            'loading',
+            RequestsStatus.loading,
+          ),
+          isA<ProductsState>()
+              .having((s) => s.productsStatus, 'status', RequestsStatus.success)
+              .having((s) => s.productModel?.isEmpty, 'empty list', true)
+              .having((s) => s.productModel?.length, 'products length', 0),
+        ],
+    tearDown: cleanUp,
+  );
+
+  // 📦 getProducts: success (load more)
+  blocTest<ProductsCubit, ProductsState>(
+    '📦 emits [load more loading, success] when loading page 2 with perPage=10 and total=80',
+    setUp: () async {
+      final firstPageProducts = List.generate(
+        10,
+        (index) =>
+            product1.copyWith(id: index + 1, name: 'Product ${index + 1}'),
+      );
+
+      final secondPageProducts = List.generate(
+        10,
+        (index) =>
+            product2.copyWith(id: index + 11, name: 'Product ${index + 11}'),
+      );
+      server = await startMockServer(
+        responseBody: ApiResponse(
+          status: true,
+          code: 200,
+          message: "",
+          data: secondPageProducts,
           pagination: Pagination(
             currentPage: 2,
-            lastPage: 2,
-            perPage: 1,
-            total: 2,
+            lastPage: 8,
+            perPage: 10,
+            total: 80,
           ),
         ),
       );
       dynamicPort = server.port;
       setupCubit();
       productsCubit.emit(
-        productsCubit.state.copyWith(productModel: [product2]),
+        productsCubit.state.copyWith(productModel: firstPageProducts),
       );
+      // productsCubit.emit(
+      //   productsCubit.state.copyWith(productModel: [product2]),
+      // );
     },
     build: () => productsCubit,
     act: (cubit) => cubit.refreshProducts(loadMore: true),
@@ -322,12 +364,14 @@ void main() {
           ),
           isA<ProductsState>()
               .having((s) => s.productsStatus, 'status', RequestsStatus.success)
-              .having((s) => s.productModel?.length, 'length', 2),
+              // .having((s) => s.productModel?.length, 'length', 2),
+              .having(
+                (s) => s.productModel?.map((e) => e.id).toList(),
+                'merged product ids',
+                List.generate(20, (i) => i + 1), // [1, 2, ..., 20]
+              ),
         ],
-    tearDown: () async {
-      await productsCubit.close();
-      await server.close(force: true);
-    },
+    tearDown: cleanUp,
   );
 
   // ❌ getProducts: error (initial load)
@@ -339,9 +383,9 @@ void main() {
         responseBody: {
           "status": false,
           "code": 422,
-          "message": "Validation Error",
+          "message": "",
           "data": {
-            "product": ["Product fetch failed"],
+            "product": ["This is an error message"],
           },
         },
       );
@@ -362,13 +406,10 @@ void main() {
               .having(
                 (s) => s.error,
                 'error message',
-                contains('Product fetch failed'),
+                contains('This is an error message'),
               ),
         ],
-    tearDown: () async {
-      await productsCubit.close();
-      await server.close(force: true);
-    },
+    tearDown: cleanUp,
   );
 
   // ❌ getProducts: error (load more)
@@ -397,10 +438,7 @@ void main() {
             RequestsStatus.error,
           ),
         ],
-    tearDown: () async {
-      await productsCubit.close();
-      await server.close(force: true);
-    },
+    tearDown: cleanUp,
   );
 
   blocTest<ProductsCubit, ProductsState>(

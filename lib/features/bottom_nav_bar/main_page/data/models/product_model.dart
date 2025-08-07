@@ -28,6 +28,26 @@ class ProductModel {
       _$ProductModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProductModelToJson(this);
+
+  ProductModel copyWith({
+    int? id,
+    String? name,
+    String? description,
+    String? label,
+    List<String>? images,
+    CategoryModel? category,
+    List<PricesModel>? prices,
+    Brand? brand,
+  }) => ProductModel(
+    id: id ?? this.id,
+    name: name ?? this.name,
+    description: description ?? this.description,
+    label: label ?? this.label,
+    images: images ?? this.images,
+    category: category ?? this.category,
+    prices: prices ?? this.prices,
+    brand: brand ?? this.brand,
+  );
 }
 
 @JsonSerializable()
