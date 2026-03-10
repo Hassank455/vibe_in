@@ -18,6 +18,7 @@ import 'package:vibe_in/env.dart';
 import 'package:vibe_in/vibe_in_app.dart';
 
 // dart run build_runner build  --delete-conflicting-outputs
+// flutter pub run build_runner build --delete-conflicting-outputs
 // flutter run --debug -t lib/main_dev.dart  --flavor development
 // flutter run --release -t lib/main_dev.dart  --flavor development
 
