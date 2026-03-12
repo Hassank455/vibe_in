@@ -429,19 +429,4 @@ Before publishing this repository publicly, it is worth checking:
 
 ## License
 
-No license file has been added yet.
-
-For a public portfolio repository, my default recommendation is `MIT` because it is simple, widely recognized, and friendly for showcasing work publicly.
-
-Use `MIT` if you want:
-
-- the project to be openly viewable and reusable
-- the license to stay simple and common
-- fewer restrictions for recruiters, collaborators, and other developers
-
-Use `All Rights Reserved` instead if you want:
-
-- the code to be visible on GitHub
-- but not legally reusable by others
-
-If you decide to go with `MIT`, add a root `LICENSE` file before publishing.
+This project is licensed under the MIT License. See the `LICENSE` file for details.
